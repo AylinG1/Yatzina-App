@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Página Principal Yätzina Web Infantil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2bee4b",
+              "background-light": "#f6f8f6",
+              "background-dark": "#102213",
+              "surface-light": "#ffffff",
+              "surface-dark": "#182c1b",
+              "text-light": "#0d1b10",
+              "text-dark": "#e0f5e3",
+              "text-muted-light": "#4c9a59",
+              "text-muted-dark": "#a3d3ab"
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="flex h-full grow flex-col">
+<div class="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 lg:px-8">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap rounded-full border border-primary/20 bg-surface-light/80 dark:bg-surface-dark/80 px-6 py-3 backdrop-blur-sm">
+<div class="flex items-center gap-4">
+<div class="text-primary text-3xl">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<h2 class="text-lg font-bold">Yätzina</h2>
+</div>
+<div class="hidden items-center gap-9 md:flex">
+<a class="text-sm font-medium hover:text-primary" href="#">Sobre Nosotros</a>
+<a class="text-sm font-medium hover:text-primary" href="#">Para Padres</a>
+</div>
+</header>
+<main class="flex-1">
+<!-- HeroSection -->
+<div class="py-16 text-center sm:py-24">
+<div class="mx-auto max-w-3xl">
+<h1 class="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl">
+                                ¡Bienvenido a Yätzina!
+                            </h1>
+<h2 class="mt-4 text-base text-text-muted-light dark:text-text-muted-dark sm:text-lg">
+                                Aprende la lengua Ñañu de una manera divertida e interactiva. Descubre la cultura Otomí con juegos, cuentos y actividades.
+                            </h2>
+<div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+<button id="btnCrearCuenta" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary px-8 py-3 text-sm font-bold text-background-dark transition-transform hover:scale-105 sm:px-10 sm:py-4 sm:text-base">
+<span class="truncate">¡Crear mi Cuenta!</span>
+</button>
+</div>
+            <button id="btnIniciarSesion" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-primary/20 px-8 py-3 text-sm font-bold transition-transform hover:scale-105 sm:px-10 sm:py-4 sm:text-base">
+<span class="truncate">¡Iniciar Sesión!</span>
+</button>
+</div>
+<div class="mt-12 flex items-center justify-center">
+<div class="w-full max-w-2xl rounded-xl bg-center bg-no-repeat aspect-video bg-cover shadow-lg" data-alt="Ilustración infantil colorida de niños y niñas con trajes tradicionales otomíes en un entorno natural con plantas y un búho amigable." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBrGW3sl-X3kbg0J3OxDwaN4OEGlWzqpt-PduR4jjr2fMg97Bm_39e-wqXWd2gax-xgl9Yp6R4AiQMB9Y4M5YpNOfFEnZGvMbNYaI-WQQwDosCrETjYGHpluBg5AbwHVtdVihH2do8auUxiwYw-OAicpceE08W7DRyXo5UVxBqbVVEugG7rwdf5jTbfBEfvIxrCAczcUPCTw1eL4Du3dYnXfPUYm3cSOErlGLurBy2kOf6D-rebS1_V_moS0Aynl6UO-NSYOqZZKx3m");'></div>
+</div>
+</div>
+<!-- FeatureSection -->
+<div class="flex flex-col gap-10 rounded-xl bg-surface-light dark:bg-surface-dark px-4 py-10 sm:px-8">
+<div class="flex flex-col gap-4">
+<h3 class="text-2xl font-bold tracking-tight sm:text-3xl">
+                                Descubre tu identidad lingüística
+                            </h3>
+<p class="max-w-3xl text-text-muted-light dark:text-text-muted-dark">
+                                Embárcate en un hermoso viaje para aprender tu lengua materna y conectar con tus raíces a través de actividades diseñadas para ti.
+                            </p>
+</div>
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+<div class="flex flex-col gap-3 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-4">
+<div class="text-primary text-3xl">
+<span class="material-symbols-outlined">auto_stories</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-bold">Cuentos Interactivos</h4>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Sumérgete en historias y leyendas de la cultura Otomí.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-4">
+<div class="text-primary text-3xl">
+<span class="material-symbols-outlined">stadia_controller</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-bold">Juegos Educativos</h4>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Aprende vocabulario y gramática mientras juegas.</p>
+</div>
+</div>
+<div class="flex flex-col gap-3 rounded-lg border border-primary/20 bg-background-light dark:bg-background-dark p-4">
+<div class="text-primary text-3xl">
+<span class="material-symbols-outlined">music_note</span>
+</div>
+<div class="flex flex-col gap-1">
+<h4 class="font-bold">Canciones y Rimas</h4>
+<p class="text-sm text-text-muted-light dark:text-text-muted-dark">Mejora tu pronunciación con música y cantos tradicionales.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="flex flex-col items-center gap-8 px-5 py-16 text-center text-text-muted-light dark:text-text-muted-dark">
+<div class="flex flex-wrap items-center justify-center gap-6">
+<a class="text-sm font-normal hover:text-primary" href="#">Política de Privacidad</a>
+<a class="text-sm font-normal hover:text-primary" href="#">Términos de Servicio</a>
+<a class="text-sm font-normal hover:text-primary" href="#">Contacto</a>
+</div>
+<div class="flex justify-center gap-6">
+<a class="transition-colors hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="transition-colors hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.012-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.08 2.465c.636-.247 1.363-.416 2.427-.465C9.531 2.013 9.885 2 12.315 2zm-1.161 1.545a4.873 4.873 0 00-3.162.45 3.377 3.377 0 00-1.224 1.224 4.873 4.873 0 00-.45 3.162c-.043 1.042-.056 1.376-.056 3.618s.013 2.576.056 3.618c.027 1.22.2 2.148.45 3.162a3.377 3.377 0 001.224 1.224c1.014.25 1.942.423 3.162.45 1.042.043 1.376.056 3.618.056s2.576-.013 3.618-.056c1.22-.027 2.148-.2 3.162-.45a3.377 3.377 0 001.224-1.224 4.873 4.873 0 00.45-3.162c.043-1.042.056-1.376.056-3.618s-.013-2.576-.056-3.618a4.873 4.873 0 00-.45-3.162 3.377 3.377 0 00-1.224-1.224 4.873 4.873 0 00-3.162-.45c-1.042-.043-1.376-.056-3.618-.056s-2.576.013-3.618.056zM12 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 1.545a3.59 3.59 0 110 7.18 3.59 3.59 0 010-7.18zM16.531 6.42a1.218 1.218 0 100 2.436 1.218 1.218 0 000-2.436z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="transition-colors hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.707V4.109l6.06 4.04-6.06 4.04z"></path></svg>
+</a>
+</div>
+<p class="text-sm">© 2025 Yätzina. Todos los derechos reservados.</p>
+</footer>
+</main>
+</div>
+</div>
+</div>
+</body></html>
+<script>
+  document.getElementById('btnCrearCuenta').addEventListener('click', function() {
+    window.location.href = 'registro.html';
+  });
+  document.getElementById('btnIniciarSesion').addEventListener('click', function() {
+    window.location.href = 'iniciarsesion.html';
+  });
+</script>

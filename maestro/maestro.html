@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Maestro - YÄTZINA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .decoracion {
+            position: fixed;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .decoracion.estrella {
+            font-size: 2rem;
+            animation: flotar 6s ease-in-out infinite;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .info-maestro {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
+        }
+
+        .info-maestro h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .info-maestro p {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background: #e0e0e0;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tabla-alumnos {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tabla-alumnos thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tabla-alumnos th,
+        .tabla-alumnos td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tabla-alumnos th {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+        }
+
+        .tabla-alumnos tbody tr {
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tabla-alumnos tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .progreso-bar {
+            width: 100%;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progreso-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .btn-accion {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-ver {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-comentar {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .btn-accion:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            background: #ff4757;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .comentarios-lista {
+            margin-top: 20px;
+        }
+
+        .comentario-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .comentario-fecha {
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .btn-agregar-vocab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .btn-agregar-vocab:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .btn-salir {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-salir:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .leccion-detalle {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .leccion-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .leccion-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Decoraciones -->
+    <div class="decoracion estrella" style="top: 10%; left: 5%;">⭐</div>
+    <div class="decoracion estrella" style="top: 20%; right: 10%;">✨</div>
+    <div class="decoracion estrella" style="bottom: 15%; left: 15%;">🌟</div>
+    <div class="decoracion estrella" style="bottom: 25%; right: 8%;">💫</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>👨‍🏫 Panel del Maestro</h1>
+        </div>
+
+        <div class="info-maestro" id="infoMaestro">
+            <h2 id="nombreMaestro">Cargando...</h2>
+            <p>📚 Grado: <span id="gradoMaestro">-</span></p>
+            <p>👥 Total de alumnos: <span id="totalAlumnos">0</span></p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="cambiarTab('alumnos')">Mis Alumnos</button>
+            <button class="tab-btn" onclick="cambiarTab('vocabulario')">Agregar Vocabulario</button>
+            <button class="tab-btn" onclick="cambiarTab('comentarios')">Ver Comentarios</button>
+        </div>
+
+        <div id="tab-alumnos" class="tab-content active">
+            <div id="contenidoAlumnos" class="loading">Cargando alumnos...</div>
+        </div>
+
+        <div id="tab-vocabulario" class="tab-content">
+            <div class="form-group">
+                <label>Palabra en Hñähñu:</label>
+                <input type="text" id="palabraHnahnu" placeholder="Ej: Jamädi">
+            </div>
+            <div class="form-group">
+                <label>Traducción al Español:</label>
+                <input type="text" id="traduccionEspanol" placeholder="Ej: Buenos días">
+            </div>
+            <button class="btn-submit" onclick="guardarVocabulario()">📚 Agregar al Diccionario</button>
+        </div>
+
+        <div id="tab-comentarios" class="tab-content">
+            <div id="comentariosMaestro" class="loading">Cargando comentarios...</div>
+        </div>
+
+        <button class="btn-salir" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+    </div>
+
+    <!-- Modal Ver Progreso -->
+    <div id="modalProgreso" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModal('modalProgreso')">×</button>
+            <h2>📊 Progreso del Alumno</h2>
+            <h3 id="nombreAlumnoModal"></h3>
+            <div id="detalleProgreso" class="leccion-detalle"></div>
+            <div id="comentariosAlumno" class="comentarios-lista"></div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Comentario -->
+    <div id="modalComentario" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarModal('modalComentario')">×</button>
+            <h2>💬 Agregar Comentario</h2>
+            <h3 id="nombreAlumnoComentario"></h3>
+            <div class="form-group">
+                <label>Tu comentario:</label>
+                <textarea id="textoComentario" placeholder="Escribe tu comentario para el alumno..."></textarea>
+            </div>
+            <button class="btn-submit" onclick="guardarComentario()">Enviar Comentario</button>
+        </div>
+    </div>
+
+    <script>
+        let maestroData = null;
+        let alumnoSeleccionado = null;
+
+        window.onload = function() {
+            cargarDatosMaestro();
+            cargarAlumnos();
+            cargarComentariosMaestro();
+        };
+
+        async function cargarDatosMaestro() {
+            try {
+                console.log('[v0] Cargando datos del maestro...');
+                const response = await fetch('obtenerDatosMaestro.php');
+                console.log('[v0] Response status:', response.status);
+                
+                const data = await response.json();
+                console.log('[v0] Data received:', data);
+                
+                if(data.success) {
+                    document.getElementById('gradoMaestro').textContent = data.grado;
+                    document.getElementById('totalAlumnos').textContent = data.totalAlumnos;
+                    maestroData = data;
+                } else {
+                    document.getElementById('gradoMaestro').textContent = 'Error';
+                    alert('Error al cargar datos del maestro: ' + data.message);
+                }
+            } catch(error) {
+                console.error('[v0] Error:', error);
+                document.getElementById('gradoMaestro').textContent = 'Error';
+                alert('Error al cargar datos del maestro');
+            }
+        }
+
+        async function cargarAlumnos() {
+            try {
+                const response = await fetch('obtenerAlumnosMaestro.php');
+                const data = await response.json();
+                
+                const contenedor = document.getElementById('contenidoAlumnos');
+                
+                if(data.success && data.alumnos.length > 0) {
+                    let html = `
+                        <table class="tabla-alumnos">
+                            <thead>
+                                <tr>
+                                    <th>Nombre Completo</th>
+                                    <th>Grado</th>
+                                    <th>Progreso General</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    data.alumnos.forEach(alumno => {
+                        html += `
+                            <tr>
+                                <td><strong>${alumno.nombreCompleto}</strong></td>
+                                <td>${alumno.grado}°</td>
+                                <td>
+                                    <div class="progreso-bar">
+                                        <div class="progreso-fill" style="width: ${alumno.progresoGeneral}%">
+                                            ${alumno.progresoGeneral}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn-accion btn-ver" onclick="verProgreso(${alumno.id}, '${alumno.nombreCompleto}')">
+                                        👁 Ver Progreso
+                                    </button>
+                                    <button class="btn-accion btn-comentar" onclick="abrirComentario(${alumno.id}, '${alumno.nombreCompleto}')">
+                                        💬 Comentar
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    
+                    html += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    contenedor.innerHTML = html;
+                } else {
+                    contenedor.innerHTML = `
+                        <div class="empty-state">
+                            <p>📭 Aún no tienes alumnos asignados</p>
+                        </div>
+                    `;
+                }
+            } catch(error) {
+                console.error('Error:', error);
+                document.getElementById('contenidoAlumnos').innerHTML = `
+                    <div class="empty-state">
+                        <p>❌ Error al cargar alumnos</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function verProgreso(idAlumno, nombreAlumno) {
+            alumnoSeleccionado = idAlumno;
+            document.getElementById('nombreAlumnoModal').textContent = nombreAlumno;
+            document.getElementById('modalProgreso').classList.add('active');
+            
+            try {
+                const response = await fetch(obtenerProgresoDetalle.php?idAlumno=${idAlumno});
+                const data = await response.json();
+                
+                const contenedor = document.getElementById('detalleProgreso');
+                
+                if(data.success && data.lecciones.length > 0) {
+                    let html = '';
+                    data.lecciones.forEach(leccion => {
+                        html += `
+                            <div class="leccion-card">
+                                <h3>${leccion.nombreLeccion}</h3>
+                                <div class="progreso-bar">
+                                    <div class="progreso-fill" style="width: ${leccion.progreso}%">
+                                        ${leccion.progreso}%
+                                    </div>
+                                </div>
+                                <p style="margin-top: 10px;">
+                                    ${leccion.completado == 1 ? '✅ Completada' : '⏳ En progreso'}
+                                </p>
+                            </div>
+                        `;
+                    });
+                    contenedor.innerHTML = html;
+                } else {
+                    contenedor.innerHTML = '<p>Sin progreso registrado</p>';
+                }
+                
+                // Cargar comentarios
+                await cargarComentarios(idAlumno);
+                
+            } catch(error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function cargarComentarios(idAlumno) {
+            try {
+                const response = await fetch(obtenerComentariosAlumno.php?idAlumno=${idAlumno});
+                const data = await response.json();
+                
+                const contenedor = document.getElementById('comentariosAlumno');
+                
+                if(data.success && data.comentarios.length > 0) {
+                    let html = '<h3 style="margin-top: 30px;">💬 Comentarios:</h3>';
+                    data.comentarios.forEach(comentario => {
+                        html += `
+                            <div class="comentario-item">
+                                <p><strong>${comentario.comentario}</strong></p>
+                                <p class="comentario-fecha">${comentario.fecha}</p>
+                            </div>
+                        `;
+                    });
+                    contenedor.innerHTML = html;
+                } else {
+                    contenedor.innerHTML = '<p style="margin-top: 20px; color: #999;">Sin comentarios</p>';
+                }
+            } catch(error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function abrirComentario(idAlumno, nombreAlumno) {
+            alumnoSeleccionado = idAlumno;
+            document.getElementById('nombreAlumnoComentario').textContent = nombreAlumno;
+            document.getElementById('textoComentario').value = '';
+            document.getElementById('modalComentario').classList.add('active');
+        }
+
+        async function guardarComentario() {
+            const comentario = document.getElementById('textoComentario').value.trim();
+            
+            if(!comentario) {
+                alert('Por favor escribe un comentario');
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('idAlumno', alumnoSeleccionado);
+                formData.append('comentario', comentario);
+                
+                const response = await fetch('guardarComentarioMaestro.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if(data.success) {
+                    alert('✅ Comentario guardado exitosamente');
+                    cerrarModal('modalComentario');
+                } else {
+                    alert('❌ Error: ' + data.message);
+                }
+            } catch(error) {
+                console.error('Error:', error);
+                alert('Error al guardar comentario');
+            }
+        }
+
+        async function guardarVocabulario() {
+            const palabra = document.getElementById('palabraHnahnu').value.trim();
+            const traduccion = document.getElementById('traduccionEspanol').value.trim();
+            
+            if(!palabra || !traduccion) {
+                alert('Por favor completa ambos campos');
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('palabra', palabra);
+                formData.append('traduccion', traduccion);
+                
+                const response = await fetch('guardarPalabraMaestro.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if(data.success) {
+                    alert('✅ Palabra agregada exitosamente al diccionario');
+                    document.getElementById('palabraHnahnu').value = '';
+                    document.getElementById('traduccionEspanol').value = '';
+                } else {
+                    alert('❌ Error: ' + data.message);
+                }
+            } catch(error) {
+                console.error('Error:', error);
+                alert('Error al guardar palabra');
+            }
+        }
+
+        function cambiarTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function cerrarSesion() {
+            if(confirm('¿Seguro que deseas cerrar sesión?')) {
+                window.location.href = 'cerrarSesion.php';
+            }
+        }
+
+        // Cerrar modales al hacer clic fuera
+        window.onclick = function(event) {
+            if(event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        };
+
+        async function cargarComentariosMaestro() {
+            try {
+                const response = await fetch('obtenerComentariosMaestro.php');
+                const data = await response.json();
+                
+                const contenedor = document.getElementById('comentariosMaestro');
+                
+                if(data.success && data.comentarios.length > 0) {
+                    let html = '<h3 style="margin-top: 30px;">💬 Comentarios de los Alumnos:</h3>';
+                    data.comentarios.forEach(comentario => {
+                        html += `
+                            <div class="comentario-item">
+                                <p><strong>${comentario.comentario}</strong></p>
+                                <p class="comentario-fecha">${comentario.fecha}</p>
+                                <p><strong>${comentario.alumnoNombre}</strong></p>
+                            </div>
+                        `;
+                    });
+                    contenedor.innerHTML = html;
+                } else {
+                    contenedor.innerHTML = '<p style="margin-top: 20px; color: #999;">Sin comentarios</p>';
+                }
+            } catch(error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Seleccionar Rol - Yätzina</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "primary": "#2bee4b",
+                  "background-light": "#f6f8f6",
+                  "background-dark": "#102213",
+                },
+                fontFamily: {
+                  "display": ["Spline Sans", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+              },
+            },
+        }
+    </script>
+</head>
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-hidden p-4 sm:p-6 lg:p-8">
+    <div class="absolute inset-0 z-0 opacity-40 dark:opacity-30">
+        <div class="absolute -left-40 -top-40 size-96 rounded-full bg-primary/20 blur-3xl"></div>
+        <div class="absolute -right-40 -bottom-40 size-96 rounded-full bg-[#4DB6AC]/20 blur-3xl"></div>
+    </div>
+    <div class="relative z-10 flex w-full max-w-4xl flex-col items-center">
+        <header class="flex w-full items-center justify-between whitespace-nowrap px-4 py-5 sm:px-10">
+            <div class="flex items-center gap-4 text-[#0d1b10] dark:text-background-light">
+                <div class="size-6 text-primary">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold tracking-tight text-[#0d1b10] dark:text-background-light">Yätzina</h2>
+            </div>
+        </header>
+        <main class="w-full max-w-2xl">
+            <div class="rounded-lg bg-white/50 dark:bg-background-dark/50 shadow-2xl shadow-primary/10 backdrop-blur-xl p-8 sm:p-12">
+                <h1 class="text-[#0d1b10] dark:text-white tracking-tight text-4xl font-bold leading-tight pb-6 text-center">¡Elige tu Rol!</h1>
+                <p class="text-center text-gray-600 dark:text-gray-400 text-base pb-8">Selecciona si eres alumno o maestro para continuar con tu experiencia en Yätzina.</p>
+                
+                <div class="flex flex-col gap-6 sm:flex-row sm:gap-8 justify-center">
+                    <!-- Opción Alumno -->
+                    <a id="alumno" class="flex flex-col items-center justify-center gap-4 p-8 rounded-xl border-2 border-primary/30 bg-background-light dark:bg-gray-800/50 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary transition-all cursor-pointer transform hover:scale-105">
+                        <div class="text-primary text-5xl">
+                            <span class="material-symbols-outlined">school</span>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-[#0d1b10] dark:text-white text-xl font-bold mb-2">Soy Alumno</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Aprende la lengua Ñañu de forma divertida con actividades y juegos.</p>
+                        </div>
+                    </a>
+                    
+                    <!-- Opción Maestro -->
+                    <a id="maestro" class="flex flex-col items-center justify-center gap-4 p-8 rounded-xl border-2 border-primary/30 bg-background-light dark:bg-gray-800/50 hover:bg-primary/10 dark:hover:bg-primary/20 hover:border-primary transition-all cursor-pointer transform hover:scale-105">
+                        <div class="text-primary text-5xl">
+                            <span class="material-symbols-outlined">person_raised_hand</span>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-[#0d1b10] dark:text-white text-xl font-bold mb-2">Soy Maestro</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Gestiona el aprendizaje de tus alumnos y crea nuevas actividades.</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <p id="mensaje" class="text-center text-sm text-red-600 pt-6" role="status" aria-live="polite"></p>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    // Función para guardar rol y redirigir
+    async function guardarRol(rol) {
+        const mensajeDiv = document.getElementById('mensaje');
+        mensajeDiv.textContent = '';
+        
+        try {
+            const response = await fetch('backend/guardar_rol.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ rol: rol })
+            });
+            
+            const data = await response.json();
+            
+            if (data.status === 'ok') {
+                // Redirigir a la página correspondiente
+                window.location.href = data.redirect_to;
+            } else {
+                mensajeDiv.textContent = data.msg || 'Error al guardar el rol.';
+            }
+        } catch (error) {
+            mensajeDiv.textContent = 'Error de conexión: ' + error.message;
+        }
+    }
+    
+    // Agregar event listeners a los enlaces
+    document.getElementById('alumno').addEventListener('click', function(e) {
+        e.preventDefault();
+        guardarRol('alumno');
+    });
+    
+    document.getElementById('maestro').addEventListener('click', function(e) {
+        e.preventDefault();
+        guardarRol('maestro');
+    });
+</script>
+
+</body>
+</html>

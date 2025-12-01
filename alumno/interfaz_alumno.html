@@ -1,0 +1,422 @@
+alumno
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Alumno - YÄTZINA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            color: #FF6B9D;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            text-align: right;
+            font-size: 18px;
+        }
+
+        .user-info p {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.6);
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            border: 3px solid #FFD700;
+        }
+
+        .info-card h3 {
+            color: #FF8C00;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .info-card p {
+            font-size: 36px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .lessons-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .lessons-container h2 {
+            color: #FF6B9D;
+            margin-bottom: 30px;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .lesson-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 35px 25px;
+            border-radius: 25px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border: 4px solid transparent;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border-color: #FFD700;
+        }
+
+        .lesson-icon {
+            font-size: 56px;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .lesson-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #FFD700;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content h2 {
+            color: #FF6B9D;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .btn-close {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Comic Sans MS', cursive;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1>🎓 YÄTZINA - Mi Panel</h1>
+            <p id="welcomeText" style="font-size: 20px; color: #666;">Cargando...</p>
+        </div>
+        <div class="user-info">
+            <p><strong>👨‍🏫 Maestro:</strong> <span id="maestroNombre">Cargando...</span></p>
+            <button onclick="window.location.href='cerrarSesion.php'" class="btn-logout">Salir</button>
+        </div>
+    </div>
+
+    <div class="info-cards">
+        <div class="info-card">
+            <h3>📊 Progreso Total</h3>
+            <p id="progresoTotal">0%</p>
+        </div>
+        <div class="info-card">
+            <h3>✅ Lecciones Completadas</h3>
+            <p id="leccionesCompletadas">0/7</p>
+        </div>
+        <div class="info-card">
+            <h3>⭐ Puntos Totales</h3>
+            <p id="puntosTotales">0</p>
+        </div>
+    </div>
+
+    <div class="lessons-container">
+        <h2>🚀 Mis Lecciones de Hñähñu</h2>
+        <div class="lessons-grid">
+            <div class="lesson-card" onclick="window.location.href='abecedario.html'">
+                <div class="lesson-icon">📝</div>
+                <div class="lesson-title">Abecedario Hñähñu</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-abecedario" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="lesson-card" onclick="window.location.href='numeros.html'">
+                <div class="lesson-icon">🔢</div>
+                <div class="lesson-title">Números</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-numeros" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="lesson-card" onclick="window.location.href='colores.html'">
+                <div class="lesson-icon">🎨</div>
+                <div class="lesson-title">Colores</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-colores" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="lesson-card" onclick="window.location.href='familia.html'">
+                <div class="lesson-icon">👨‍👩‍👧‍👦</div>
+                <div class="lesson-title">Familia</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-familia" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="lesson-card" onclick="window.location.href='animales.html'">
+                <div class="lesson-icon">🐶</div>
+                <div class="lesson-title">Animales</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-animales" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div class="lesson-card" onclick="window.location.href='Diccionario.html'">
+                <div class="lesson-icon">📚</div>
+                <div class="lesson-title">Diccionario</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <div class="lesson-card" onclick="window.location.href='logros.html'">
+                <div class="lesson-icon">🏆</div>
+                <div class="lesson-title">Mis Logros</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 ¡Felicidades pequeño!</h2>
+            <p>Vayamos por más</p>
+            <button class="btn-close" onclick="closeModal()">Continuar</button>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const numberOfStars = 40;
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 4 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(star);
+            }
+        }
+        createStars();
+
+        let alumnoData = {};
+
+        async function cargarDatosAlumno() {
+            try {
+                const response = await fetch('obtenerDatosAlumno.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    alumnoData = data;
+                    document.getElementById('welcomeText').textContent = Bienvenido, ${data.nombreCompleto};
+                    document.getElementById('maestroNombre').textContent = data.maestroNombre || 'Sin asignar';
+                    cargarProgreso();
+                }
+            } catch (error) {
+                console.log('[v0] Error cargando datos:', error);
+            }
+        }
+
+        async function cargarProgreso() {
+            try {
+                const response = await fetch('obtenerProgresoAlumno.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    let completadas = 0;
+                    let totalPuntos = 0;
+                    
+                    data.progreso.forEach(leccion => {
+                        const progressBar = document.getElementById(progress-${leccion.leccion});
+                        if (progressBar) {
+                            progressBar.style.width = leccion.porcentaje + '%';
+                        }
+                        
+                        if (leccion.completado) completadas++;
+                        totalPuntos += leccion.puntos || 0;
+                    });
+                    
+                    document.getElementById('leccionesCompletadas').textContent = ${completadas}/7;
+                    document.getElementById('puntosTotales').textContent = totalPuntos;
+                    document.getElementById('progresoTotal').textContent = Math.round((completadas / 7) * 100) + '%';
+                }
+            } catch (error) {
+                console.log('[v0] Error cargando progreso:', error);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('completed') === 'true') {
+            document.getElementById('successModal').style.display = 'flex';
+        }
+
+        cargarDatosAlumno();
+    </script>
+
+</body>
+</html>

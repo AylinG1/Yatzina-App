@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lección de Saludos - Hñahñu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Fredoka', sans-serif;
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+      }
+      @keyframes pulse-soft {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      @keyframes sparkle {
+        0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        50% { opacity: 0.8; transform: scale(1.1) rotate(180deg); }
+      }
+      @keyframes slide-in {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .emoji-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      .emoji-pulse {
+        animation: pulse-soft 2s ease-in-out infinite;
+      }
+      .emoji-sparkle {
+        animation: sparkle 3s ease-in-out infinite;
+      }
+      .greeting-card {
+        transition: all 0.3s ease;
+        animation: slide-in 0.6s ease-out;
+      }
+      .greeting-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+      .animated-gradient {
+        background-size: 200% 200%;
+        animation: gradient-shift 8s ease infinite;
+      }
+      .star-decoration {
+        position: absolute;
+        opacity: 0.3;
+        animation: sparkle 4s ease-in-out infinite;
+      }
+      .word-tooltip {
+        position: relative;
+        cursor: help;
+        border-bottom: 2px dotted #3b82f6;
+        display: inline-block;
+        padding: 2px 4px;
+        transition: all 0.3s ease;
+      }
+      .word-tooltip:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        border-radius: 4px;
+      }
+      .tooltip-text {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%) scale(0.9);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 12px;
+        white-space: nowrap;
+        font-size: 15px;
+        font-weight: 600;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+      .tooltip-text::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: #764ba2 transparent transparent transparent;
+      }
+      .word-tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+      }
+      .emoji-float-delay-1 {
+        animation: float 3s ease-in-out infinite 1s;
+      }
+      .emoji-pulse-delay-05 {
+        animation: pulse-soft 2s ease-in-out infinite 0.5s;
+      }
+      .emoji-sparkle-delay-1 {
+        animation: sparkle 3s ease-in-out infinite 1s;
+      }
+      .star-delay-1 {
+        animation-delay: 1s;
+      }
+      .star-delay-2 {
+        animation-delay: 2s;
+      }
+      .star-delay-15 {
+        animation-delay: 1.5s;
+      }
+      .star-delay-05 {
+        animation-delay: 0.5s;
+      }
+      .star-delay-25 {
+        animation-delay: 2.5s;
+      }
+      .quiz-option {
+        transition: all 0.3s ease;
+      }
+      .quiz-option:disabled {
+        cursor: not-allowed;
+        opacity: 0.8;
+      }
+      .quiz-option.correct {
+        background: linear-gradient(to right, #dcfce7, #bbf7d0) !important;
+        border-color: #22c55e !important;
+      }
+      .quiz-option.incorrect {
+        background: linear-gradient(to right, #fee2e2, #fecaca) !important;
+        border-color: #ef4444 !important;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-yellow-50 via-orange-50 to-pink-50 min-h-screen">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+      <div class="star-decoration text-4xl" style="top: 10%; left: 5%;">⭐</div>
+      <div class="star-decoration text-3xl star-delay-1" style="top: 20%; right: 10%;">✨</div>
+      <div class="star-decoration text-5xl star-delay-2" style="top: 40%; left: 15%;">💫</div>
+      <div class="star-decoration text-3xl star-delay-15" style="bottom: 30%; right: 20%;">⭐</div>
+      <div class="star-decoration text-4xl star-delay-05" style="bottom: 15%; left: 10%;">✨</div>
+      <div class="star-decoration text-3xl star-delay-25" style="top: 60%; right: 5%;">💫</div>
+    </div>
+
+    <header class="text-center py-8 px-4 relative">
+      <a href="index.html" class="inline-block mb-4 text-orange-600 hover:text-orange-800 font-semibold">
+        ← Volver al Abecedario
+      </a>
+      <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-pink-600 to-purple-500 mb-2">
+        Saludos en Hñahñu
+      </h1>
+      <p class="text-lg md:text-xl text-gray-600">Aprende a saludar de manera formal e informal</p>
+      <div class="flex justify-center gap-4 mt-4">
+        <span class="text-4xl emoji-float">👋</span>
+        <span class="text-4xl emoji-pulse">🌟</span>
+        <span class="text-4xl emoji-float-delay-1">💙</span>
+        <span class="text-4xl emoji-pulse-delay-05">💜</span>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 pb-12 max-w-6xl">
+      <section class="mb-12">
+        <h2 class="text-3xl font-bold text-orange-700 mb-6 text-center">Saludos Informales</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="greeting-card bg-gradient-to-br from-yellow-400 to-orange-400 rounded-3xl shadow-xl p-6" style="animation-delay: 0.1s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-float">👋</div>
+              <h3 class="text-3xl font-bold text-white mb-2">Hatsi</h3>
+              <p class="text-xl text-white/90">Hola (informal)</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm">
+              <p class="text-white text-center">Saludo casual entre amigos y familiares</p>
+            </div>
+          </div>
+
+          <div class="greeting-card bg-gradient-to-br from-pink-400 to-rose-400 rounded-3xl shadow-xl p-6" style="animation-delay: 0.2s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-pulse">🙋</div>
+              <h3 class="text-3xl font-bold text-white mb-2">Ki hatsi</h3>
+              <p class="text-xl text-white/90">Hola (a una persona)</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-4 backdrop-blur-sm">
+              <p class="text-white text-center">Para saludar a una persona de manera informal</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-3xl font-bold text-purple-700 mb-6 text-center">Saludos Formales</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="greeting-card animated-gradient bg-gradient-to-br from-cyan-400 via-blue-400 to-blue-500 rounded-3xl shadow-xl p-6" style="animation-delay: 0.3s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-float">☀️</div>
+              <h3 class="text-2xl font-bold text-white mb-2">Hogä ehe</h3>
+              <p class="text-lg text-white/90">Buenos días</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
+              <p class="text-white text-sm text-center">Saludo formal de la mañana</p>
+            </div>
+          </div>
+
+          <div class="greeting-card bg-gradient-to-br from-orange-400 to-amber-400 rounded-3xl shadow-xl p-6" style="animation-delay: 0.4s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-pulse">🌅</div>
+              <h3 class="text-2xl font-bold text-white mb-2">Skin de he ju</h3>
+              <p class="text-lg text-white/90">Buenas tardes</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
+              <p class="text-white text-sm text-center">Para grupos en la tarde</p>
+            </div>
+          </div>
+
+          <div class="greeting-card animated-gradient bg-gradient-to-br from-indigo-600 via-purple-600 to-violet-600 rounded-3xl shadow-xl p-6" style="animation-delay: 0.5s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-sparkle">🌙</div>
+              <h3 class="text-2xl font-bold text-white mb-2">Háxkahu</h3>
+              <p class="text-lg text-white/90">Buenas noches</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
+              <p class="text-white text-sm text-center">Saludo formal nocturno</p>
+            </div>
+          </div>
+
+          <div class="greeting-card animated-gradient bg-gradient-to-br from-violet-500 via-purple-600 to-fuchsia-600 rounded-3xl shadow-xl p-6" style="animation-delay: 0.6s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-sparkle-delay-1">✨</div>
+              <h3 class="text-2xl font-bold text-white mb-2">Skin de shui ju</h3>
+              <p class="text-lg text-white/90">Buenas noches a ustedes</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
+              <p class="text-white text-sm text-center">Para saludar a un grupo</p>
+            </div>
+          </div>
+
+          <div class="greeting-card animated-gradient bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-400 rounded-3xl shadow-xl p-6" style="animation-delay: 0.7s;">
+            <div class="text-center mb-4">
+              <div class="text-6xl mb-3 emoji-pulse-delay-05">👥</div>
+              <h3 class="text-2xl font-bold text-white mb-2">Eshu</h3>
+              <p class="text-lg text-white/90">Hola a todos</p>
+            </div>
+            <div class="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
+              <p class="text-white text-sm text-center">Para saludar a un grupo</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <div class="bg-white rounded-3xl shadow-xl p-6 md:p-10">
+          <h2 class="text-3xl font-bold text-orange-700 mb-6 text-center">Practica los Saludos</h2>
+          <p class="text-gray-600 text-center mb-8">
+            Pasa el mouse sobre las conversaciones para ver la traducción
+          </p>
+
+          <div class="space-y-6">
+            <div class="bg-gradient-to-r from-blue-100 via-cyan-100 to-blue-100 rounded-2xl p-6">
+              <div class="flex items-start gap-4 mb-4">
+                <div class="text-4xl">👦</div>
+                <div class="flex-1">
+                  <p class="text-lg font-semibold text-gray-800 mb-1">Juan:</p>
+                  <p class="text-xl">
+                    <span class="word-tooltip">
+                      Hatsi, Pedro!
+                      <span class="tooltip-text">¡Hola, Pedro!</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="text-4xl">👧</div>
+                <div class="flex-1">
+                  <p class="text-lg font-semibold text-gray-800 mb-1">Pedro:</p>
+                  <p class="text-xl">
+                    <span class="word-tooltip">
+                      Ki hatsi!
+                      <span class="tooltip-text">¡Hola!</span>
+                    </span>
+                    <span class="word-tooltip">
+                      ¿Ge wa pädi?
+                      <span class="tooltip-text">¿Cómo estás?</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-purple-100 via-violet-100 to-purple-100 rounded-2xl p-6">
+              <div class="flex items-start gap-4 mb-4">
+                <div class="text-4xl">👨</div>
+                <div class="flex-1">
+                  <p class="text-lg font-semibold text-gray-800 mb-1">Profesor:</p>
+                  <p class="text-xl">
+                    <span class="word-tooltip">
+                      Hogä ehe, estudiantes.
+                      <span class="tooltip-text">Buenos días, estudiantes.</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="text-4xl">👥</div>
+                <div class="flex-1">
+                  <p class="text-lg font-semibold text-gray-800 mb-1">Estudiantes:</p>
+                  <p class="text-xl">
+                    <span class="word-tooltip">
+                      Hogä ehe, maestro.
+                      <span class="tooltip-text">Buenos días, maestro.</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-indigo-100 via-purple-100 to-fuchsia-100 rounded-2xl p-6">
+              <div class="flex items-start gap-4 mb-4">
+                <div class="text-4xl">👵</div>
+                <div class="flex-1">
+                  <p class="text-lg font-semibold text-gray-800 mb-1">Abuela:</p>
+                  <p class="text-xl">
+                    <span class="word-tooltip">
+                      Háxkahu, familia.
+                      <span class="tooltip-text">Buenas noches, familia.</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="text-4xl">👨‍👩‍👧‍👦</div>
+                <div class="flex-1">
+                  <p class="text-lg font-semibold text-gray-800 mb-1">Familia:</p>
+                  <p class="text-xl">
+                    <span class="word-tooltip">
+                      Skin de shui ju, nänä.
+                      <span class="tooltip-text">Buenas noches a usted, abuela.</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 rounded-3xl shadow-xl p-6 md:p-10">
+        <h2 class="text-3xl font-bold text-purple-700 mb-6 text-center">¿Qué Saludo Usarías?</h2>
+        <p class="text-gray-600 text-center mb-8">Selecciona el saludo correcto para cada situación</p>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="text-3xl emoji-pulse">🤔</span>
+          <span class="text-3xl emoji-float">💭</span>
+          <span class="text-3xl emoji-pulse-delay-05">🎯</span>
+        </div>
+
+        <div id="quiz-container" class="space-y-6">
+          <div class="bg-white rounded-2xl p-6 shadow-md">
+            <p class="text-xl font-semibold text-gray-800 mb-4">
+              1. Son las 8:00 AM y llegas a la escuela. ¿Qué dices?
+            </p>
+            <div class="space-y-3" data-question="1">
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-2 border-blue-200"
+                data-answer="correct"
+              >
+                Hogä ehe
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-2 border-blue-200"
+                data-answer="wrong"
+              >
+                Háxkahu
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-2 border-blue-200"
+                data-answer="wrong"
+              >
+                Skin de shui ju
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-md">
+            <p class="text-xl font-semibold text-gray-800 mb-4">
+              2. Te encuentras con tu mejor amigo. ¿Cómo lo saludas?
+            </p>
+            <div class="space-y-3" data-question="2">
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-purple-50 to-violet-50 hover:from-purple-100 hover:to-violet-100 border-2 border-purple-200"
+                data-answer="wrong"
+              >
+                Hogä ehe
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-purple-50 to-violet-50 hover:from-purple-100 hover:to-violet-100 border-2 border-purple-200"
+                data-answer="correct"
+              >
+                Hatsi o Ki hatsi
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-purple-50 to-violet-50 hover:from-purple-100 hover:to-violet-100 border-2 border-purple-200"
+                data-answer="wrong"
+              >
+                Eshu
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-md">
+            <p class="text-xl font-semibold text-gray-800 mb-4">
+              3. Entras a una reunión familiar por la noche. ¿Qué saludo usas?
+            </p>
+            <div class="space-y-3" data-question="3">
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 border-2 border-indigo-200"
+                data-answer="wrong"
+              >
+                Hatsi
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 border-2 border-indigo-200"
+                data-answer="correct"
+              >
+                Háxkahu o Skin de shui ju
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 hover:from-indigo-100 hover:to-blue-100 border-2 border-indigo-200"
+                data-answer="wrong"
+              >
+                Hogä ehe
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-md">
+            <p class="text-xl font-semibold text-gray-800 mb-4">4. ¿Cuál saludo es informal y casual?</p>
+            <div class="space-y-3" data-question="4">
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-teal-50 hover:from-cyan-100 hover:to-teal-100 border-2 border-cyan-200"
+                data-answer="correct"
+              >
+                Hatsi
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-teal-50 hover:from-cyan-100 hover:to-teal-100 border-2 border-cyan-200"
+                data-answer="wrong"
+              >
+                Hogä ehe
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-cyan-50 to-teal-50 hover:from-cyan-100 hover:to-teal-100 border-2 border-cyan-200"
+                data-answer="wrong"
+              >
+                Háxkahu
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-md">
+            <p class="text-xl font-semibold text-gray-800 mb-4">
+              5. ¿Qué saludo usarías para toda una clase por la tarde?
+            </p>
+            <div class="space-y-3" data-question="5">
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-violet-50 to-purple-50 hover:from-violet-100 hover:to-purple-100 border-2 border-violet-200"
+                data-answer="wrong"
+              >
+                Ki hatsi
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-violet-50 to-purple-50 hover:from-violet-100 hover:to-purple-100 border-2 border-violet-200"
+                data-answer="correct"
+              >
+                Skin de he ju o Eshu
+              </button>
+              <button
+                class="quiz-option w-full text-left p-4 rounded-xl bg-gradient-to-r from-violet-50 to-purple-50 hover:from-violet-100 hover:to-purple-100 border-2 border-violet-200"
+                data-answer="wrong"
+              >
+                Hatsi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="score-display" class="mt-8 text-center hidden">
+          <div class="bg-white rounded-2xl p-8 shadow-xl">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 id="score-text" class="text-3xl font-bold text-purple-700 mb-4">Tu puntuación: 0 de 5</h3>
+            <p class="text-gray-600 mb-6">¡Sigue practicando tus saludos en Hñahñu!</p>
+            <button
+              id="reset-button"
+              class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+            >
+              Intentar de nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let score = 0;
+      const answeredQuestions = new Set();
+      const totalQuestions = 5;
+
+      const quizOptions = document.querySelectorAll(".quiz-option");
+      quizOptions.forEach((button) => {
+        button.addEventListener("click", function () {
+          const questionDiv = this.closest("[data-question]");
+          const questionNumber = questionDiv.dataset.question;
+
+          if (answeredQuestions.has(questionNumber)) {
+            return;
+          }
+
+          const isCorrect = this.dataset.answer === "correct";
+          const allButtons = questionDiv.querySelectorAll(".quiz-option");
+
+          allButtons.forEach((btn) => {
+            btn.disabled = true;
+          });
+
+          if (isCorrect) {
+            this.classList.add("correct");
+            this.innerHTML = this.textContent + " ✓";
+            score++;
+          } else {
+            this.classList.add("incorrect");
+            this.innerHTML = this.textContent + " ✗";
+            allButtons.forEach((btn) => {
+              if (btn.dataset.answer === "correct") {
+                btn.classList.add("correct");
+                btn.innerHTML = btn.textContent + " ✓";
+              }
+            });
+          }
+
+          answeredQuestions.add(questionNumber);
+
+          if (answeredQuestions.size === totalQuestions) {
+            setTimeout(showScore, 500);
+          }
+        });
+      });
+
+      const showScore = () => {
+        const scoreDisplay = document.getElementById("score-display");
+        const scoreText = document.getElementById("score-text");
+        scoreText.textContent = `Tu puntuación: ${score} de ${totalQuestions}`;
+        scoreDisplay.classList.remove("hidden");
+        scoreDisplay.scrollIntoView({ behavior: "smooth", block: "center" });
+      };
+
+      const resetQuiz = () => {
+        score = 0;
+        answeredQuestions.clear();
+
+        quizOptions.forEach((button) => {
+          button.disabled = false;
+          button.classList.remove("correct", "incorrect");
+          button.innerHTML = button.textContent.replace(" ✓", "").replace(" ✗", "");
+        });
+
+        document.getElementById("score-display").classList.add("hidden");
+        document.getElementById("quiz-container").scrollIntoView({ behavior: "smooth" });
+      };
+
+      document.getElementById("reset-button").addEventListener("click", resetQuiz);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario Hñähñu - Español</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animación de fondo */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .shape-1 {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -30px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+        }
+
+        /* Barra de búsqueda */
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Estadísticas */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .stat-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Grid de palabras */
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .word-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .word-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 200% 100%;
+            animation: gradientMove 3s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 200% 0%;
+            }
+        }
+
+        .word-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .word-hnahnu {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .word-espanol {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .word-date {
+            font-size: 0.85rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Fredoka', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mensaje de carga */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: white;
+            font-size: 1.5rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Mensaje sin palabras */
+        .no-words {
+            text-align: center;
+            padding: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-words h2 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .no-words p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .words-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>📖 Diccionario Hñähñu</h1>
+            <p>Explora las palabras registradas por hablantes nativos</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-back" onclick="window.location.href='hablante.html'">
+                ← Registrar Nueva Palabra
+            </button>
+            <button class="btn btn-add" onclick="window.location.href='Bienvenida.html'">
+                🏠 Volver al Inicio
+            </button>
+        </div>
+
+        <div class="search-container">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Buscar palabra en Hñähñu o español..."
+                    onkeyup="filtrarPalabras()"
+                >
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3 id="totalWords">0</h3>
+                <p>Palabras totales</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="filteredWords">0</h3>
+                <p>Palabras mostradas</p>
+            </div>
+        </div>
+
+        <div id="loadingMessage" class="loading">
+            ⏳ Cargando diccionario...
+        </div>
+
+        <div id="wordsContainer" class="words-grid"></div>
+    </div>
+
+    <script>
+        let todasLasPalabras = [];
+
+        // Cargar palabras al iniciar
+        window.addEventListener('DOMContentLoaded', cargarDiccionario);
+
+        async function cargarDiccionario() {
+            try {
+                const response = await fetch('obtenerPalabras.php');
+                const result = await response.json();
+
+                document.getElementById('loadingMessage').style.display = 'none';
+
+                if (result.success && result.palabras.length > 0) {
+                    todasLasPalabras = result.palabras;
+                    mostrarPalabras(todasLasPalabras);
+                    actualizarEstadisticas(result.total, result.total);
+                } else {
+                    mostrarMensajeSinPalabras();
+                }
+            } catch (error) {
+                console.error('Error al cargar diccionario:', error);
+                document.getElementById('loadingMessage').innerHTML = '❌ Error al cargar el diccionario';
+            }
+        }
+
+        function mostrarPalabras(palabras) {
+            const container = document.getElementById('wordsContainer');
+            container.innerHTML = '';
+
+            palabras.forEach((palabra, index) => {
+                const wordCard = document.createElement('div');
+                wordCard.className = 'word-card';
+                wordCard.style.animationDelay = `${index * 0.05}s`;
+                
+                const fecha = new Date(palabra.fecha_registro);
+                const fechaFormateada = fecha.toLocaleDateString('es-MX', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                wordCard.innerHTML = `
+                    <div class="word-hnahnu">${palabra.palabra_hnahnu}</div>
+                    <div class="word-espanol">${palabra.traduccion_espanol}</div>
+                    <div class="word-date">Registrada: ${fechaFormateada}</div>
+                `;
+
+                container.appendChild(wordCard);
+            });
+        }
+
+        function mostrarMensajeSinPalabras() {
+            const container = document.getElementById('wordsContainer');
+            container.innerHTML = `
+                <div class="no-words">
+                    <h2>📚 El diccionario está vacío</h2>
+                    <p>Todavía no hay palabras registradas. ¡Sé el primero en agregar una!</p>
+                </div>
+            `;
+            actualizarEstadisticas(0, 0);
+        }
+
+        function filtrarPalabras() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                mostrarPalabras(todasLasPalabras);
+                actualizarEstadisticas(todasLasPalabras.length, todasLasPalabras.length);
+                return;
+            }
+
+            const palabrasFiltradas = todasLasPalabras.filter(palabra => 
+                palabra.palabra_hnahnu.toLowerCase().includes(searchTerm) ||
+                palabra.traduccion_espanol.toLowerCase().includes(searchTerm)
+            );
+
+            if (palabrasFiltradas.length > 0) {
+                mostrarPalabras(palabrasFiltradas);
+                actualizarEstadisticas(todasLasPalabras.length, palabrasFiltradas.length);
+            } else {
+                document.getElementById('wordsContainer').innerHTML = `
+                    <div class="no-words">
+                        <h2>🔍 No se encontraron resultados</h2>
+                        <p>No hay palabras que coincidan con "${searchTerm}"</p>
+                    </div>
+                `;
+                actualizarEstadisticas(todasLasPalabras.length, 0);
+            }
+        }
+
+        function actualizarEstadisticas(total, mostradas) {
+            document.getElementById('totalWords').textContent = total;
+            document.getElementById('filteredWords').textContent = mostradas;
+        }
+    </script>
+</body>
+</html>

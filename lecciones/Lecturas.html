@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecciones de Lectura - YÄTZINA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #4ade80 0%, #3b82f6 50%, #06b6d4 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Estrellas decorativas */
+    .estrella {
+      position: fixed;
+      color: #fbbf24;
+      animation: parpadeo 2s infinite ease-in-out;
+      font-size: 2rem;
+      z-index: 1;
+    }
+
+    @keyframes parpadeo {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+      animation: flotar 3s ease-in-out infinite;
+    }
+
+    .subtitulo {
+      font-size: 1.8rem;
+      color: #fef3c7;
+      font-weight: 600;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+    }
+
+    @keyframes flotar {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Contenedor principal */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Camino serpenteante */
+    .camino {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .linea-camino {
+      position: absolute;
+      width: 80px;
+      height: 200px;
+      background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+      border-radius: 40px;
+      opacity: 0.6;
+    }
+
+    /* Tarjetas circulares */
+    .leccion {
+      position: relative;
+      margin: 80px 0;
+      display: flex;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .leccion:nth-child(odd) {
+      justify-content: flex-start;
+      padding-left: 0;
+    }
+
+    .leccion:nth-child(even) {
+      justify-content: flex-end;
+      padding-right: 0;
+    }
+
+    .circulo-leccion {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      overflow: hidden;
+      border: 8px solid #ffffff;
+    }
+
+    .circulo-leccion:hover {
+      transform: scale(1.1) translateY(-10px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+
+    .circulo-leccion:active {
+      transform: scale(0.95);
+    }
+
+    /* Contenido del círculo */
+    .contenido-circulo {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Rediseñando el número del nivel para estar dentro del círculo en la parte superior */
+    .numero-nivel {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: white;
+      border: 5px solid white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 3;
+    }
+
+    /* Aumentando tamaño de ilustración considerablemente */
+    .ilustracion {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 0;
+      display: block;
+    }
+
+    /* Título de la lección ahora fuera del círculo */
+    .titulo-leccion {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 3px 3px 0px rgba(0,0,0,0.5);
+      line-height: 1.2;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    /* Descripción también fuera del círculo */
+    .descripcion-leccion {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.95);
+      font-weight: 600;
+      text-align: center;
+      margin-top: 5px;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+    }
+
+    /* Colores específicos para cada lección */
+    .leccion-1 { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+    .leccion-2 { background: linear-gradient(135deg, #34d399 0%, #10b981 100%); }
+
+    /* Enlace sin estilos */
+    .link-leccion {
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Ajustando el contenedor de cada lección para incluir título y texto fuera */
+    .leccion-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 3rem; }
+      .subtitulo { font-size: 1.4rem; }
+      .circulo-leccion { width: 220px; height: 220px; }
+      .titulo-leccion { font-size: 1.3rem; }
+      /* Ajustando ilustración para móviles */
+      .ilustracion { width: 120px; height: 120px; }
+      .numero-nivel { width: 50px; height: 50px; font-size: 2rem; top: 15px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Estrellas decorativas -->
+  <div class="estrella" style="top: 10%; left: 15%;">★</div>
+  <div class="estrella" style="top: 25%; left: 80%;">★</div>
+  <div class="estrella" style="top: 45%; left: 10%;">★</div>
+  <div class="estrella" style="top: 60%; left: 85%;">★</div>
+  <div class="estrella" style="top: 75%; left: 20%;">★</div>
+  <div class="estrella" style="top: 90%; left: 70%;">★</div>
+
+  <!-- Header -->
+  <header>
+    <h1>📚 Lecciones de Lectura</h1>
+    <p class="subtitulo">Explora la riqueza de la cultura mexicana</p>
+  </header>
+
+  <!-- Contenedor principal -->
+  <div class="container">
+    
+    <!-- Lección 1: La tortilla de tilo -->
+    <div class="leccion">
+      <div class="leccion-wrapper">
+        <a href="tortillas.html" class="link-leccion">
+          <div class="circulo-leccion leccion-1">
+            <div class="numero-nivel">1</div>
+            <div class="contenido-circulo">
+              <svg class="ilustracion" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Tortilla -->
+                <circle cx="50" cy="50" r="35" fill="#f4a460" stroke="#d2691e" stroke-width="2"/>
+                <circle cx="45" cy="45" r="3" fill="#cd853f" opacity="0.6"/>
+                <circle cx="55" cy="42" r="2" fill="#cd853f" opacity="0.6"/>
+                <circle cx="52" cy="55" r="2.5" fill="#cd853f" opacity="0.6"/>
+                <circle cx="60" cy="50" r="2" fill="#cd853f" opacity="0.6"/>
+                <circle cx="43" cy="58" r="2" fill="#cd853f" opacity="0.6"/>
+                <!-- Vapor -->
+                <path d="M 30 20 Q 28 15 30 10" stroke="white" stroke-width="2" fill="none" opacity="0.7"/>
+                <path d="M 50 15 Q 48 10 50 5" stroke="white" stroke-width="2" fill="none" opacity="0.7"/>
+                <path d="M 70 20 Q 72 15 70 10" stroke="white" stroke-width="2" fill="none" opacity="0.7"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+        <h2 class="titulo-leccion">La tortilla de tilo</h2>
+        <p class="descripcion-leccion">Historia tradicional</p>
+      </div>
+    </div>
+
+    <!-- Nueva Lección 2: Saludos -->
+    <div class="leccion">
+      <div class="leccion-wrapper">
+        <a href="saludos.html" class="link-leccion">
+          <div class="circulo-leccion leccion-2">
+            <div class="numero-nivel">2</div>
+            <div class="contenido-circulo">
+              <svg class="ilustracion" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Dos personas saludándose -->
+                <!-- Persona 1 (izquierda) -->
+                <circle cx="30" cy="35" r="10" fill="#fbbf24"/>
+                <ellipse cx="30" cy="55" rx="12" ry="18" fill="#34d399"/>
+                <!-- Brazo derecho levantado saludando -->
+                <line x1="30" y1="45" x2="20" y2="30" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="20" cy="30" r="4" fill="#fef3c7"/>
+                <!-- Brazo izquierdo -->
+                <line x1="30" y1="45" x2="35" y2="60" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                <!-- Piernas -->
+                <line x1="30" y1="70" x2="25" y2="85" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                <line x1="30" y1="70" x2="35" y2="85" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
+                
+                <!-- Persona 2 (derecha) -->
+                <circle cx="70" cy="35" r="10" fill="#fbbf24"/>
+                <ellipse cx="70" cy="55" rx="12" ry="18" fill="#60a5fa"/>
+                <!-- Brazo izquierdo levantado saludando -->
+                <line x1="70" y1="45" x2="80" y2="30" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="80" cy="30" r="4" fill="#fef3c7"/>
+                <!-- Brazo derecho -->
+                <line x1="70" y1="45" x2="65" y2="60" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                <!-- Piernas -->
+                <line x1="70" y1="70" x2="65" y2="85" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                <line x1="70" y1="70" x2="75" y2="85" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
+                
+                <!-- Corazón en el medio -->
+                <path d="M 50 45 C 50 42 48 40 45 40 C 42 40 40 42 40 45 C 40 50 50 55 50 55 C 50 55 60 50 60 45 C 60 42 58 40 55 40 C 52 40 50 42 50 45 Z" fill="#ec4899" opacity="0.8"/>
+                
+                <!-- Estrellas de alegría -->
+                <polygon points="15,15 16,18 19,18 17,20 18,23 15,21 12,23 13,20 11,18 14,18" fill="#fbbf24"/>
+                <polygon points="85,15 86,18 89,18 87,20 88,23 85,21 82,23 83,20 81,18 84,18" fill="#fbbf24"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+        <h2 class="titulo-leccion">Saludos</h2>
+        <p class="descripcion-leccion">Aprende a saludar</p>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

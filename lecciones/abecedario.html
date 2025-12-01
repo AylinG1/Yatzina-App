@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YÄTZINA - Dashboard del Alumno</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet"/>
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class", 
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2bee4b",
+            "background-light": "#f6f8f6",
+            "background-dark": "#102213",
+            "surface-light": "#ffffff",
+            "surface-dark": "#182c1b",
+            "text-light": "#0d1b10",
+            "text-dark": "#e0f5e3",
+            "text-muted-light": "#4c9a59",
+            "text-muted-dark": "#a3d3ab"
+          },
+          fontFamily: {
+            "display": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    /* Aplicar fuente y colores base a body */
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Contenedor del camino de juego */
+    .game-path-vertical {
+      position: relative;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5rem;
+    }
+
+    /* Línea de progreso central (reemplazo del 'water-flow') */
+    .game-path-vertical::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px; 
+      background-color: #4CAF50; /* Verde sólido */
+      border-radius: 9999px;
+      z-index: 1;
+    }
+
+    /* Contenedor de lección */
+    .lesson-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 10;
+      transition: all 0.4s;
+    }
+
+    /* Alternar posiciones de las tarjetas */
+    .lesson-wrapper:nth-child(odd) {
+      align-self: flex-start;
+      margin-left: 5%;
+    }
+
+    .lesson-wrapper:nth-child(even) {
+      align-self: flex-end;
+      margin-right: 5%;
+    }
+
+    /* Tarjeta circular de la lección */
+    .lesson-card {
+      border-radius: 50%;
+      width: 320px;
+      height: 320px;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      border: 8px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-20px) scale(1.1);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+    }
+    
+    /* Número de nivel superior */
+    .lesson-number {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7B1FA2, #AB47BC);
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 5px solid white;
+      z-index: 20;
+    }
+    
+    /* Título de lección */
+    .lesson-title {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      padding: 0 1rem;
+      max-width: 320px;
+      line-height: 1.3;
+      color: #0d1b10; /* text-light */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .lesson-card { width: 260px; height: 260px; }
+      .lesson-number { width: 60px; height: 60px; font-size: 2rem; top: 15px; }
+      .lesson-wrapper:nth-child(odd),
+      .lesson-wrapper:nth-child(even) {
+        align-self: center;
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display flex flex-col min-h-screen text-text-light dark:text-text-dark">
+
+  <div class="content-wrapper flex flex-col min-h-screen">
+    
+    <header class="bg-surface-light dark:bg-surface-dark shadow-xl text-text-light dark:text-text-dark border-b-4 border-primary/50 p-4 sticky top-0 z-50">
+      <div class="container mx-auto flex items-center justify-between flex-wrap gap-4">
+        <h1 class="font-extrabold text-2xl md:text-3xl">🌿 YÄTZINA 📚</h1>
+        <div class="flex items-center gap-3 flex-wrap">
+          <button class="btn-pill bg-yellow-400 text-gray-800 font-bold px-4 py-2 rounded-full shadow-md hover:bg-yellow-500 transition-all">🔔 Notificaciones</button>
+          <a href="acceso.html" class="bg-red-500 text-white font-bold px-4 py-2 rounded-full shadow-md hover:bg-red-600 transition-all">🚪 Salir</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 py-10 px-4" style="background: radial-gradient(circle at 15% 85%, #d1f7d5 0%, transparent 25%), radial-gradient(circle at 85% 20%, #e3f9e6 0%, transparent 30%), #f6f8f6;">
+      <div class="container mx-auto">
+        <div class="mb-12 text-center">
+          <h2 class="font-extrabold text-4xl md:text-5xl mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.1);">
+            ¡Elige tu lección!
+          </h2>
+          <p class="text-lg text-text-muted-light dark:text-text-muted-dark font-medium">
+            Cada nivel es una nueva aventura ✨
+          </p>
+        </div>
+
+        <div class="game-path-vertical">
+          
+          <div class="lesson-wrapper">
+            <a href="abecedario.html" class="lesson-card bg-surface-light dark:bg-surface-dark hover:shadow-xl hover:shadow-primary/50">
+              <div class="lesson-number">1</div>
+              <div class="lesson-content">
+                <div class="img-box">
+                  <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="30" y="50" width="100" height="80" fill="#8D6E63" rx="5"/>
+                    <rect x="35" y="55" width="45" height="70" fill="#FFF9C4" rx="3"/>
+                    <rect x="85" y="55" width="45" height="70" fill="#FFF9C4" rx="3"/>
+                    <text x="57" y="90" font-family="Arial" font-size="24" font-weight="bold" fill="#43A047">A</text>
+                    <text x="57" y="115" font-family="Arial" font-size="20" font-weight="bold" fill="#2196F3">B</text>
+                    <text x="107" y="90" font-family="Arial" font-size="24" font-weight="bold" fill="#FF5722">C</text>
+                    <text x="107" y="115" font-family="Arial" font-size="20" font-weight="bold" fill="#9C27B0">D</text>
+                    <rect x="120" y="30" width="8" height="50" fill="#FDD835" rx="1" transform="rotate(25 124 55)"/>
+                    <polygon points="128,22 124,30 132,30" fill="#FF6F00" transform="rotate(25 128 26)"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <h3 class="lesson-title text-text-light dark:text-text-dark">Nuestro abecedario</h3>
+          </div>
+
+          <div class="lesson-wrapper">
+            <a href="logros.html" class="lesson-card bg-surface-light dark:bg-surface-dark hover:shadow-xl hover:shadow-primary/50">
+              <div class="lesson-number">2</div>
+              <div class="lesson-content">
+                <div class="img-box">
+                  <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="80" cy="120" rx="25" ry="8" fill="#B8860B"/>
+                    <rect x="75" y="95" width="10" height="25" fill="#DAA520" rx="2"/>
+                    <path d="M 55 95 Q 55 70, 80 70 Q 105 70, 105 95 Z" fill="#FFD700" stroke="#DAA520" stroke-width="3"/>
+                    <path d="M 55 85 Q 45 85, 45 75 Q 45 65, 55 65" fill="none" stroke="#DAA520" stroke-width="4"/>
+                    <path d="M 105 85 Q 115 85, 115 75 Q 115 65, 105 65" fill="none" stroke="#DAA520" stroke-width="4"/>
+                    <polygon points="80,75 83,83 92,83 85,89 88,97 80,92 72,97 75,89 68,83 77,83" fill="#FFA000"/>
+                    <circle cx="45" cy="45" r="15" fill="#C0C0C0" stroke="#999" stroke-width="2"/>
+                    <polygon points="45,40 47,46 53,46 48,50 50,56 45,52 40,56 42,50 37,46 43,46" fill="#FFD700"/>
+                    <rect x="43" y="20" width="4" height="20" fill="#E53935"/>
+                    <circle cx="115" cy="45" r="15" fill="#CD7F32" stroke="#8B4513" stroke-width="2"/>
+                    <polygon points="115,40 117,46 123,46 118,50 120,56 115,52 110,56 112,50 107,46 113,46" fill="#FFD700"/>
+                    <rect x="113" y="20" width="4" height="20" fill="#1E88E5"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <h3 class="lesson-title text-text-light dark:text-text-dark">Logros</h3>
+          </div>
+
+          <div class="lesson-wrapper">
+            <a href="saludos.html" class="lesson-card bg-surface-light dark:bg-surface-dark hover:shadow-xl hover:shadow-primary/50">
+              <div class="lesson-number">3</div>
+              <div class="lesson-content">
+                <div class="img-box">
+                  <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="80" cy="70" rx="20" ry="25" fill="#FFCC80"/>
+                    <circle cx="80" cy="35" r="18" fill="#FFCC80"/>
+                    <circle cx="72" cy="32" r="3" fill="#333"/>
+                    <circle cx="88" cy="32" r="3" fill="#333"/>
+                    <path d="M 72 38 Q 80 42, 88 38" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+                    <rect x="30" y="50" width="20" height="10" fill="#FFCC80" rx="5" transform="rotate(-45 40 55)"/>
+                    <rect x="110" y="50" width="20" height="10" fill="#FFCC80" rx="5" transform="rotate(45 120 55)"/>
+                    <circle cx="25" cy="45" r="8" fill="#FFCC80"/>
+                    <circle cx="135" cy="45" r="8" fill="#FFCC80"/>
+                    <rect x="70" y="95" width="8" height="25" fill="#333" rx="4"/>
+                    <rect x="82" y="95" width="8" height="25" fill="#333" rx="4"/>
+                    <ellipse cx="74" cy="120" rx="6" ry="5" fill="#555"/>
+                    <ellipse cx="86" cy="120" rx="6" ry="5" fill="#555"/>
+                    <polygon points="130,25 135,32 143,32 137,37 139,45 132,40 125,45 127,37 122,32 128,32" fill="#FFD700"/>
+                    <polygon points="25,70 28,76 35,76 30,80 32,88 25,83 18,88 20,80 15,76 22,76" fill="#FFD700"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <h3 class="lesson-title text-text-light dark:text-text-dark">Saludos</h3>
+          </div>
+
+          <div class="lesson-wrapper">
+            <a href="relacionar.html" class="lesson-card bg-surface-light dark:bg-surface-dark hover:shadow-xl hover:shadow-primary/50">
+              <div class="lesson-number">4</div>
+              <div class="lesson-content">
+                <div class="img-box">
+                  <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="15" y="30" width="50" height="50" fill="#E3F2FD" stroke="#1976D2" stroke-width="3" rx="3"/>
+                    <circle cx="35" cy="45" r="12" fill="#FFB300"/>
+                    <line x1="35" y1="25" x2="35" y2="20" stroke="#FFB300" stroke-width="2"/>
+                    <line x1="35" y1="65" x2="35" y2="70" stroke="#FFB300" stroke-width="2"/>
+                    <line x1="15" y1="45" x2="10" y2="45" stroke="#FFB300" stroke-width="2"/>
+                    <line x1="55" y1="45" x2="60" y2="45" stroke="#FFB300" stroke-width="2"/>
+                    <rect x="95" y="30" width="50" height="50" fill="#E3F2FD" stroke="#1976D2" stroke-width="3" rx="3"/>
+                    <circle cx="115" cy="60" r="8" fill="#FF69B4"/>
+                    <ellipse cx="115" cy="40" rx="5" ry="8" fill="#4CAF50"/>
+                    <circle cx="105" cy="52" r="5" fill="#FF69B4"/>
+                    <circle cx="125" cy="52" r="5" fill="#FF69B4"/>
+                    <line x1="115" y1="68" x2="115" y2="75" stroke="#4CAF50" stroke-width="2"/>
+                    <line x1="65" y1="55" x2="95" y2="55" stroke="#2196F3" stroke-width="3" stroke-linecap="round"/>
+                    <polygon points="95,55 85,50 87,55 85,60" fill="#2196F3"/>
+                    <circle cx="80" cy="110" r="18" fill="#F3E5F5" stroke="#7B1FA2" stroke-width="3"/>
+                    <text x="80" y="115" font-family="Arial" font-size="24" font-weight="bold" fill="#7B1FA2" text-anchor="middle">?</text>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <h3 class="lesson-title text-text-light dark:text-text-dark">Relación de imágenes</h3>
+          </div>
+
+          <div class="lesson-wrapper">
+            <a href="Lecturas.html" class="lesson-card bg-surface-light dark:bg-surface-dark hover:shadow-xl hover:shadow-primary/50">
+              <div class="lesson-number">5</div>
+              <div class="lesson-content">
+                <div class="img-box">
+                  <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 40 50 L 40 120 Q 80 130, 120 120 L 120 50 Q 80 40, 40 50" fill="#8D6E63" stroke="#5D4037" stroke-width="2"/>
+                    <path d="M 45 55 L 45 115 Q 80 123, 80 115 L 80 55 Q 80 55, 45 55" fill="#FFF9C4" stroke="#DAA520" stroke-width="1.5"/>
+                    <path d="M 80 55 Q 80 55, 115 55 L 115 115 Q 80 123, 80 115" fill="#FFFDE7" stroke="#DAA520" stroke-width="1.5"/>
+                    <line x1="50" y1="65" x2="75" y2="65" stroke="#333" stroke-width="1.5"/>
+                    <line x1="50" y1="72" x2="75" y2="72" stroke="#333" stroke-width="1.5"/>
+                    <line x1="50" y1="79" x2="70" y2="79" stroke="#333" stroke-width="1.5"/>
+                    <line x1="50" y1="90" x2="75" y2="90" stroke="#333" stroke-width="1.5"/>
+                    <line x1="50" y1="97" x2="75" y2="97" stroke="#333" stroke-width="1.5"/>
+                    <line x1="50" y1="104" x2="70" y2="104" stroke="#333" stroke-width="1.5"/>
+                    <line x1="85" y1="65" x2="110" y2="65" stroke="#333" stroke-width="1.5"/>
+                    <line x1="85" y1="72" x2="110" y2="72" stroke="#333" stroke-width="1.5"/>
+                    <line x1="85" y1="79" x2="105" y2="79" stroke="#333" stroke-width="1.5"/>
+                    <line x1="85" y1="90" x2="110" y2="90" stroke="#333" stroke-width="1.5"/>
+                    <line x1="85" y1="97" x2="110" y2="97" stroke="#333" stroke-width="1.5"/>
+                    <line x1="85" y1="104" x2="105" y2="104" stroke="#333" stroke-width="1.5"/>
+                    <rect x="118" y="50" width="6" height="40" fill="#E91E63" rx="2"/>
+                    <polygon points="130,35 132,41 138,41 133,45 135,51 130,47 125,51 127,45 122,41 128,41" fill="#FFD700"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+            <h3 class="lesson-title text-text-light dark:text-text-dark">Lecciones de lectura</h3>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="bg-surface-light dark:bg-surface-dark shadow-inner text-center p-4 border-t border-primary/50 text-text-light dark:text-text-dark">
+      <p class="text-lg font-medium">¡Cada lección es un paso hacia el dominio de nuevas lenguas! 🚀</p>
+    </footer>
+  </div>
+</body>
+</html>
