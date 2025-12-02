@@ -1,13 +1,33 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 // Iniciar sesión DEBE ser lo primero en el script
 session_start();
-header("Content-Type: application/json");
+// Forzar salida JSON con charset y permitir CORS + preflight
+header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Responder a preflight OPTIONS para evitar 405 cuando el navegador lo solicita
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 // 1. Incluir la conexión a Azure DB
 include "conexion.php";
 
-$data = json_decode(file_get_contents("php://input"), true);
+// Leer el cuerpo crudo y decodificar JSON
+$raw = file_get_contents("php://input");
+$data = json_decode($raw, true);
+
+// Si el JSON es inválido, devolver un error estructurado
+if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
+    http_response_code(400);
+    echo json_encode(["status" => "error", "msg" => "JSON inválido: " . json_last_error_msg()]);
+    exit;
+}
 
 // 2. Recolección y validación de datos
 $usuario = $data["usuario"] ?? null;
@@ -75,4 +95,3 @@ if ($stmt->execute()) {
 
 $stmt->close();
 $conn->close();
-?>

@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 session_start();
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
@@ -32,8 +34,8 @@ if ($stmt->execute()) {
     // Actualizar la sesión
     $_SESSION['user_rol'] = $rol;
     
-    // Determinar la página de redirección
-    $pagina_destino = $rol === 'alumno' ? "interfaz_alumno.html" : "interfaz_maestro.html";
+    // Determinar la página de redirección (rutas relativas desde selector_rol.html)
+    $pagina_destino = $rol === 'alumno' ? 'alumno/interfaz_alumno.html' : 'interfaz_maestro.html';
     
     echo json_encode([
         "status" => "ok",

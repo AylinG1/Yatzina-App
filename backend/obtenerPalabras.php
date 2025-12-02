@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
@@ -10,10 +12,10 @@ try {
             FROM palabras_diccionario 
             ORDER BY palabra_hnahnu ASC";
     
-    $result = $conexion->query($sql);
+    $result = $conn->query($sql);
 
     if (!$result) {
-        throw new Exception('Error en la consulta: ' . $conexion->error);
+        throw new Exception('Error en la consulta: ' . $conn->error);
     }
 
     $palabras = [];
@@ -36,5 +38,5 @@ try {
     ]);
 }
 
-$conexion->close();
+$conn->close();
 ?>

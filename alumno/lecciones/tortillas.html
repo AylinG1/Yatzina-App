@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Tortilla de Tilo - YÄTZINA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.8s ease;
+        }
+
+        .story-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .story-header h1 {
+            color: #f5576c;
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .story-header .emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .story-content {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .story-content .hnahnu {
+            color: #f5576c;
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .story-content .translation {
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            display: block;
+            margin: 30px auto 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="story-container">
+            <div class="story-header">
+                <div class="emoji">🫓</div>
+                <h1>La Tortilla de Tilo</h1>
+                <p style="color: #666; font-size: 18px;">Un cuento tradicional Hñähñu</p>
+            </div>
+
+            <div class="story-content">
+                <p>
+                    Hace muchos años, en una comunidad Hñähñu, vivía una familia que hacía las tortillas más deliciosas del pueblo.
+                </p>
+
+                <p>
+                    La abuela, llamada <span class="hnahnu">Nini</span>, enseñaba a sus nietos el arte de hacer tortillas con <span class="hnahnu">tilo</span> (maíz especial).
+                    <div class="translation">"Nini" significa abuela en Hñähñu</div>
+                </p>
+
+                <p>
+                    Cada mañana, Nini decía: <span class="hnahnu">"Jamädi"</span> (Buenos días) y comenzaba a preparar la masa con amor y paciencia.
+                </p>
+
+                <p>
+                    Un día, los niños le preguntaron: <span class="hnahnu">"Ma xei, Nini?"</span> (¿Cómo estás, abuela?), 
+                    y ella respondió: <span class="hnahnu">"Hega"</span> (Sí/Bien), mientras les mostraba cómo hacer la tortilla perfecta.
+                </p>
+
+                <p>
+                    La abuela les enseñó que hacer tortillas no es solo cocinar, es compartir amor con la familia. 
+                    Cada tortilla llevaba un pedacito del corazón de quien la hace.
+                </p>
+
+                <p>
+                    Y así, de generación en generación, la tradición de las tortillas de tilo continúa viva en la comunidad Hñähñu.
+                </p>
+
+                <p style="text-align: center; font-weight: 700; color: #f5576c; font-size: 24px; margin-top: 40px;">
+                    <span class="hnahnu">Japi</span> (Gracias) por leer esta historia
+                </p>
+            </div>
+
+            <button class="btn" onclick="completarLectura()">✓ Completar Lectura</button>
+            <button class="btn" onclick="window.location.href='lecturas.html'" style="margin-top: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">📚 Ver más cuentos</button>
+        </div>
+    </div>
+
+    <script>
+        async function completarLectura() {
+            try {
+                const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        leccion: 'tortillas',
+                        completado: 1,
+                        progreso: 100
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('¡Felicidades pequeño, vayamos por más! 🎉');
+                    window.location.href = 'Lecturas.html';
+                } else {
+                    alert('Error al guardar progreso');
+                }
+            } catch (error) {
+                console.error('Error al guardar progreso:', error);
+                alert('Error al guardar el progreso');
+            }
+        }
+    </script>
+</body>
+</html>
