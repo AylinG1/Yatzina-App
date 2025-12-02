@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Panel del Maestro - YÄTZINA</title>
+	<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+	<style>
+		:root{
+			--primary:#2bee4b;
+			--background-light:#f6f8f6;
+			--text-dark:#0d1b10;
+			--card-radius:1rem;
+			--card-radius-lg:1.5rem;
+		}
+
+		*{box-sizing:border-box;margin:0;padding:0}
+		body{
+			font-family:'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+			background:var(--background-light);
+			color:var(--text-dark);
+			min-height:100vh;padding:24px;
+		}
+
+		.decoracion{position:fixed;opacity:0.08;pointer-events:none;z-index:0}
+		.decoracion.estrella{font-size:1.6rem;animation:flotar 6s ease-in-out infinite}
+		@keyframes flotar{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(180deg)}}
+
+		.container{max-width:1100px;margin:0 auto;background:white;border-radius:var(--card-radius-lg);padding:28px;box-shadow:0 12px 36px rgba(16,34,19,0.06);position:relative;z-index:1}
+
+		.header{text-align:center;margin-bottom:20px}
+		.header h1{font-size:22px;color:var(--text-dark);font-weight:800}
+
+		.info-maestro{background:linear-gradient(180deg,#fff 0%, #f3fff6 100%);padding:18px;border-radius:16px;margin-bottom:18px;border:1px solid rgba(13,27,16,0.04)}
+		.info-maestro h2{font-size:18px;margin-bottom:6px}
+		.info-maestro p{margin:4px 0;color:rgba(13,27,16,0.7)}
+
+		.tabs{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+		.tab-btn{flex:1;min-width:120px;padding:12px 16px;border-radius:12px;border:none;background:#f1f3f2;color:rgba(13,27,16,0.7);cursor:pointer;font-weight:700}
+		.tab-btn.active{background:var(--primary);color:var(--text-dark);box-shadow:0 8px 20px rgba(43,230,70,0.12);transform:translateY(-2px)}
+
+		.tab-content{display:none}
+		.tab-content.active{display:block}
+
+		.tabla-alumnos{width:100%;border-collapse:collapse;margin-top:12px;background:white;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(16,34,19,0.04)}
+		.tabla-alumnos thead{background:transparent}
+		.tabla-alumnos th,.tabla-alumnos td{padding:12px;text-align:left;border-bottom:1px solid rgba(13,27,16,0.04)}
+		.tabla-alumnos tbody tr:hover{background:rgba(13,27,16,0.02)}
+
+		.progreso-bar{width:100%;height:18px;background:rgba(13,27,16,0.06);border-radius:9999px;overflow:hidden}
+		.progreso-fill{height:100%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--text-dark);font-weight:800;font-size:0.85rem}
+
+		.btn-accion{padding:8px 12px;border-radius:10px;border:none;cursor:pointer;margin:4px;font-weight:700}
+		.btn-ver{background:linear-gradient(90deg,#8ef6b8, #2bee4b);color:var(--text-dark)}
+		.btn-comentar{background:linear-gradient(90deg,#ffd66b,#ff9a76);color:var(--text-dark)}
+
+		.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:10000}
+		.modal.active{display:flex}
+		.modal-content{background:white;padding:20px;border-radius:16px;max-width:680px;width:94%;max-height:80vh;overflow:auto;position:relative;z-index:10001}
+		.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:none;background:#ff6b6b;color:white;cursor:pointer;z-index:10002}
+
+		.form-group{margin-bottom:12px}
+		.form-group label{display:block;font-weight:700;margin-bottom:6px}
+		.form-group input,.form-group textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(13,27,16,0.06)}
+
+		.btn-submit{width:100%;padding:12px;border-radius:12px;border:none;background:var(--primary);color:var(--text-dark);font-weight:800;cursor:pointer}
+
+		.comentario-item{background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:8px;border-left:4px solid rgba(13,27,16,0.06)}
+
+		.btn-agregar-vocab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:9999px;border:none;background:linear-gradient(90deg,#ffd66b,#ff9a76);color:var(--text-dark);font-size:1.6rem}
+		.btn-salir{padding:10px 20px;border-radius:12px;border:none;background:linear-gradient(90deg,#ff8a8a,#ff6b6b);color:white;font-weight:700}
+
+		.empty-state{text-align:center;padding:40px;color:#999}
+		.leccion-detalle{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+	</style>
+</head>
+<body>
+	<!-- Decoraciones -->
+	<div class="decoracion estrella" style="top: 10%; left: 5%;">⭐</div>
+	<div class="decoracion estrella" style="top: 20%; right: 10%;">✨</div>
+	<div class="decoracion estrella" style="bottom: 15%; left: 15%;">🌟</div>
+	<div class="decoracion estrella" style="bottom: 25%; right: 8%;">💫</div>
+
+	<div class="container">
+		<div class="header">
+			<h1>👨‍🏫 Panel del Maestro</h1>
+		</div>
+
+		<div class="info-maestro" id="infoMaestro">
+			<h2 id="nombreMaestro">Cargando...</h2>
+			<p>📚 Grado: <span id="gradoMaestro">-</span></p>
+			<p>👥 Total de alumnos: <span id="totalAlumnos">0</span></p>
+		</div>
+
+		<div class="tabs">
+			<button class="tab-btn active" onclick="cambiarTab('alumnos')">Mis Alumnos</button>
+			<button class="tab-btn" onclick="cambiarTab('vocabulario')">Agregar Vocabulario</button>
+			<button class="tab-btn" onclick="cambiarTab('comentarios')">Ver Comentarios</button>
+			<button class="tab-btn" onclick="abrirModalAgregarAlumno()" style="background: linear-gradient(90deg, #8ef6b8, #2bee4b); color: var(--text-dark);">➕ Añadir Alumno</button>
+		</div>
+
+		<div id="tab-alumnos" class="tab-content active">
+			<div id="contenidoAlumnos" class="loading">Cargando alumnos...</div>
+		</div>
+
+		<div id="tab-vocabulario" class="tab-content">
+			<div class="form-group">
+				<label>Palabra en Hñähñu:</label>
+				<input type="text" id="palabraHnahnu" placeholder="Ej: Jamädi">
+			</div>
+			<div class="form-group">
+				<label>Traducción al Español:</label>
+				<input type="text" id="traduccionEspanol" placeholder="Ej: Buenos días">
+			</div>
+			<button class="btn-submit" onclick="guardarVocabulario()">📚 Agregar al Diccionario</button>
+		</div>
+
+		<div id="tab-comentarios" class="tab-content">
+			<div id="comentariosMaestro" class="loading">Cargando comentarios...</div>
+		</div>
+
+		<button class="btn-salir" onclick="cerrarSesion()">🚪 Cerrar Sesión</button>
+	</div>
+
+	<!-- Modal Ver Progreso -->
+	<div id="modalProgreso" class="modal">
+		<div class="modal-content">
+			<button class="modal-close" onclick="cerrarModal('modalProgreso')">×</button>
+			<h2>📊 Progreso del Alumno</h2>
+			<h3 id="nombreAlumnoModal"></h3>
+			<div id="detalleProgreso" class="leccion-detalle"></div>
+			<div id="comentariosAlumno" class="comentarios-lista"></div>
+		</div>
+	</div>
+
+	<!-- Modal Agregar Comentario -->
+	<div id="modalComentario" class="modal">
+		<div class="modal-content">
+			<button class="modal-close" onclick="cerrarModal('modalComentario')">×</button>
+			<h2>💬 Agregar Comentario</h2>
+			<h3 id="nombreAlumnoComentario"></h3>
+			<div class="form-group">
+				<label>Tu comentario:</label>
+				<textarea id="textoComentario" placeholder="Escribe tu comentario para el alumno..."></textarea>
+			</div>
+			<button class="btn-submit" onclick="guardarComentario()">Enviar Comentario</button>
+		</div>
+	</div>
+
+	<!-- Modal Añadir Alumno -->
+	<div id="modalAgregarAlumno" class="modal">
+		<div class="modal-content">
+			<button class="modal-close" onclick="cerrarModal('modalAgregarAlumno')">×</button>
+			<h2>➕ Añadir Alumno a tu Lista</h2>
+			<p style="color: #666; margin-bottom: 16px;">Busca al alumno por nombre de usuario o correo electrónico</p>
+			<div class="form-group">
+				<label>Nombre de Usuario o Correo Electrónico:</label>
+				<input type="text" id="buscarAlumno" placeholder="Ej: juan.martinez o juan@example.com" autocomplete="off">
+			</div>
+			<button class="btn-submit" onclick="buscarYAgregarAlumno()" style="background: linear-gradient(90deg, #8ef6b8, #2bee4b);">🔍 Buscar y Añadir</button>
+			<div id="resultadoBusqueda" style="margin-top: 16px;"></div>
+		</div>
+	</div>
+
+	<script>
+		let maestroData = null;
+		let alumnoSeleccionado = null;
+
+		window.onload = function() {
+			cargarDatosMaestro();
+			cargarAlumnos();
+			cargarComentariosMaestro();
+		};
+
+		async function cargarDatosMaestro() {
+			try {
+				console.log('[v0] Cargando datos del maestro...');
+				const response = await fetch('backend/obtenerDatosMaestro.php');
+				console.log('[v0] Response status:', response.status);
+                
+				const data = await response.json();
+				console.log('[v0] Data received:', data);
+                
+				if(data.success) {
+					document.getElementById('gradoMaestro').textContent = data.grado;
+					document.getElementById('totalAlumnos').textContent = data.totalAlumnos;
+					maestroData = data;
+				} else {
+					document.getElementById('gradoMaestro').textContent = 'Error';
+					alert('Error al cargar datos del maestro: ' + data.message);
+				}
+			} catch(error) {
+				console.error('[v0] Error:', error);
+				document.getElementById('gradoMaestro').textContent = 'Error';
+				alert('Error al cargar datos del maestro');
+			}
+		}
+
+		async function cargarAlumnos() {
+			try {
+				const response = await fetch('backend/obtenerAlumnosMaestro.php');
+				const data = await response.json();
+                
+				const contenedor = document.getElementById('contenidoAlumnos');
+                
+				if(data.success && data.alumnos.length > 0) {
+					let html = `
+						<table class="tabla-alumnos">
+							<thead>
+								<tr>
+									<th>Nombre Completo</th>
+									<th>Grado</th>
+									<th>Progreso General</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+					`;
+                    
+					data.alumnos.forEach(alumno => {
+						html += `
+							<tr>
+								<td><strong>${alumno.nombreCompleto}</strong></td>
+								<td>${alumno.grado}°</td>
+								<td>
+									<div class="progreso-bar">
+										<div class="progreso-fill" style="width: ${alumno.progresoGeneral}%">
+											${alumno.progresoGeneral}%
+										</div>
+									</div>
+								</td>
+								<td>
+									<button class="btn-accion btn-ver" onclick="verProgreso(${alumno.id}, '${alumno.nombreCompleto}')">
+										👁 Ver Progreso
+									</button>
+									<button class="btn-accion btn-comentar" onclick="abrirComentario(${alumno.id}, '${alumno.nombreCompleto}')">
+										💬 Comentar
+									</button>
+								</td>
+							</tr>
+						`;
+					});
+                    
+					html += `
+							</tbody>
+						</table>
+					`;
+                    
+					contenedor.innerHTML = html;
+				} else {
+					contenedor.innerHTML = `
+						<div class="empty-state">
+							<p>📭 Aún no tienes alumnos asignados</p>
+						</div>
+					`;
+				}
+			} catch(error) {
+				console.error('Error:', error);
+				document.getElementById('contenidoAlumnos').innerHTML = `
+					<div class="empty-state">
+						<p>❌ Error al cargar alumnos</p>
+					</div>
+				`;
+			}
+		}
+
+		async function verProgreso(idAlumno, nombreAlumno) {
+			alumnoSeleccionado = idAlumno;
+			document.getElementById('nombreAlumnoModal').textContent = nombreAlumno;
+			document.getElementById('modalProgreso').classList.add('active');
+            
+			try {
+				const response = await fetch('obtenerProgresoDetalle.php?idAlumno=' + encodeURIComponent(idAlumno));
+				const data = await response.json();
+                
+				const contenedor = document.getElementById('detalleProgreso');
+                
+				if(data.success && data.lecciones.length > 0) {
+					let html = '';
+					data.lecciones.forEach(leccion => {
+						html += `
+							<div class="leccion-card">
+								<h3>${leccion.nombreLeccion}</h3>
+								<div class="progreso-bar">
+									<div class="progreso-fill" style="width: ${leccion.progreso}%">
+										${leccion.progreso}%
+									</div>
+								</div>
+								<p style="margin-top: 10px;">
+									${leccion.completado == 1 ? '✅ Completada' : '⏳ En progreso'}
+								</p>
+							</div>
+						`;
+					});
+					contenedor.innerHTML = html;
+				} else {
+					contenedor.innerHTML = '<p>Sin progreso registrado</p>';
+				}
+                
+				// Cargar comentarios
+				await cargarComentarios(idAlumno);
+                
+			} catch(error) {
+				console.error('Error:', error);
+			}
+		}
+
+		async function cargarComentarios(idAlumno) {
+			try {
+				const response = await fetch('obtenerComentariosAlumno.php?idAlumno=' + encodeURIComponent(idAlumno));
+				const data = await response.json();
+                
+				const contenedor = document.getElementById('comentariosAlumno');
+                
+				if(data.success && data.comentarios.length > 0) {
+					let html = '<h3 style="margin-top: 30px;">💬 Comentarios:</h3>';
+					data.comentarios.forEach(comentario => {
+						html += `
+							<div class="comentario-item">
+								<p><strong>${comentario.comentario}</strong></p>
+								<p class="comentario-fecha">${comentario.fecha}</p>
+							</div>
+						`;
+					});
+					contenedor.innerHTML = html;
+				} else {
+					contenedor.innerHTML = '<p style="margin-top: 20px; color: #999;">Sin comentarios</p>';
+				}
+			} catch(error) {
+				console.error('Error:', error);
+			}
+		}
+
+		function abrirComentario(idAlumno, nombreAlumno) {
+			alumnoSeleccionado = idAlumno;
+			document.getElementById('nombreAlumnoComentario').textContent = nombreAlumno;
+			document.getElementById('textoComentario').value = '';
+			document.getElementById('modalComentario').classList.add('active');
+		}
+
+		async function guardarComentario() {
+			const comentario = document.getElementById('textoComentario').value.trim();
+            
+			if(!comentario) {
+				alert('Por favor escribe un comentario');
+				return;
+			}
+            
+			try {
+				const formData = new FormData();
+				formData.append('idAlumno', alumnoSeleccionado);
+				formData.append('comentario', comentario);
+                
+				const response = await fetch('guardarComentarioMaestro.php', {
+					method: 'POST',
+					body: formData
+				});
+                
+				const data = await response.json();
+                
+				if(data.success) {
+					alert('✅ Comentario guardado exitosamente');
+					cerrarModal('modalComentario');
+				} else {
+					alert('❌ Error: ' + data.message);
+				}
+			} catch(error) {
+				console.error('Error:', error);
+				alert('Error al guardar comentario');
+			}
+		}
+
+		async function guardarVocabulario() {
+			const palabra = document.getElementById('palabraHnahnu').value.trim();
+			const traduccion = document.getElementById('traduccionEspanol').value.trim();
+            
+			if(!palabra || !traduccion) {
+				alert('Por favor completa ambos campos');
+				return;
+			}
+            
+			try {
+				const formData = new FormData();
+				formData.append('palabra', palabra);
+				formData.append('traduccion', traduccion);
+                
+				const response = await fetch('backend/guardarPalabraMaestro.php', {
+					method: 'POST',
+					body: formData
+				});
+                
+				const data = await response.json();
+                
+				if(data.success) {
+					alert('✅ Palabra agregada exitosamente al diccionario');
+					document.getElementById('palabraHnahnu').value = '';
+					document.getElementById('traduccionEspanol').value = '';
+				} else {
+					alert('❌ Error: ' + data.message);
+				}
+			} catch(error) {
+				console.error('Error:', error);
+				alert('Error al guardar palabra');
+			}
+		}
+
+		function cambiarTab(tab) {
+			document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+			document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+			event.target.classList.add('active');
+			document.getElementById('tab-' + tab).classList.add('active');
+		}
+
+		function cerrarModal(modalId) {
+			document.getElementById(modalId).classList.remove('active');
+		}
+
+		function abrirModalAgregarAlumno() {
+			document.getElementById('modalAgregarAlumno').classList.add('active');
+			document.getElementById('buscarAlumno').value = '';
+			document.getElementById('resultadoBusqueda').innerHTML = '';
+		}
+
+		async function buscarYAgregarAlumno() {
+			const buscarInput = document.getElementById('buscarAlumno').value.trim();
+			const resultadoDiv = document.getElementById('resultadoBusqueda');
+
+			if(!buscarInput) {
+				resultadoDiv.innerHTML = '<p style="color: #ff6b6b;">Por favor ingresa un nombre de usuario o correo</p>';
+				return;
+			}
+
+			try {
+				resultadoDiv.innerHTML = '<p style="color: #666;">Buscando...</p>';
+
+				const response = await fetch('backend/agregarAlumno.php', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						buscar: buscarInput
+					})
+				});
+
+				const data = await response.json();
+
+				if(data.success) {
+					resultadoDiv.innerHTML = `<p style="color: #2bee4b; font-weight: 700;">✓ ${data.message}</p>`;
+					setTimeout(() => {
+						cerrarModal('modalAgregarAlumno');
+						cargarAlumnos(); // Recargar lista de alumnos
+						document.getElementById('totalAlumnos').textContent = parseInt(document.getElementById('totalAlumnos').textContent) + 1;
+					}, 1500);
+				} else {
+					resultadoDiv.innerHTML = `<p style="color: #ff6b6b;">${data.message}</p>`;
+				}
+			} catch(error) {
+				console.error('Error:', error);
+				resultadoDiv.innerHTML = '<p style="color: #ff6b6b;">Error al procesar la solicitud</p>';
+			}
+		}
+
+		function cerrarSesion() {
+			if(confirm('¿Seguro que deseas cerrar sesión?')) {
+				window.location.href = 'cerrarSesion.php';
+			}
+		}
+
+		// Cerrar modales al hacer clic fuera
+		window.onclick = function(event) {
+			if(event.target.classList.contains('modal')) {
+				event.target.classList.remove('active');
+			}
+		};
+
+		async function cargarComentariosMaestro() {
+			try {
+				const response = await fetch('backend/obtenerComentariosMaestro.php');
+				const data = await response.json();
+                
+				const contenedor = document.getElementById('comentariosMaestro');
+                
+				if(data.success && data.comentarios.length > 0) {
+					let html = '<h3 style="margin-top: 30px;">💬 Comentarios de los Alumnos:</h3>';
+					data.comentarios.forEach(comentario => {
+						html += `
+							<div class="comentario-item">
+								<p><strong>${comentario.comentario}</strong></p>
+								<p class="comentario-fecha">${comentario.fecha}</p>
+								<p><strong>${comentario.alumnoNombre}</strong></p>
+							</div>
+						`;
+					});
+					contenedor.innerHTML = html;
+				} else {
+					contenedor.innerHTML = '<p style="margin-top: 20px; color: #999;">Sin comentarios</p>';
+				}
+			} catch(error) {
+				console.error('Error:', error);
+			}
+		}
+	</script>
+</body>
+</html>
+

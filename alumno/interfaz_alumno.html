@@ -1,249 +1,69 @@
-alumno
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Panel Alumno - YÄTZINA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root{
+            --primary: #2bee4b;
+            --background-light: #f6f8f6;
+            --background-dark: #102213;
+            --card-radius: 1rem;
+            --card-radius-lg: 1.5rem;
+            --text-dark: #0d1b10;
         }
 
-        body {
-            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+            font-family: 'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+            background: var(--background-light);
+            color: var(--text-dark);
+            min-height:100vh;
+            padding:24px;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s infinite ease-in-out;
-            z-index: 0;
+        .header{
+            background: rgba(255,255,255,0.9);
+            padding:20px;
+            border-radius:var(--card-radius-lg);
+            margin-bottom:20px;
+            display:flex;align-items:center;justify-content:space-between;gap:16px;
+            box-shadow:0 8px 24px rgba(16,34,19,0.06);
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
+        .header h1{font-size:24px;color:var(--text-dark);font-weight:700}
+        .header p{color:rgba(13,27,16,0.7)}
+
+        .user-info{ text-align:right }
+        .btn-logout{
+            background:var(--primary);color:var(--text-dark);border:none;padding:10px 18px;border-radius:9999px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(43,230,70,0.18);
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            position: relative;
-            z-index: 1;
-        }
+        .info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:22px}
+        .info-card{background:white;padding:18px;border-radius:var(--card-radius);box-shadow:0 8px 20px rgba(16,34,19,0.04);text-align:center;border:1px solid rgba(13,27,16,0.04)}
+        .info-card h3{font-size:16px;margin-bottom:8px;color:rgba(13,27,16,0.8)}
+        .info-card p{font-size:28px;font-weight:800;color:var(--primary)}
 
-        .header h1 {
-            color: #FF6B9D;
-            font-size: 36px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+        .lessons-container{background:white;padding:28px;border-radius:var(--card-radius-lg);box-shadow:0 12px 36px rgba(16,34,19,0.06)}
+        .lessons-container h2{text-align:center;margin-bottom:18px;color:var(--text-dark);font-size:20px}
 
-        .user-info {
-            text-align: right;
-            font-size: 18px;
-        }
+        .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
+        .lesson-card{background:linear-gradient(180deg,#ffffff 0%, #f3fff6 100%);border:2px solid rgba(43,230,70,0.12);padding:18px;border-radius:20px;color:var(--text-dark);text-align:center;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+        .lesson-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(16,34,19,0.08);}
+        .lesson-icon{font-size:42px;margin-bottom:10px}
+        .lesson-title{font-weight:700;margin-bottom:10px}
 
-        .user-info p {
-            margin-bottom: 10px;
-            color: #333;
-        }
+        .progress-bar{background:rgba(13,27,16,0.06);height:10px;border-radius:9999px;overflow:hidden}
+        .progress-fill{background:var(--primary);height:100%;width:0;transition:width .3s ease}
 
-        .btn-logout {
-            background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Comic Sans MS', cursive;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-logout:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.6);
-        }
-
-        .info-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            text-align: center;
-            border: 3px solid #FFD700;
-        }
-
-        .info-card h3 {
-            color: #FF8C00;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-
-        .info-card p {
-            font-size: 36px;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .lessons-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .lessons-container h2 {
-            color: #FF6B9D;
-            margin-bottom: 30px;
-            font-size: 32px;
-            text-align: center;
-        }
-
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
-
-        .lesson-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 35px 25px;
-            border-radius: 25px;
-            color: white;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            border: 4px solid transparent;
-        }
-
-        .lesson-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
-            border-color: #FFD700;
-        }
-
-        .lesson-icon {
-            font-size: 56px;
-            margin-bottom: 15px;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .lesson-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .progress-bar {
-            background: rgba(255,255,255,0.3);
-            height: 12px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: #FFD700;
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 50px;
-            border-radius: 30px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            animation: bounceIn 0.6s ease;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-content h2 {
-            color: #FF6B9D;
-            font-size: 42px;
-            margin-bottom: 20px;
-        }
-
-        .modal-content p {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .btn-close {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Comic Sans MS', cursive;
-            font-size: 22px;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-close:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
-        }
+        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center}
+        .modal-content{background:white;padding:28px;border-radius:20px;max-width:520px;width:92%;text-align:center}
+        .btn-close{background:var(--primary);color:var(--text-dark);padding:12px 28px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
     </style>
 </head>
 <body>
@@ -255,7 +75,7 @@ alumno
         </div>
         <div class="user-info">
             <p><strong>👨‍🏫 Maestro:</strong> <span id="maestroNombre">Cargando...</span></p>
-            <button onclick="window.location.href='cerrarSesion.php'" class="btn-logout">Salir</button>
+            <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
         </div>
     </div>
 
@@ -277,7 +97,7 @@ alumno
     <div class="lessons-container">
         <h2>🚀 Mis Lecciones de Hñähñu</h2>
         <div class="lessons-grid">
-            <div class="lesson-card" onclick="window.location.href='abecedario.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/abecedario.html'">
                 <div class="lesson-icon">📝</div>
                 <div class="lesson-title">Abecedario Hñähñu</div>
                 <div class="progress-bar">
@@ -285,47 +105,47 @@ alumno
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='numeros.html'">
-                <div class="lesson-icon">🔢</div>
-                <div class="lesson-title">Números</div>
+            <div class="lesson-card" onclick="window.location.href='./lecciones/saludos.html'">
+                <div class="lesson-icon">👋</div>
+                <div class="lesson-title">Saludos</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progress-numeros" style="width: 0%"></div>
+                    <div class="progress-fill" id="progress-saludos" style="width: 0%"></div>
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='colores.html'">
-                <div class="lesson-icon">🎨</div>
-                <div class="lesson-title">Colores</div>
+            <div class="lesson-card" onclick="window.location.href='./lecciones/lecturas.html'">
+                <div class="lesson-icon">📖</div>
+                <div class="lesson-title">Lecturas</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progress-colores" style="width: 0%"></div>
+                    <div class="progress-fill" id="progress-lecturas" style="width: 0%"></div>
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='familia.html'">
-                <div class="lesson-icon">👨‍👩‍👧‍👦</div>
-                <div class="lesson-title">Familia</div>
+            <div class="lesson-card" onclick="window.location.href='./lecciones/relacionar.html'">
+                <div class="lesson-icon">🔗</div>
+                <div class="lesson-title">Relacionar</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progress-familia" style="width: 0%"></div>
+                    <div class="progress-fill" id="progress-relacionar" style="width: 0%"></div>
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='animales.html'">
-                <div class="lesson-icon">🐶</div>
-                <div class="lesson-title">Animales</div>
+            <div class="lesson-card" onclick="window.location.href='./lecciones/saludos.html'">
+                <div class="lesson-icon">🗣️</div>
+                <div class="lesson-title">Conversaciones</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progress-animales" style="width: 0%"></div>
+                    <div class="progress-fill" id="progress-conversaciones" style="width: 0%"></div>
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='Diccionario.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/lecturas.html'">
                 <div class="lesson-icon">📚</div>
-                <div class="lesson-title">Diccionario</div>
+                <div class="lesson-title">Vocabulario</div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 100%"></div>
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='logros.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/logros.html'">
                 <div class="lesson-icon">🏆</div>
                 <div class="lesson-title">Mis Logros</div>
                 <div class="progress-bar">
@@ -335,13 +155,7 @@ alumno
         </div>
     </div>
 
-    <div id="successModal" class="modal">
-        <div class="modal-content">
-            <h2>🎉 ¡Felicidades pequeño!</h2>
-            <p>Vayamos por más</p>
-            <button class="btn-close" onclick="closeModal()">Continuar</button>
-        </div>
-    </div>
+    <!-- Modal de éxito eliminado por solicitud del usuario -->
 
     <script>
         function createStars() {
@@ -364,12 +178,12 @@ alumno
 
         async function cargarDatosAlumno() {
             try {
-                const response = await fetch('obtenerDatosAlumno.php');
+                const response = await fetch('../backend/obtenerDatosAlumno.php');
                 const data = await response.json();
                 
                 if (data.success) {
                     alumnoData = data;
-                    document.getElementById('welcomeText').textContent = Bienvenido, ${data.nombreCompleto};
+                    document.getElementById('welcomeText').textContent = `Bienvenido, ${data.nombreCompleto}`;
                     document.getElementById('maestroNombre').textContent = data.maestroNombre || 'Sin asignar';
                     cargarProgreso();
                 }
@@ -380,7 +194,7 @@ alumno
 
         async function cargarProgreso() {
             try {
-                const response = await fetch('obtenerProgresoAlumno.php');
+                const response = await fetch('../backend/obtenerProgresoAlumno.php');
                 const data = await response.json();
                 
                 if (data.success) {
@@ -388,7 +202,7 @@ alumno
                     let totalPuntos = 0;
                     
                     data.progreso.forEach(leccion => {
-                        const progressBar = document.getElementById(progress-${leccion.leccion});
+                        const progressBar = document.getElementById(`progress-${leccion.leccion}`);
                         if (progressBar) {
                             progressBar.style.width = leccion.porcentaje + '%';
                         }
@@ -397,7 +211,7 @@ alumno
                         totalPuntos += leccion.puntos || 0;
                     });
                     
-                    document.getElementById('leccionesCompletadas').textContent = ${completadas}/7;
+                    document.getElementById('leccionesCompletadas').textContent = `${completadas}/7`;
                     document.getElementById('puntosTotales').textContent = totalPuntos;
                     document.getElementById('progresoTotal').textContent = Math.round((completadas / 7) * 100) + '%';
                 }
@@ -406,14 +220,36 @@ alumno
             }
         }
 
-        function closeModal() {
-            document.getElementById('successModal').style.display = 'none';
+        // Modal de éxito removido — no se muestra nada al completar lecciones
+
+        // Función para cerrar sesión: hace una petición al endpoint y redirige al index
+        // usamos location.replace para reemplazar la entrada en el historial y evitar volver atrás
+        function cerrarSesion() {
+            fetch('/Yatzina-App/backend/cerrarSesion.php', { method: 'GET', credentials: 'include' })
+                .then(async (res) => {
+                    try {
+                        await res.json();
+                    } catch (e) {
+                        // ignore parse errors
+                    }
+                    window.location.replace('/Yatzina-App/index.html');
+                })
+                .catch(err => {
+                    console.error('Error al cerrar sesión:', err);
+                    window.location.replace('/Yatzina-App/index.html');
+                });
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('completed') === 'true') {
-            document.getElementById('successModal').style.display = 'flex';
-        }
+        // Asegurarse de validar sesión al mostrar la página (maneja navegación "back")
+        window.addEventListener('pageshow', (event) => {
+            // Siempre revalidar con el servidor
+            cargarDatosAlumno();
+            if (event.persisted) {
+                // Si la página viene del cache del navegador, forzar recarga
+                // para que la comprobación de sesión sea efectiva
+                window.location.reload();
+            }
+        });
 
         cargarDatosAlumno();
     </script>

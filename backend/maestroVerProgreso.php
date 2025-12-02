@@ -1,16 +1,18 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 require "conexion.php";
 session_start();
 
 // ---------------------------------------------------------------
 // Validar que sea maestro
 // ---------------------------------------------------------------
-if (!isset($_SESSION['id']) || $_SESSION['rol'] !== "Maestro") {
+if (!isset($_SESSION['user_id']) || $_SESSION['user_rol'] !== "maestro") {
     echo "Error: acceso no autorizado.";
     exit();
 }
 
-$idMaestro = $_SESSION['id'];
+$idMaestro = $_SESSION['user_id'];
 
 // ---------------------------------------------------------------
 // Recibir ID del alumno a revisar
@@ -25,8 +27,8 @@ if ($idAlumno === 0) {
 // ---------------------------------------------------------------
 // Validar que el alumno pertenezca al maestro
 // ---------------------------------------------------------------
-$sqlValida = "SELECT 1 FROM alumnos_maestros WHERE idMaestro = ? AND idAlumno = ?";
-$val = $conexion->prepare($sqlValida);
+$sqlValida = "SELECT 1 FROM alumnos_maestros WHERE id_maestro = ? AND id_alumno = ?";
+$val = $conn->prepare($sqlValida);
 $val->bind_param("ii", $idMaestro, $idAlumno);
 $val->execute();
 $resVal = $val->get_result();
@@ -39,8 +41,8 @@ if ($resVal->num_rows === 0) {
 // ---------------------------------------------------------------
 // Obtener datos del alumno
 // ---------------------------------------------------------------
-$sqlAlumno = "SELECT nombreCompleto FROM usuariosnuevos WHERE id = ?";
-$stmtA = $conexion->prepare($sqlAlumno);
+$sqlAlumno = "SELECT up.nombre_completo FROM usuarios u LEFT JOIN usuarios_perfiles up ON u.id = up.usuario_id WHERE u.id = ?";
+$stmtA = $conn->prepare($sqlAlumno);
 $stmtA->bind_param("i", $idAlumno);
 $stmtA->execute();
 $resA = $stmtA->get_result();
@@ -52,7 +54,7 @@ $alumno = $resA->fetch_assoc();
 $sqlProg = "SELECT leccion, progreso, completado
             FROM progreso_lecciones
             WHERE idAlumno = ?";
-$stmtP = $conexion->prepare($sqlProg);
+$stmtP = $conn->prepare($sqlProg);
 $stmtP->bind_param("i", $idAlumno);
 $stmtP->execute();
 $resP = $stmtP->get_result();

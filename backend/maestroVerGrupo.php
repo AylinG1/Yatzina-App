@@ -1,26 +1,29 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 session_start();
 require "conexion.php";
 
 // Verificar que es maestro
-if (!isset($_SESSION['tipoRol']) || $_SESSION['tipoRol'] !== "Maestro") {
+if (!isset($_SESSION['user_rol']) || $_SESSION['user_rol'] !== "maestro") {
     header("Location: Acceso.html");
     exit();
 }
 
-$idMaestro = $_SESSION['id'];
-$gradoMaestro = $_SESSION['grado'];
+$idMaestro = $_SESSION['user_id'];
+$gradoMaestro = $_SESSION['grado'] ?? null;
 
 // Obtener alumnos asignados automáticamente por grado
 $sql = "
-SELECT u.id, u.nombreCompleto, u.usuario, u.grado
-FROM usuariosnuevos u
-INNER JOIN alumnos_maestros am ON am.idAlumno = u.id
-WHERE am.idMaestro = ?
-ORDER BY u.nombreCompleto ASC;
+SELECT u.id, up.nombre_completo, u.nombre_usuario, up.grado
+FROM usuarios u
+INNER JOIN alumnos_maestros am ON am.id_alumno = u.id
+LEFT JOIN usuarios_perfiles up ON u.id = up.usuario_id
+WHERE am.id_maestro = ?
+ORDER BY up.nombre_completo ASC;
 ";
 
-$stmt = $conexion->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $idMaestro);
 $stmt->execute();
 $res = $stmt->get_result();
