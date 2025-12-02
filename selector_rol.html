@@ -96,6 +96,7 @@
         mensajeDiv.textContent = '';
         
         try {
+            console.log('Enviando solicitud para guardar rol:', rol);
             const response = await fetch('backend/guardar_rol.php', {
                 method: 'POST',
                 headers: {
@@ -104,15 +105,25 @@
                 body: JSON.stringify({ rol: rol })
             });
             
+            console.log('Respuesta recibida:', response.status);
             const data = await response.json();
+            console.log('Datos parsados:', data);
             
             if (data.status === 'ok') {
+                console.log('Redirigiendo a:', data.redirect_to);
+                // Construir la URL completa usando la ubicación actual
+                const currentPath = window.location.pathname; // /Yatzina-App/selector_rol.html
+                const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1); // /Yatzina-App/
+                const fullURL = window.location.origin + basePath + data.redirect_to;
+                console.log('URL completa:', fullURL);
                 // Redirigir a la página correspondiente
-                window.location.href = data.redirect_to;
+                window.location.href = fullURL;
             } else {
+                console.error('Error del servidor:', data.msg);
                 mensajeDiv.textContent = data.msg || 'Error al guardar el rol.';
             }
         } catch (error) {
+            console.error('Error capturado:', error);
             mensajeDiv.textContent = 'Error de conexión: ' + error.message;
         }
     }
@@ -120,11 +131,13 @@
     // Agregar event listeners a los enlaces
     document.getElementById('alumno').addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('Click en alumno');
         guardarRol('alumno');
     });
     
     document.getElementById('maestro').addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('Click en maestro');
         guardarRol('maestro');
     });
 </script>

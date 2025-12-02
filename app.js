@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const usuarioVal = document.getElementById("usuario").value.trim();
         const correoVal = document.getElementById("correo").value.trim();
-        const contraseñaVal = document.getElementById("contraseña").value;
+        const contraseñaVal = document.getElementById("contrasena").value;
 
         // Normalizar y pasar a minúsculas (eliminar diacríticos para comparaciones)
         const normalizeLowerSafe = (s) => {
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const datos = {
             usuario: usuarioVal,
             correo: correoVal,
-            contraseña: contraseñaVal
+            contrasena: contraseñaVal
         };
 
         let resultado = { status: 'error', msg: 'No se ejecutó la solicitud' };

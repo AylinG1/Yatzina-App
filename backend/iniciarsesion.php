@@ -1,7 +1,18 @@
 <?php
+error_reporting(0);
+ini_set('display_errors', 0);
 session_start();
-header("Content-Type: application/json");
+// Forzar JSON y permitir CORS simples + preflight
+header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Responder a preflight OPTIONS para evitar 405 cuando el navegador lo solicita
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 // Incluye la conexión a la DB (Azure)
 include "conexion.php";
@@ -43,9 +54,14 @@ if (password_verify($password, $usuario_db["contrasena"])) {
     $_SESSION['user_rol'] = $usuario_db["rol"];
     
     // Determinar página de redirección según el rol
-    $pagina_destino = $usuario_db["rol"] === NULL 
-                        ? "selector_rol.html" 
-                        : ($usuario_db["rol"] === 'alumno' ? "interfaz_alumno.html" : "interfaz_maestro.html");
+    // Si el rol es NULL pedimos selector; si es alumno, redirigimos a la interfaz dentro de la carpeta alumno; si es maestro, interfaz_maestro
+    if ($usuario_db["rol"] === NULL) {
+        $pagina_destino = "selector_rol.html";
+    } elseif (strtolower($usuario_db["rol"]) === 'alumno') {
+        $pagina_destino = "alumno/interfaz_alumno.html";
+    } else {
+        $pagina_destino = "interfaz_maestro.html";
+    }
     
     echo json_encode([
         "status" => "ok",
