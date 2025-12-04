@@ -78,13 +78,6 @@
             <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
         </div>
     </div>
-    
-    <script>
-        function cerrarSesion() {
-            // Redirige a la página principal
-            window.location.href = '../index.html'; // Ajusta la ruta según la ubicación de index.html
-        }
-    </script>
 
     <div class="info-cards">
         <div class="info-card">
@@ -136,7 +129,7 @@
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='./lecciones/saludos.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/conversaciones.html'">
                 <div class="lesson-icon">🗣️</div>
                 <div class="lesson-title">Conversaciones</div>
                 <div class="progress-bar">
@@ -144,11 +137,11 @@
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='./lecciones/lecturas.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/vocabulario.html'">
                 <div class="lesson-icon">📚</div>
                 <div class="lesson-title">Vocabulario</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%"></div>
+                    <div class="progress-fill" id="progress-vocabulario" style="width: 100%"></div>
                 </div>
             </div>
 
@@ -180,13 +173,11 @@
                 <div class="lesson-icon">🏆</div>
                 <div class="lesson-title">Mis Logros</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" style="width: 100%"></div>
+                    <div class="progress-fill" id="progress-logros" style="width: 100%"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal de éxito eliminado por solicitud del usuario -->
 
     <script>
         function createStars() {
@@ -229,23 +220,23 @@
                 const data = await response.json();
                 
                 if (data.success) {
-    let completadas = 0;
-    
-    data.progreso.forEach(leccion => {
-        const progressBar = document.getElementById(`progress-${leccion.leccion}`);
-        if (progressBar) {
-            progressBar.style.width = leccion.porcentaje + '%';
-        }
-        
-        if (leccion.completado) completadas++;
-    });
-    
-    document.getElementById('leccionesCompletadas').textContent = `${completadas}/9`;
-    document.getElementById('progresoTotal').textContent = Math.round((completadas / 9) * 100) + '%';
-    
-    // Cargar puntos totales
-    cargarPuntosTotales();
-}
+                    let completadas = 0;
+                    
+                    data.progreso.forEach(leccion => {
+                        const progressBar = document.getElementById(`progress-${leccion.leccion}`);
+                        if (progressBar) {
+                            progressBar.style.width = leccion.porcentaje + '%';
+                        }
+                        
+                        if (leccion.completado) completadas++;
+                    });
+                    
+                    document.getElementById('leccionesCompletadas').textContent = `${completadas}/10`;
+                    document.getElementById('progresoTotal').textContent = Math.round((completadas / 10) * 100) + '%';
+                    
+                    // Cargar puntos totales
+                    cargarPuntosTotales();
+                }
             } catch (error) {
                 console.log('[v0] Error cargando progreso:', error);
             }
@@ -265,7 +256,11 @@
             }
         }
 
-        // Modal de éxito removido — no se muestra nada al completar lecciones
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            // Redirige directamente a index.html
+            window.location.href = '../index.html';
+        }
 
         // Listener para actualizar puntos cuando se registren nuevos puntos desde una lección
         document.addEventListener('puntosRegistrados', (event) => {
@@ -273,33 +268,9 @@
             console.log('🎉 Puntos actualizados:', event.detail);
         });
 
-        // Función para cerrar sesión: hace una petición al endpoint y redirige al index
-        // usamos location.replace para reemplazar la entrada en el historial y evitar volver atrás
-        function cerrarSesion() {
-            fetch('/Yatzina-App/backend/cerrarSesion.php', { method: 'GET', credentials: 'include' })
-                .then(async (res) => {
-                    try {
-                        await res.json();
-                    } catch (e) {
-                        // ignore parse errors
-                    }
-                    window.location.replace('/Yatzina-App/index.html');
-                })
-                .catch(err => {
-                    console.error('Error al cerrar sesión:', err);
-                    window.location.replace('/Yatzina-App/index.html');
-                });
-        }
-
-        // Asegurarse de validar sesión al mostrar la página (maneja navegación "back")
+        // Asegurarse de validar sesión al mostrar la página
         window.addEventListener('pageshow', (event) => {
-            // Siempre revalidar con el servidor
             cargarDatosAlumno();
-            if (event.persisted) {
-                // Si la página viene del cache del navegador, forzar recarga
-                // para que la comprobación de sesión sea efectiva
-                window.location.reload();
-            }
         });
 
         // Auto-refresh cada 5 segundos para mantener puntos actualizados
