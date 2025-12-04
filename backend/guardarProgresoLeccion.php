@@ -19,9 +19,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 $idAlumno = $_SESSION['user_id'];
 $leccion = isset($data['leccion']) ? trim($data['leccion']) : '';
 $completada = isset($data['completado']) ? intval($data['completado']) : 0;
-// Si la lección está 'completada' (1), asumimos que el progreso es 100%.
-$progreso = ($completada === 1) ? 100.00 : 0.00; // Asignamos 100 si está completa
-$puntos = isset($data['puntos']) ? intval($data['puntos']) : 0; // Este campo no se usa en progreso_lecciones, solo se recibe
+// Usar el progreso enviado desde el frontend, o 100 si está completada
+$progreso = isset($data['progreso']) ? floatval($data['progreso']) : (($completada === 1) ? 100.00 : 0.00);
+$puntos = isset($data['puntos']) ? intval($data['puntos']) : 0;
 $tiempo_dedicado = isset($data['tiempo']) ? intval($data['tiempo']) : 0;
 $intentos = 1; // Se incrementará si ya existe
 

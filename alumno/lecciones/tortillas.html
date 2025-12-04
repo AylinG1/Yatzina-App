@@ -148,6 +148,7 @@
 
             <button class="btn" onclick="completarLectura()">✓ Completar Lectura</button>
             <button class="btn" onclick="window.location.href='lecturas.html'" style="margin-top: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">📚 Ver más cuentos</button>
+            <button class="btn" onclick="window.location.href='../interfaz_alumno.html'" style="margin-top: 15px; background: linear-gradient(90deg, #2bee4b, #1a9d3a);">📚 Volver al Panel</button>
         </div>
     </div>
 
@@ -177,5 +178,14 @@
             }
         }
     </script>
+
+<!-- Floating return button (always visible) -->
+<div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 10000;">
+    <button aria-label="Volver al Panel" onclick="window.location.href='../interfaz_alumno.html'" 
+        style="padding:10px 16px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 18px; cursor: pointer; box-shadow: 0 8px 20px rgba(43,230,70,0.2);">
+        📚
+    </button>
+</div>
+
 </body>
 </html>

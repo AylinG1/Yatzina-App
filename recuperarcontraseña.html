@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Recuperar Contraseña Yätzina Web Infantil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2bee4b",
+              "background-light": "#f6f8f6",
+              "background-dark": "#102213",
+              "surface-light": "#ffffff",
+              "surface-dark": "#182c1b",
+              "text-light": "#0d1b10",
+              "text-dark": "#e0f5e3",
+              "text-muted-light": "#4c9a59",
+              "text-muted-dark": "#a3d3ab",
+              "primary-darker": "#21c13b",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden p-4 sm:p-6">
+<header class="absolute top-0 left-0 right-0 p-4 sm:p-6 lg:px-8">
+<div class="flex items-center gap-4">
+<div class="text-primary text-3xl">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<h2 class="text-lg font-bold">Yätzina</h2>
+</div>
+</header>
+<main class="w-full max-w-md">
+<div class="rounded-lg bg-surface-light dark:bg-surface-dark shadow-lg p-8 sm:p-10 text-center">
+<div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/20 text-primary">
+<span class="material-symbols-outlined text-5xl">mark_email_unread</span>
+</div>
+<h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-text-light dark:text-text-dark">
+                Recuperar Contraseña
+            </h1>
+<p class="mt-3 text-sm text-text-muted-light dark:text-text-muted-dark">
+                Ingresa tu correo electrónico y te enviaremos las instrucciones para restablecer tu contraseña.
+            </p>
+<form id="formRecuperar" class="mt-8 space-y-6 text-left">
+<div>
+<label class="block text-sm font-bold text-text-light dark:text-text-dark mb-2" for="email">Correo electrónico</label>
+<div class="relative">
+<span class="material-symbols-outlined pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-text-muted-light dark:text-text-muted-dark">
+                            alternate_email
+                        </span>
+<input autocomplete="email" class="block w-full rounded-full border-2 border-primary/20 bg-background-light dark:bg-background-dark py-3 pl-12 pr-4 text-sm text-text-light dark:text-text-dark placeholder:text-text-muted-light dark:placeholder:text-text-muted-dark focus:border-primary focus:ring-primary" id="emailRecuperar" name="email" placeholder="tu.correo@ejemplo.com" required="" type="email"/>
+</div>
+</div>
+<div>
+<button class="w-full flex justify-center items-center rounded-full bg-gradient-to-r from-primary to-primary-darker py-3 px-4 text-base font-bold text-background-dark shadow-sm transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" type="submit">
+                        ¡Enviar Instrucciones!
+                    </button>
+</div>
+</form>
+<p id="mensaje" class="mt-4 text-center text-sm font-medium" role="status" aria-live="polite"></p>
+<div class="mt-8 text-center">
+<p class="text-sm">
+<span class="text-text-muted-light dark:text-text-muted-dark">¿Recordaste tu contraseña?</span>
+<a class="font-bold text-primary hover:underline" href="iniciarsesion.html">¡Inicia sesión aquí!</a>
+</p>
+</div>
+</div>
+</main>
+</div>
+
+<script src="recuperar.js"></script>
+</body></html>
