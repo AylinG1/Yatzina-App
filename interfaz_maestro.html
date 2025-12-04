@@ -56,8 +56,9 @@
 
 		.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:10000}
 		.modal.active{display:flex}
-		.modal-content{background:white;padding:20px;border-radius:16px;max-width:680px;width:94%;max-height:80vh;overflow:auto;position:relative;z-index:10001}
-		.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:none;background:#ff6b6b;color:white;cursor:pointer;z-index:10002}
+		.modal-content{background:white;padding:28px;border-radius:16px;max-width:800px;width:94%;max-height:85vh;overflow:auto;position:relative;z-index:10001}
+		#modalAgregarAlumno .modal-content{max-width:1100px;width:96%;padding:40px;max-height:90vh}
+		.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:none;background:#ff6b6b;color:white;cursor:pointer;z-index:10002;font-size:24px;line-height:1}
 
 		.form-group{margin-bottom:12px}
 		.form-group label{display:block;font-weight:700;margin-bottom:6px}
@@ -72,6 +73,35 @@
 
 		.empty-state{text-align:center;padding:40px;color:#999}
 		.leccion-detalle{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+
+		.autocomplete-container{position:relative;width:100%}
+		.autocomplete-list{
+			position:absolute;
+			top:100%;
+			left:0;
+			right:0;
+			list-style:none;
+			margin:4px 0 0 0;
+			padding:0;
+			background:white;
+			border:1px solid rgba(13,27,16,0.12);
+			border-radius:10px;
+			box-shadow:0 8px 16px rgba(0,0,0,0.1);
+			z-index:10003;
+			max-height:300px;
+			overflow-y:auto
+		}
+		.autocomplete-item{
+			padding:12px;
+			cursor:pointer;
+			border-bottom:1px solid rgba(13,27,16,0.04);
+			transition:background 0.15s ease
+		}
+		.autocomplete-item:hover{background:rgba(43,230,70,0.08)}
+		.autocomplete-item:last-child{border-bottom:none}
+		.autocomplete-item-selected{background:rgba(43,230,70,0.15)}
+		.autocomplete-item-name{font-weight:700;color:var(--text-dark)}
+		.autocomplete-item-email{font-size:0.85rem;color:#666;margin-top:2px}
 	</style>
 </head>
 <body>
@@ -155,9 +185,12 @@
 			<p style="color: #666; margin-bottom: 16px;">Busca al alumno por nombre de usuario o correo electrónico</p>
 			<div class="form-group">
 				<label>Nombre de Usuario o Correo Electrónico:</label>
-				<input type="text" id="buscarAlumno" placeholder="Ej: juan.martinez o juan@example.com" autocomplete="off">
+				<div class="autocomplete-container">
+					<input type="text" id="buscarAlumno" placeholder="Ej: juan.martinez o juan@example.com" autocomplete="off">
+					<ul id="listaSugerencias" class="autocomplete-list" style="display: none;"></ul>
+				</div>
 			</div>
-			<button class="btn-submit" onclick="buscarYAgregarAlumno()" style="background: linear-gradient(90deg, #8ef6b8, #2bee4b);">🔍 Buscar y Añadir</button>
+			<button class="btn-submit" onclick="buscarYAgregarAlumno()" style="background: linear-gradient(90deg, #8ef6b8, #2bee4b); margin-top: 12px;">🔍 Buscar y Añadir</button>
 			<div id="resultadoBusqueda" style="margin-top: 16px;"></div>
 		</div>
 	</div>
@@ -167,10 +200,27 @@
 		let alumnoSeleccionado = null;
 
 		window.onload = function() {
+			verificarSesion();
 			cargarDatosMaestro();
 			cargarAlumnos();
 			cargarComentariosMaestro();
 		};
+
+		async function verificarSesion() {
+			try {
+				const response = await fetch('backend/verificarSesion.php');
+				const data = await response.json();
+				
+				if (!data.success) {
+					// Sesión expirada o no autorizado
+					alert('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
+					window.location.replace('iniciarsesion.html');
+				}
+			} catch(error) {
+				console.error('Error al verificar sesión:', error);
+				window.location.replace('iniciarsesion.html');
+			}
+		}
 
 		async function cargarDatosMaestro() {
 			try {
@@ -347,13 +397,17 @@
 			}
             
 			try {
-				const formData = new FormData();
-				formData.append('idAlumno', alumnoSeleccionado);
-				formData.append('comentario', comentario);
-                
-				const response = await fetch('guardarComentarioMaestro.php', {
+				const payload = {
+					idAlumno: alumnoSeleccionado,
+					comentario: comentario
+				};
+
+				const response = await fetch('backend/guardarComentarioMaestro.php', {
 					method: 'POST',
-					body: formData
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(payload)
 				});
                 
 				const data = await response.json();
@@ -422,17 +476,95 @@
 			document.getElementById('resultadoBusqueda').innerHTML = '';
 		}
 
+		let debounceTimer = null;
+		let alumnoSeleccionadoId = null;
+
+		// Event listener para autocompletado en tiempo real
+		document.addEventListener('DOMContentLoaded', function() {
+			const inputBuscar = document.getElementById('buscarAlumno');
+			if (inputBuscar) {
+				inputBuscar.addEventListener('input', function() {
+					const valor = this.value.trim();
+					
+					if (valor.length < 2) {
+						document.getElementById('listaSugerencias').style.display = 'none';
+						alumnoSeleccionadoId = null;
+						return;
+					}
+
+					// Debounce: esperar 300ms sin escribir antes de buscar
+					clearTimeout(debounceTimer);
+					debounceTimer = setTimeout(() => {
+						buscarSugerencias(valor);
+					}, 300);
+				});
+
+				// Cerrar lista si se hace clic fuera
+				document.addEventListener('click', function(e) {
+					if (e.target !== inputBuscar && !e.target.closest('.autocomplete-list')) {
+						document.getElementById('listaSugerencias').style.display = 'none';
+					}
+				});
+			}
+		});
+
+		async function buscarSugerencias(valor) {
+			const listaSugerencias = document.getElementById('listaSugerencias');
+			
+			try {
+				const response = await fetch('backend/buscar_alumnos.php', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						buscar: valor
+					})
+				});
+
+				const data = await response.json();
+
+				if (data.status === 'ok' && data.sugerencias.length > 0) {
+					let html = '';
+					data.sugerencias.forEach(alumno => {
+						html += `
+							<li class="autocomplete-item" onclick="seleccionarAlumno(${alumno.id}, '${alumno.nombre_usuario}', '${alumno.correo}')">
+								<div class="autocomplete-item-name">${alumno.nombre_usuario}</div>
+								<div class="autocomplete-item-email">${alumno.correo}</div>
+							</li>
+						`;
+					});
+					listaSugerencias.innerHTML = html;
+					listaSugerencias.style.display = 'block';
+				} else {
+					listaSugerencias.innerHTML = '<li class="autocomplete-item" style="color: #999; cursor: default;">Sin resultados</li>';
+					listaSugerencias.style.display = 'block';
+				}
+			} catch (error) {
+				console.error('Error al buscar sugerencias:', error);
+				listaSugerencias.innerHTML = '<li class="autocomplete-item" style="color: #ff6b6b; cursor: default;">Error en la búsqueda</li>';
+				listaSugerencias.style.display = 'block';
+			}
+		}
+
+		function seleccionarAlumno(id, nombre_usuario, correo) {
+			document.getElementById('buscarAlumno').value = nombre_usuario + ' (' + correo + ')';
+			document.getElementById('listaSugerencias').style.display = 'none';
+			alumnoSeleccionadoId = id;
+			document.getElementById('resultadoBusqueda').innerHTML = '';
+		}
+
 		async function buscarYAgregarAlumno() {
 			const buscarInput = document.getElementById('buscarAlumno').value.trim();
 			const resultadoDiv = document.getElementById('resultadoBusqueda');
 
-			if(!buscarInput) {
-				resultadoDiv.innerHTML = '<p style="color: #ff6b6b;">Por favor ingresa un nombre de usuario o correo</p>';
+			if (!alumnoSeleccionadoId || !buscarInput) {
+				resultadoDiv.innerHTML = '<p style="color: #ff6b6b;">Por favor selecciona un alumno de la lista</p>';
 				return;
 			}
 
 			try {
-				resultadoDiv.innerHTML = '<p style="color: #666;">Buscando...</p>';
+				resultadoDiv.innerHTML = '<p style="color: #666;">Agregando alumno...</p>';
 
 				const response = await fetch('backend/agregarAlumno.php', {
 					method: 'POST',
@@ -440,7 +572,8 @@
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						buscar: buscarInput
+						buscar: buscarInput,
+						alumno_id: alumnoSeleccionadoId
 					})
 				});
 
@@ -452,6 +585,10 @@
 						cerrarModal('modalAgregarAlumno');
 						cargarAlumnos(); // Recargar lista de alumnos
 						document.getElementById('totalAlumnos').textContent = parseInt(document.getElementById('totalAlumnos').textContent) + 1;
+						// Limpiar el input y las sugerencias
+						document.getElementById('buscarAlumno').value = '';
+						document.getElementById('listaSugerencias').style.display = 'none';
+						alumnoSeleccionadoId = null;
 					}, 1500);
 				} else {
 					resultadoDiv.innerHTML = `<p style="color: #ff6b6b;">${data.message}</p>`;
@@ -464,7 +601,8 @@
 
 		function cerrarSesion() {
 			if(confirm('¿Seguro que deseas cerrar sesión?')) {
-				window.location.href = 'cerrarSesion.php';
+				// Usar replace() para no permitir volver atrás con el botón del navegador
+				window.location.replace('cerrarSesion.php');
 			}
 		}
 
@@ -489,7 +627,7 @@
 							<div class="comentario-item">
 								<p><strong>${comentario.comentario}</strong></p>
 								<p class="comentario-fecha">${comentario.fecha}</p>
-								<p><strong>${comentario.alumnoNombre}</strong></p>
+								<p><strong>${comentario.nombreAlumno}</strong></p>
 							</div>
 						`;
 					});

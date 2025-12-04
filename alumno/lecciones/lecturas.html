@@ -324,5 +324,48 @@
 
   </div>
 
+    <div style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+      <button onclick="window.location.href='../interfaz_alumno.html'" 
+        style="padding: 12px 28px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); 
+        color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; 
+        cursor: pointer; box-shadow: 0 6px 18px rgba(43, 230, 70, 0.2); 
+        transition: all 0.3s ease;">
+        📚 Volver al Panel
+      </button>
+    </div>
+
+  <script>
+    // Guardar progreso cuando se abre la página
+    async function guardarProgreso() {
+      try {
+        const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            leccion: 'lecturas',
+            completado: 1,
+            progreso: 100,
+            puntos: 120
+          })
+        });
+        const result = await response.json();
+        console.log('Progreso guardado:', result);
+      } catch (error) {
+        console.error('Error al guardar progreso:', error);
+      }
+    }
+
+    // Guardar progreso al cargar la página
+    window.addEventListener('load', guardarProgreso);
+  </script>
+
+<!-- Floating return button (always visible) -->
+<div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 10000;">
+  <button aria-label="Volver al Panel" onclick="window.location.href='../interfaz_alumno.html'" 
+    style="padding:10px 16px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 18px; cursor: pointer; box-shadow: 0 8px 20px rgba(43,230,70,0.2);">
+    📚
+  </button>
+</div>
+
 </body>
 </html>
