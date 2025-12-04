@@ -222,23 +222,23 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    let completadas = 0;
-                    
-                    data.progreso.forEach(leccion => {
-                        const progressBar = document.getElementById(`progress-${leccion.leccion}`);
-                        if (progressBar) {
-                            progressBar.style.width = leccion.porcentaje + '%';
-                        }
-                        
-                        if (leccion.completado) completadas++;
-                    });
-                    
-                    document.getElementById('leccionesCompletadas').textContent = `${completadas}/7`;
-                    document.getElementById('progresoTotal').textContent = Math.round((completadas / 7) * 100) + '%';
-                    
-                    // Cargar puntos totales
-                    cargarPuntosTotales();
-                }
+    let completadas = 0;
+    
+    data.progreso.forEach(leccion => {
+        const progressBar = document.getElementById(`progress-${leccion.leccion}`);
+        if (progressBar) {
+            progressBar.style.width = leccion.porcentaje + '%';
+        }
+        
+        if (leccion.completado) completadas++;
+    });
+    
+    document.getElementById('leccionesCompletadas').textContent = `${completadas}/9`;
+    document.getElementById('progresoTotal').textContent = Math.round((completadas / 9) * 100) + '%';
+    
+    // Cargar puntos totales
+    cargarPuntosTotales();
+}
             } catch (error) {
                 console.log('[v0] Error cargando progreso:', error);
             }
