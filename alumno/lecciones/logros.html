@@ -471,9 +471,38 @@
             }
         }
 
-        // LocalStorage management
-        function getUserProgress() {
-            const defaultProgress = {
+        // LocalStorage management - AHORA SINCRONIZADO CON SERVIDOR
+        async function getUserProgress() {
+            try {
+                // Obtener logros del servidor
+                const response = await fetch('../../backend/obtenerLogrosAlumno.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    return {
+                        lessonsCompleted: data.total_completadas,
+                        points: data.total_puntos,
+                        nivel: Math.floor(data.total_puntos / 100) + 1,
+                        unlockedAchievements: data.logros.map(logro => {
+                            // Mapear logros obtenidos a IDs de logros
+                            const logroMap = {
+                                'Primer Paso': 'first-steps',
+                                'Estudiante Dedicado': 'letter-explorer',
+                                'Experto en Hñähñu': 'alphabet-traveler',
+                                'Maestro del Hñähñu': 'hnahu-master',
+                                'Coleccionista de Puntos': 'eagle-eye'
+                            };
+                            return logroMap[logro.nombre] || logro.nombre.toLowerCase().replace(/ /g, '-');
+                        }),
+                        unlockedFrames: []
+                    };
+                }
+            } catch (error) {
+                console.error('Error obteniendo logros:', error);
+            }
+            
+            // Fallback: estructura por defecto
+            return {
                 lessonsCompleted: 0,
                 imagesRecognized: 0,
                 wordsPaired: 0,
@@ -482,17 +511,16 @@
                 animalWords: 0,
                 natureWords: 0,
                 points: 0,
-                level: 1,
+                nivel: 1,
                 unlockedAchievements: [],
                 unlockedFrames: []
             };
-            
-            const saved = localStorage.getItem('hnahu_progress');
-            return saved ? JSON.parse(saved) : defaultProgress;
         }
 
         function saveUserProgress(progress) {
-            localStorage.setItem('hnahu_progress', JSON.stringify(progress));
+            // Ya no guardar en localStorage, los logros se guardan automáticamente en el servidor
+            // cuando el alumno completa lecciones
+            console.log('Progreso sincronizado desde servidor');
         }
 
         function checkAchievement(achievement, currentValue) {
@@ -500,26 +528,14 @@
         }
 
         function unlockAchievement(achievementId, achievement) {
-            const progress = getUserProgress();
-            
-            if (progress.unlockedAchievements.includes(achievementId)) {
-                return;
-            }
-            
-            progress.unlockedAchievements.push(achievementId);
-            progress.points += achievement.points;
-            progress.level = Math.floor(progress.points / 100) + 1;
-            
-            if (achievement.frame) {
-                progress.unlockedFrames.push(achievement.frame);
-            }
-            
-            saveUserProgress(progress);
-            
+            // Los logros se desbloquean automáticamente en el servidor
+            // cuando el alumno completa lecciones
             playUnlockSound();
             createConfetti();
             showUnlockNotification(achievement);
-            renderAchievements();
+            
+            // Recargar logros desde el servidor
+            setTimeout(() => renderAchievements(), 1000);
         }
 
         function showUnlockNotification(achievement) {
@@ -582,8 +598,8 @@
             container.appendChild(card);
         }
 
-        function renderAchievements() {
-            const progress = getUserProgress();
+        async function renderAchievements() {
+            const progress = await getUserProgress();
             
             document.getElementById('progress-badges').innerHTML = '';
             document.getElementById('visual-badges').innerHTML = '';
@@ -593,17 +609,17 @@
                 renderBadge(achievement, progress.lessonsCompleted, 'progress-badges', 'progress');
             });
             
-            const visualValues = [progress.imagesRecognized, progress.wordsPaired, progress.imagesViewed];
+            const visualValues = [progress.imagesRecognized || 0, progress.wordsPaired || 0, progress.imagesViewed || 0];
             achievements.visual.forEach((achievement, i) => {
                 renderBadge(achievement, visualValues[i], 'visual-badges', 'visual');
             });
             
-            const culturalValues = [progress.agricultureWords, progress.animalWords, progress.natureWords];
+            const culturalValues = [progress.agricultureWords || 0, progress.animalWords || 0, progress.natureWords || 0];
             achievements.cultural.forEach((achievement, i) => {
                 renderBadge(achievement, culturalValues[i], 'cultural-badges', 'cultural');
             });
             
-            document.getElementById('user-level').textContent = progress.level;
+            document.getElementById('user-level').textContent = progress.nivel || 1;
             document.getElementById('user-points').textContent = progress.points;
             document.getElementById('unlocked-count').textContent = progress.unlockedAchievements.length;
             
@@ -611,7 +627,7 @@
             const unlockedPercentage = (progress.unlockedAchievements.length / totalAchievements) * 100;
             document.getElementById('total-progress').style.width = unlockedPercentage + '%';
             
-            if (progress.unlockedFrames.length > 0) {
+            if (progress.unlockedFrames && progress.unlockedFrames.length > 0) {
                 document.getElementById('frames-section').style.display = 'block';
                 renderFrames(progress.unlockedFrames);
             }
@@ -641,14 +657,11 @@
 
         // Initialize page
         createFloatingDecorations();
-        renderAchievements();
+        renderAchievements(); // Ahora es async, se ejecutará automáticamente
         
         // Demo: For testing purposes only
-        window.demoUnlock = function() {
-            const progress = getUserProgress();
-            progress.lessonsCompleted = 1;
-            saveUserProgress(progress);
-            renderAchievements();
+        window.demoUnlock = async function() {
+            renderAchievements(); // Recargar desde servidor
         };
 
         // Guardar progreso cuando se abre la página

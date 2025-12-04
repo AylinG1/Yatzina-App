@@ -13,10 +13,11 @@ if (!isset($_SESSION['user_id'])) {
 
 $idAlumno = $_SESSION['user_id'];
 
-$sql = "SELECT u.id, u.nombre_usuario, u.correo, up.nombre_completo, up.grado, up.id_maestro, m.nombre_usuario as maestroNombre
+$sql = "SELECT u.id, u.nombre_usuario, u.correo, up.nombre_completo, up.grado, m.nombre_usuario as maestroNombre
         FROM usuarios u 
         LEFT JOIN usuarios_perfiles up ON u.id = up.usuario_id
-        LEFT JOIN usuarios m ON up.id_maestro = m.id
+        LEFT JOIN alumnos_maestros am ON u.id = am.id_alumno
+        LEFT JOIN usuarios m ON am.id_maestro = m.id
         WHERE u.id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $idAlumno);
