@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números en Ñañu - Juego Educativo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+        
+        * {
+            font-family: 'Fredoka', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+        }
+        
+        .number-card {
+            animation: fadeInUp 0.6s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .number-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .animate-bounce-slow {
+            animation: bounce 2s infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 2s infinite;
+        }
+        
+        .quiz-button {
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-button:hover {
+            transform: scale(1.1);
+        }
+        
+        .quiz-button.correct {
+            animation: correctAnswer 0.6s ease;
+        }
+        
+        .quiz-button.incorrect {
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); background-color: #10b981; }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .title-gradient {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #ef4444, #ec4899, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-12 animate-bounce-slow">
+            <h1 class="text-5xl md:text-7xl font-bold title-gradient mb-4">
+                🌟 Números en Ñañu 🌟
+            </h1>
+            <p class="text-white text-xl md:text-2xl font-semibold">
+                ¡Aprende a contar en lengua ñañu!
+            </p>
+        </header>
+        
+        <!-- Learning Section -->
+        <section id="learning-section" class="mb-16">
+            <h2 class="text-4xl font-bold text-white text-center mb-8">
+                📚 Aprende los Números
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Number 0 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-purple-600 mb-2">0</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">te hangü</div>
+                        <div class="text-7xl mb-2">⭕</div>
+                        <p class="text-gray-600 font-medium">Cero elementos</p>
+                    </div>
+                </div>
+                
+                <!-- Number 1 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.1s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-blue-600 mb-2">1</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">N´da</div>
+                        <div class="text-7xl mb-2">🧑</div>
+                        <p class="text-gray-600 font-medium">Una persona</p>
+                    </div>
+                </div>
+                
+                <!-- Number 2 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.2s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-green-600 mb-2">2</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">Yoho</div>
+                        <div class="text-7xl mb-2">⚽⚽</div>
+                        <p class="text-gray-600 font-medium">Dos balones</p>
+                    </div>
+                </div>
+                
+                <!-- Number 3 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.3s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-yellow-600 mb-2">3</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">Hñu</div>
+                        <div class="text-7xl mb-2">🚚🚚🚚</div>
+                        <p class="text-gray-600 font-medium">Tres camiones</p>
+                    </div>
+                </div>
+                
+                <!-- Number 4 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.4s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-red-600 mb-2">4</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">gohó</div>
+                        <div class="text-7xl mb-2">📚📚📚📚</div>
+                        <p class="text-gray-600 font-medium">Cuatro libros</p>
+                    </div>
+                </div>
+                
+                <!-- Number 5 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.5s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-indigo-600 mb-2">5</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">kut´a</div>
+                        <div class="text-7xl mb-2">⭐⭐⭐⭐⭐</div>
+                        <p class="text-gray-600 font-medium">Cinco estrellas</p>
+                    </div>
+                </div>
+                
+                <!-- Number 6 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.6s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-orange-600 mb-2">6</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">´rahto</div>
+                        <div class="text-7xl mb-2">🌸🌸🌸🌸🌸🌸</div>
+                        <p class="text-gray-600 font-medium">Seis flores</p>
+                    </div>
+                </div>
+                
+                <!-- Number 7 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.7s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-teal-600 mb-2">7</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">yothó</div>
+                        <div class="text-7xl mb-2">🎈🎈🎈🎈🎈🎈🎈</div>
+                        <p class="text-gray-600 font-medium">Siete globos</p>
+                    </div>
+                </div>
+                
+                <!-- Number 8 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.8s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-cyan-600 mb-2">8</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">hñato</div>
+                        <div class="text-7xl mb-2">🍎🍎🍎🍎🍎🍎🍎🍎</div>
+                        <p class="text-gray-600 font-medium">Ocho manzanas</p>
+                    </div>
+                </div>
+                
+                <!-- Number 9 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 0.9s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-lime-600 mb-2">9</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">gu̱tó</div>
+                        <div class="text-7xl mb-2">🦋🦋🦋🦋🦋🦋🦋🦋🦋</div>
+                        <p class="text-gray-600 font-medium">Nueve mariposas</p>
+                    </div>
+                </div>
+                
+                <!-- Number 10 -->
+                <div class="number-card bg-white rounded-3xl p-6 shadow-2xl" style="animation-delay: 1s">
+                    <div class="text-center">
+                        <div class="text-6xl font-bold text-rose-600 mb-2">10</div>
+                        <div class="text-3xl font-semibold text-pink-500 mb-4">´re̱t´a</div>
+                        <div class="text-7xl mb-2">🌈🌈🌈🌈🌈🌈🌈🌈🌈🌈</div>
+                        <p class="text-gray-600 font-medium">Diez arcoíris</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button onclick="startQuiz()" class="bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 text-white text-2xl font-bold py-4 px-12 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 animate-pulse-slow">
+                    🎮 ¡Jugar al Quiz!
+                </button>
+            </div>
+        </section>
+        
+        <!-- Quiz Section -->
+        <section id="quiz-section" class="hidden">
+            <div class="bg-white rounded-3xl p-8 md:p-12 shadow-2xl max-w-3xl mx-auto">
+                <h2 class="text-4xl font-bold text-purple-600 text-center mb-8">
+                    🎯 ¡Hora de Practicar!
+                </h2>
+                
+                <div id="quiz-content">
+                    <div class="text-center mb-8">
+                        <p class="text-2xl md:text-3xl font-semibold text-gray-700 mb-6" id="question">
+                            Cargando pregunta...
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8" id="options">
+                        <!-- Options will be inserted here -->
+                    </div>
+                    
+                    <div id="feedback" class="hidden text-center p-6 rounded-2xl mb-6">
+                        <!-- Feedback will be shown here -->
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="text-xl font-semibold text-gray-600 mb-4">
+                            Pregunta <span id="current-question">1</span> de <span id="total-questions">5</span>
+                        </div>
+                        <div class="text-2xl font-bold text-purple-600">
+                            Puntuación: <span id="score">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="quiz-end" class="hidden text-center">
+                    <div class="text-6xl mb-6">🎉</div>
+                    <h3 class="text-3xl font-bold text-purple-600 mb-4">¡Excelente Trabajo!</h3>
+                    <p class="text-2xl text-gray-700 mb-6">
+                        Tu puntuación final: <span id="final-score" class="font-bold text-pink-500">0</span> de <span id="max-score">5</span>
+                    </p>
+                    <button onclick="restartQuiz()" class="bg-gradient-to-r from-green-400 to-blue-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 mr-4">
+                        🔄 Jugar de Nuevo
+                    </button>
+                    <button onclick="backToLearning()" class="bg-gradient-to-r from-purple-400 to-pink-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                        📚 Volver a Aprender
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        const numbers = [
+            { number: 0, nanhu: "te hangü", emoji: "⭕", description: "Cero elementos" },
+            { number: 1, nanhu: "N´da", emoji: "🧑", description: "Una persona" },
+            { number: 2, nanhu: "Yoho", emoji: "⚽⚽", description: "Dos balones" },
+            { number: 3, nanhu: "Hñu", emoji: "🚚🚚🚚", description: "Tres camiones" },
+            { number: 4, nanhu: "gohó", emoji: "📚📚📚📚", description: "Cuatro libros" },
+            { number: 5, nanhu: "kut´a", emoji: "⭐⭐⭐⭐⭐", description: "Cinco estrellas" },
+            { number: 6, nanhu: "´rahto", emoji: "🌸🌸🌸🌸🌸🌸", description: "Seis flores" },
+            { number: 7, nanhu: "yothó", emoji: "🎈🎈🎈🎈🎈🎈🎈", description: "Siete globos" },
+            { number: 8, nanhu: "hñato", emoji: "🍎🍎🍎🍎🍎🍎🍎🍎", description: "Ocho manzanas" },
+            { number: 9, nanhu: "gu̱tó", emoji: "🦋🦋🦋🦋🦋🦋🦋🦋🦋", description: "Nueve mariposas" },
+            { number: 10, nanhu: "´re̱t´a", emoji: "🌈🌈🌈🌈🌈🌈🌈🌈🌈🌈", description: "Diez arcoíris" }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let quizQuestions = [];
+        
+        const encouragingMessages = [
+            "¡Muy bien! 🌟",
+            "¡Excelente! 🎉",
+            "¡Perfecto! ⭐",
+            "¡Increíble! 🎊",
+            "¡Genial! 👏"
+        ];
+        
+        const motivationalMessages = [
+            "¡No te preocupes! Sigue intentando 💪",
+            "¡Casi! La próxima vez lo lograrás 🌈",
+            "¡Sigue adelante! Estás aprendiendo 📚",
+            "¡Ánimo! Cada error es una lección 🌟",
+            "¡Tú puedes! Inténtalo de nuevo 🚀"
+        ];
+        
+        function startQuiz() {
+            document.getElementById('learning-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            generateQuestions();
+            currentQuestionIndex = 0;
+            score = 0;
+            updateScore();
+            showQuestion();
+        }
+        
+        function generateQuestions() {
+            quizQuestions = [];
+            const usedNumbers = new Set();
+            
+            while (quizQuestions.length < 5) {
+                const randomIndex = Math.floor(Math.random() * numbers.length);
+                if (!usedNumbers.has(randomIndex)) {
+                    usedNumbers.add(randomIndex);
+                    quizQuestions.push(numbers[randomIndex]);
+                }
+            }
+        }
+        
+        function showQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                endQuiz();
+                return;
+            }
+            
+            document.getElementById('quiz-content').classList.remove('hidden');
+            document.getElementById('quiz-end').classList.add('hidden');
+            
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const questionEl = document.getElementById('question');
+            const optionsEl = document.getElementById('options');
+            const feedbackEl = document.getElementById('feedback');
+            
+            feedbackEl.classList.add('hidden');
+            
+            questionEl.innerHTML = `¿Cómo se dice <span class="text-5xl font-bold text-purple-600">${currentQuestion.number}</span> en ñañu?`;
+            // Generate options
+            const correctAnswer = currentQuestion.nanhu;
+            const wrongAnswers = numbers
+                .filter(n => n.number !== currentQuestion.number)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3)
+                .map(n => n.nanhu);
+            
+            const allOptions = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            
+            optionsEl.innerHTML = '';
+            allOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'quiz-button bg-gradient-to-r from-blue-400 to-purple-500 text-white text-xl md:text-2xl font-bold py-6 px-4 rounded-2xl shadow-lg';
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, correctAnswer, button);
+                optionsEl.appendChild(button);
+            });
+            
+            document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+            document.getElementById('total-questions').textContent = quizQuestions.length;
+        }
+        
+        function checkAnswer(selected, correct, button) {
+            const feedbackEl = document.getElementById('feedback');
+            const allButtons = document.querySelectorAll('.quiz-button');
+            
+            allButtons.forEach(btn => btn.disabled = true);
+            
+            if (selected === correct) {
+                button.classList.add('correct');
+                score++;
+                updateScore();
+                feedbackEl.className = 'text-center p-6 rounded-2xl mb-6 bg-green-100 border-4 border-green-500';
+                feedbackEl.innerHTML = `
+                    <div class="text-6xl mb-3">✅</div>
+                    <div class="text-2xl font-bold text-green-700">${encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]}</div>
+                `;
+            } else {
+                button.classList.add('incorrect');
+                feedbackEl.className = 'text-center p-6 rounded-2xl mb-6 bg-orange-100 border-4 border-orange-500';
+                feedbackEl.innerHTML = `
+                    <div class="text-6xl mb-3">💪</div>
+                    <div class="text-2xl font-bold text-orange-700">${motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)]}</div>
+                    <div class="text-xl text-orange-600 mt-2">La respuesta correcta es: <span class="font-bold">${correct}</span></div>
+                `;
+            }
+            
+            feedbackEl.classList.remove('hidden');
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                showQuestion();
+            }, 3000);
+        }
+        
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+        
+        function endQuiz() {
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('quiz-end').classList.remove('hidden');
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('max-score').textContent = quizQuestions.length;
+        }
+        
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            generateQuestions();
+            updateScore();
+            showQuestion();
+        }
+        
+        function backToLearning() {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('learning-section').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
