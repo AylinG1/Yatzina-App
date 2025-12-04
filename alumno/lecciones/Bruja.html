@@ -660,5 +660,19 @@
             loadExercise();
         }
     </script>
+
+    <!-- Floating return button (always visible) -->
+    <div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 50; pointer-events: auto;">
+        <button aria-label="Volver al Panel" id="float-btn" 
+            style="padding: 12px 18px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(43, 230, 70, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+            📚
+        </button>
+    </div>
+    <script>
+        document.getElementById('float-btn').addEventListener('click', function() {
+            window.location.href = '../interfaz_alumno.html';
+        });
+    </script>
+    <script src="../notificacionesPuntos.js"></script>
 </body>
 </html>

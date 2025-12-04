@@ -231,10 +231,11 @@
 				const data = await response.json();
 				console.log('[v0] Data received:', data);
                 
-				if(data.success) {
-					document.getElementById('gradoMaestro').textContent = data.grado;
-					document.getElementById('totalAlumnos').textContent = data.totalAlumnos;
-					maestroData = data;
+			if(data.success) {
+				document.getElementById('nombreMaestro').textContent = data.nombreCompleto || 'Maestro';
+				document.getElementById('gradoMaestro').textContent = data.grado;
+				document.getElementById('totalAlumnos').textContent = data.totalAlumnos;
+				maestroData = data;
 				} else {
 					document.getElementById('gradoMaestro').textContent = 'Error';
 					alert('Error al cargar datos del maestro: ' + data.message);
@@ -268,14 +269,15 @@
 					`;
                     
 					data.alumnos.forEach(alumno => {
+						const progresoGeneral = alumno.progresoGeneral || 0;
 						html += `
 							<tr>
 								<td><strong>${alumno.nombreCompleto}</strong></td>
 								<td>${alumno.grado}°</td>
 								<td>
 									<div class="progreso-bar">
-										<div class="progreso-fill" style="width: ${alumno.progresoGeneral}%">
-											${alumno.progresoGeneral}%
+										<div class="progreso-fill" style="width: ${progresoGeneral}%">
+											${progresoGeneral}%
 										</div>
 									</div>
 								</td>
@@ -320,7 +322,7 @@
 			document.getElementById('modalProgreso').classList.add('active');
             
 			try {
-				const response = await fetch('obtenerProgresoDetalle.php?idAlumno=' + encodeURIComponent(idAlumno));
+				const response = await fetch('backend/obtenerProgresoDetalle.php?idAlumno=' + encodeURIComponent(idAlumno));
 				const data = await response.json();
                 
 				const contenedor = document.getElementById('detalleProgreso');
@@ -357,7 +359,7 @@
 
 		async function cargarComentarios(idAlumno) {
 			try {
-				const response = await fetch('obtenerComentariosAlumno.php?idAlumno=' + encodeURIComponent(idAlumno));
+				const response = await fetch('backend/obtenerComentariosAlumno.php?idAlumno=' + encodeURIComponent(idAlumno));
 				const data = await response.json();
                 
 				const contenedor = document.getElementById('comentariosAlumno');
@@ -566,20 +568,24 @@
 			try {
 				resultadoDiv.innerHTML = '<p style="color: #666;">Agregando alumno...</p>';
 
-				const response = await fetch('backend/agregarAlumno.php', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						buscar: buscarInput,
-						alumno_id: alumnoSeleccionadoId
-					})
-				});
+			const response = await fetch('backend/agregarAlumno.php', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					buscar: buscarInput,
+					alumno_id: alumnoSeleccionadoId
+				})
+			});
 
-				const data = await response.json();
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error('Error del servidor:', errorText);
+				throw new Error(`Error ${response.status}: ${errorText.substring(0, 200)}`);
+			}
 
-				if(data.success) {
+			const data = await response.json();				if(data.success) {
 					resultadoDiv.innerHTML = `<p style="color: #2bee4b; font-weight: 700;">✓ ${data.message}</p>`;
 					setTimeout(() => {
 						cerrarModal('modalAgregarAlumno');

@@ -118,6 +118,7 @@ $stmtVerifica = $conn->prepare($sqlVerifica);
 
 if (!$stmtVerifica) {
     echo json_encode(['success' => false, 'message' => 'Error en verificación: ' . $conn->error]);
+    $conn->close();
     exit;
 }
 
@@ -127,6 +128,8 @@ $resultVerifica = $stmtVerifica->get_result();
 
 if ($resultVerifica->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'Este alumno ya está en tu lista.']);
+    $stmtVerifica->close();
+    $conn->close();
     exit;
 }
 
@@ -136,6 +139,8 @@ $stmtInsert = $conn->prepare($sqlInsert);
 
 if (!$stmtInsert) {
     echo json_encode(['success' => false, 'message' => 'Error preparando inserción: ' . $conn->error]);
+    $stmtVerifica->close();
+    $conn->close();
     exit;
 }
 
@@ -150,7 +155,6 @@ if ($stmtInsert->execute()) {
     echo json_encode(['success' => false, 'message' => 'Error al agregar alumno: ' . $stmtInsert->error]);
 }
 
-$stmt->close();
 $stmtVerifica->close();
 $stmtInsert->close();
 $conn->close();

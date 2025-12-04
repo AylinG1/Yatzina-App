@@ -18,10 +18,9 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 10px;
+            padding: 20px;
             position: relative;
             overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
         }
 
         /* Decoraciones flotantes */
@@ -33,17 +32,17 @@
         }
 
         .star {
-            width: 20px;
-            height: 20px;
+            width: 30px;
+            height: 30px;
             background: white;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             animation: float 6s ease-in-out infinite;
         }
 
         .circle {
-            width: 30px;
-            height: 30px;
-            border: 2px solid white;
+            width: 40px;
+            height: 40px;
+            border: 3px solid white;
             border-radius: 50%;
             animation: float 8s ease-in-out infinite;
         }
@@ -51,15 +50,15 @@
         .triangle {
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 26px solid white;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 35px solid white;
             animation: float 7s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(180deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
         }
 
         .container {
@@ -71,10 +70,10 @@
 
         header {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
 
@@ -83,172 +82,144 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.8rem;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
             font-weight: 700;
         }
 
         .subtitle {
             color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
         }
 
         .stats-bar {
             display: flex;
             justify-content: space-around;
-            gap: 10px;
+            gap: 20px;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .stat-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 10px 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            min-width: 100px;
-            flex: 1;
+            padding: 15px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
             animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            50% { transform: scale(1.05); }
         }
 
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.9rem;
             opacity: 0.9;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .stat-value {
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: 700;
         }
 
         .game-area {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-
-        .game-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
         }
 
-        /* Layout para móviles - Una sola columna */
-        .mobile-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
         .column {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 20px;
+        }
+
+        .column:first-child {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
         }
 
         .column-title {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 600;
             background: linear-gradient(135deg, #6A4C93, #4682B4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .words-container, .images-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
             margin-bottom: 10px;
         }
 
         .word-card, .image-card {
             background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: move;
             transition: all 0.3s ease;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             position: relative;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
         }
 
         .word-card {
-            font-size: 1.3rem;
+            text-align: center;
+            font-size: 1.5rem;
             font-weight: 600;
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
-        .word-card:active, .image-card:active {
-            transform: translateY(-3px) scale(0.98);
-            box-shadow: 0 5px 15px rgba(106, 76, 147, 0.25);
+        .word-card:hover, .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(106, 76, 147, 0.3);
             border-color: #6A4C93;
         }
 
-        .word-card.selected {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            transform: scale(0.95);
-            box-shadow: 0 5px 15px rgba(106, 76, 147, 0.3);
+        .word-card.dragging, .image-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg) scale(0.95);
         }
 
         .image-card {
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100px;
         }
 
         .image-card img {
             max-width: 100%;
-            max-height: 80px;
-            border-radius: 8px;
-        }
-
-        .image-card .emoji {
-            font-size: 3.5rem;
+            max-height: 150px;
+            border-radius: 10px;
         }
 
         .drop-zone {
-            border: 2px dashed #b0b0b0;
+            border: 3px dashed #b0b0b0;
             background: #f9f9f9;
         }
 
-        .drop-zone.active-drop {
+        .drop-zone.drag-over {
             border-color: #4682B4;
             background: #e3f2fd;
-            transform: scale(1.02);
-            animation: pulse-drop 1.5s infinite;
-        }
-
-        @keyframes pulse-drop {
-            0%, 100% { border-color: #4682B4; }
-            50% { border-color: #6A4C93; }
+            transform: scale(1.05);
         }
 
         .matched {
@@ -260,7 +231,7 @@
 
         @keyframes matchSuccess {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05) rotate(3deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
             100% { transform: scale(1); }
         }
 
@@ -271,30 +242,30 @@
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         .cultural-info {
             background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
-            border-left: 4px solid #f39c12;
-            padding: 10px;
-            margin-top: 8px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            border-left: 5px solid #f39c12;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
             color: #333;
             display: none;
         }
 
         .cultural-info.show {
             display: block;
-            animation: slideDown 0.4s ease;
+            animation: slideDown 0.5s ease;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-8px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -305,42 +276,31 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
-            margin-top: 20px;
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
+            padding: 15px 40px;
+            font-size: 1.1rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             font-family: 'Poppins', sans-serif;
-            flex: 1;
-            max-width: 200px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .btn:active {
-            transform: translateY(-2px) scale(0.98);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Instrucciones para móvil */
-        .mobile-instructions {
-            text-align: center;
-            padding: 10px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            font-size: 0.9rem;
-            color: #666;
-            display: none;
+            transform: translateY(-1px);
         }
 
         .modal {
@@ -350,11 +310,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 15px;
         }
 
         .modal.show {
@@ -369,19 +328,18 @@
 
         .modal-content {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
+            padding: 50px;
+            border-radius: 25px;
             text-align: center;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
-            animation: slideUp 0.4s ease;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -390,8 +348,8 @@
         }
 
         .modal-title {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
             background: linear-gradient(135deg, #2E8B57, #98FB98);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -399,31 +357,84 @@
         }
 
         .modal-message {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             color: #666;
-            margin-bottom: 20px;
-            line-height: 1.4;
+            margin-bottom: 30px;
         }
 
         .confetti {
             position: fixed;
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background: #f0f;
+            position: fixed;
             pointer-events: none;
             z-index: 999;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes matchSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1) rotate(5deg); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
         .lives-container {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
-            margin-top: 8px;
-            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         .heart {
-            font-size: 1.5rem;
+            font-size: 2rem;
             animation: heartbeat 1.5s ease-in-out infinite;
         }
 
@@ -432,179 +443,118 @@
             filter: grayscale(100%);
         }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .matched {
+            background: linear-gradient(135deg, #2E8B57, #98FB98) !important;
+            border-color: #2E8B57 !important;
+            animation: matchSuccess 0.6s ease;
+            pointer-events: none;
         }
 
-        /* Para tablets y pantallas más grandes */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-
-            header {
-                padding: 25px;
-                border-radius: 20px;
-                margin-bottom: 25px;
-            }
-
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            .subtitle {
-                font-size: 1.1rem;
-            }
-
-            .stat-card {
-                padding: 15px 25px;
-                min-width: 140px;
-            }
-
-            .stat-value {
-                font-size: 1.8rem;
-            }
-
-            .game-area {
-                padding: 30px;
-                border-radius: 20px;
-            }
-
-            .game-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 30px;
-            }
-
-            .mobile-layout {
-                display: none;
-            }
-
-            .desktop-layout {
-                display: block;
-            }
-
-            .column-title {
-                font-size: 1.5rem;
-                padding: 12px;
-            }
-
-            .word-card, .image-card {
-                padding: 20px;
-                min-height: 100px;
-            }
-
-            .word-card {
-                font-size: 1.5rem;
-            }
-
-            .image-card .emoji {
-                font-size: 5rem;
-            }
-
-            .btn {
-                padding: 15px 40px;
-                font-size: 1.1rem;
-            }
-
-            .mobile-instructions {
-                display: none !important;
-            }
+        .incorrect {
+            animation: shake 0.5s ease;
+            border-color: #ff5252 !important;
         }
 
-        @media (min-width: 1024px) {
-            .words-container, .images-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Clase para mostrar instrucciones en móvil */
-        .show-on-mobile {
-            display: block;
-        }
-
-        /* Floating return button */
-        #floating-return {
-            position: fixed;
-            right: 15px;
-            bottom: 15px;
-            z-index: 10000;
-        }
-
-        #floating-return button {
-            padding: 12px 20px;
-            background: linear-gradient(90deg, #2bee4b, #1a9d3a);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 6px 15px rgba(43, 230, 70, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        #floating-return button:active {
-            transform: scale(0.95);
-        }
-
-        /* Scroll suave para móviles */
-        .scroll-hint {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(106, 76, 147, 0.9);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            animation: bounce 2s infinite;
+        .cultural-info {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border-left: 5px solid #f39c12;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #333;
             display: none;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(-50%); }
-            50% { transform: translateY(-70%); }
+        .cultural-info.show {
+            display: block;
+            animation: slideDown 0.5s ease;
         }
 
-        @media (max-width: 767px) {
-            .scroll-hint {
-                display: flex;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #2E8B57, #98FB98);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-message {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
             }
-            
-            .show-on-mobile {
-                display: block;
+
+            .game-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .hide-on-mobile {
-                display: none;
+
+            .stat-card {
+                min-width: 120px;
+            }
+
+            .game-area {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
     <!-- Decoraciones flotantes -->
-    <div class="floating-decoration star" style="top: 5%; left: 3%;"></div>
-    <div class="floating-decoration circle" style="top: 15%; right: 5%;"></div>
-    <div class="floating-decoration triangle" style="top: 50%; left: 10%;"></div>
-    <div class="floating-decoration star" style="top: 65%; right: 15%;"></div>
-    <div class="floating-decoration circle" style="top: 35%; left: 85%;"></div>
+    <div class="floating-decoration star" style="top: 10%; left: 5%;"></div>
+    <div class="floating-decoration circle" style="top: 20%; right: 10%;"></div>
+    <div class="floating-decoration triangle" style="top: 60%; left: 15%;"></div>
+    <div class="floating-decoration star" style="top: 70%; right: 20%;"></div>
+    <div class="floating-decoration circle" style="top: 40%; left: 80%;"></div>
 
     <div class="container">
         <header>
             <h1>🎮 Juego de Hñähñu</h1>
-            <p class="subtitle">Relaciona las palabras con sus imágenes</p>
-            
-            <!-- Instrucciones para móvil -->
-            <div class="mobile-instructions show-on-mobile">
-                👆 <strong>Toca una palabra</strong>, luego toca la imagen correspondiente
-            </div>
+            <p class="subtitle">Relaciona las palabras con sus imágenes - ¡Arrastra y suelta!</p>
             
             <div class="stats-bar">
                 <div class="stat-card">
@@ -625,48 +575,20 @@
         </header>
 
         <div class="game-area">
-            <!-- Layout para móviles (una sola columna) -->
-            <div class="mobile-layout show-on-mobile">
+            <div class="game-grid">
                 <div class="column">
                     <h2 class="column-title">Palabras en Hñähñu</h2>
-                    <div class="words-container" id="words-column-mobile"></div>
-                </div>
-                
-                <div class="scroll-hint">👇</div>
-                
-                <div class="column">
-                    <h2 class="column-title">Imágenes</h2>
-                    <div class="images-container" id="images-column-mobile"></div>
-                </div>
-            </div>
-
-            <!-- Layout para desktop (dos columnas) -->
-            <div class="game-grid hide-on-mobile">
-                <div class="column">
-                    <h2 class="column-title">Palabras en Hñähñu</h2>
-                    <div class="words-container" id="words-column-desktop"></div>
+                    <div id="words-column"></div>
                 </div>
                 <div class="column">
                     <h2 class="column-title">Imágenes</h2>
-                    <div class="images-container" id="images-column-desktop"></div>
+                    <div id="images-column"></div>
                 </div>
             </div>
 
             <div class="controls">
-                <button class="btn" id="restart-btn">🔄 Reiniciar</button>
+                <button class="btn" id="restart-btn">🔄 Reiniciar Juego</button>
             </div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-            <button onclick="window.location.href='../interfaz_alumno.html'" 
-                style="padding: 12px 28px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); 
-                color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; 
-                cursor: pointer; box-shadow: 0 6px 18px rgba(43, 230, 70, 0.2); 
-                transition: all 0.3s ease;"
-                ontouchstart="this.style.transform='scale(0.98)'"
-                ontouchend="this.style.transform='scale(1)'">
-                📚 Volver al Panel
-            </button>
         </div>
     </div>
 
@@ -679,7 +601,17 @@
         </div>
     </div>
 
-    <script>
+        <div style="text-align: center; margin-top: 40px; margin-bottom: 40px;">
+            <button onclick="window.location.href='../interfaz_alumno.html'" 
+                style="padding: 12px 28px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); 
+                color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; 
+                cursor: pointer; box-shadow: 0 6px 18px rgba(43, 230, 70, 0.2); 
+                transition: all 0.3s ease;">
+                📚 Volver al Panel
+            </button>
+        </div>
+
+        <script>
         // Datos del juego
         const gameData = [
             {
@@ -731,14 +663,10 @@
         let totalAttempts = 0;
         let lives = 5;
         let matchedPairs = new Set();
-        let selectedWord = null;
-        let isMobile = window.innerWidth <= 768;
 
         // Elementos del DOM
-        const wordsColumnMobile = document.getElementById('words-column-mobile');
-        const imagesColumnMobile = document.getElementById('images-column-mobile');
-        const wordsColumnDesktop = document.getElementById('words-column-desktop');
-        const imagesColumnDesktop = document.getElementById('images-column-desktop');
+        const wordsColumn = document.getElementById('words-column');
+        const imagesColumn = document.getElementById('images-column');
         const correctCount = document.getElementById('correct-count');
         const progressDisplay = document.getElementById('progress');
         const attemptsDisplay = document.getElementById('attempts');
@@ -753,7 +681,6 @@
             totalAttempts = 0;
             lives = 5;
             matchedPairs.clear();
-            selectedWord = null;
             
             updateStats();
             updateLives();
@@ -762,97 +689,22 @@
             const shuffledWords = [...gameData].sort(() => Math.random() - 0.5);
             const shuffledImages = [...gameData].sort(() => Math.random() - 0.5);
             
-            // Crear tarjetas para móvil
-            if (isMobile) {
-                createCardsForMobile(shuffledWords, shuffledImages);
-            }
-            
-            // Crear tarjetas para desktop
-            createCardsForDesktop(shuffledWords, shuffledImages);
-        }
-
-        function createCardsForMobile(words, images) {
-            // Limpiar columnas
-            wordsColumnMobile.innerHTML = '';
-            imagesColumnMobile.innerHTML = '';
-            
-            // Crear tarjetas de palabras para móvil
-            words.forEach((item, index) => {
-                const wordCard = createMobileWordCard(item, index);
-                wordsColumnMobile.appendChild(wordCard);
+            // Crear tarjetas de palabras
+            wordsColumn.innerHTML = '';
+            shuffledWords.forEach((item, index) => {
+                const wordCard = createWordCard(item, index);
+                wordsColumn.appendChild(wordCard);
             });
             
-            // Crear tarjetas de imágenes para móvil
-            images.forEach((item, index) => {
-                const imageCard = createMobileImageCard(item, index);
-                imagesColumnMobile.appendChild(imageCard);
+            // Crear tarjetas de imágenes
+            imagesColumn.innerHTML = '';
+            shuffledImages.forEach((item, index) => {
+                const imageCard = createImageCard(item, index);
+                imagesColumn.appendChild(imageCard);
             });
         }
 
-        function createCardsForDesktop(words, images) {
-            // Limpiar columnas
-            wordsColumnDesktop.innerHTML = '';
-            imagesColumnDesktop.innerHTML = '';
-            
-            // Crear tarjetas de palabras para desktop
-            words.forEach((item, index) => {
-                const wordCard = createDesktopWordCard(item, index);
-                wordsColumnDesktop.appendChild(wordCard);
-            });
-            
-            // Crear tarjetas de imágenes para desktop
-            images.forEach((item, index) => {
-                const imageCard = createDesktopImageCard(item, index);
-                imagesColumnDesktop.appendChild(imageCard);
-            });
-        }
-
-        function createMobileWordCard(item, index) {
-            const card = document.createElement('div');
-            card.className = 'word-card';
-            card.dataset.word = item.word;
-            card.dataset.spanish = item.spanish;
-            card.innerHTML = `
-                <div>${item.word}</div>
-                <div class="cultural-info" id="cultural-mobile-${item.word}">
-                    <strong>📖 ${item.spanish}</strong><br>
-                    ${item.cultural}
-                </div>
-            `;
-            
-            // Evento táctil para móvil
-            card.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                handleMobileWordSelect(this);
-            });
-            
-            card.addEventListener('click', function() {
-                handleMobileWordSelect(this);
-            });
-            
-            return card;
-        }
-
-        function createMobileImageCard(item, index) {
-            const card = document.createElement('div');
-            card.className = 'image-card';
-            card.dataset.spanish = item.spanish;
-            card.innerHTML = `<div class="emoji">${item.emoji}</div>`;
-            
-            // Evento táctil para móvil
-            card.addEventListener('touchstart', function(e) {
-                e.preventDefault();
-                handleMobileImageSelect(this);
-            });
-            
-            card.addEventListener('click', function() {
-                handleMobileImageSelect(this);
-            });
-            
-            return card;
-        }
-
-        function createDesktopWordCard(item, index) {
+        function createWordCard(item, index) {
             const card = document.createElement('div');
             card.className = 'word-card';
             card.draggable = true;
@@ -860,26 +712,26 @@
             card.dataset.spanish = item.spanish;
             card.innerHTML = `
                 <div>${item.word}</div>
-                <div class="cultural-info" id="cultural-desktop-${item.word}">
+                <div class="cultural-info" id="cultural-${item.word}">
                     <strong>📖 ${item.spanish}</strong><br>
                     ${item.cultural}
                 </div>
             `;
             
-            // Eventos de arrastre para desktop
+            // Eventos de arrastre
             card.addEventListener('dragstart', handleDragStart);
             card.addEventListener('dragend', handleDragEnd);
             
             return card;
         }
 
-        function createDesktopImageCard(item, index) {
+        function createImageCard(item, index) {
             const card = document.createElement('div');
             card.className = 'image-card drop-zone';
             card.dataset.spanish = item.spanish;
-            card.innerHTML = `<div class="emoji">${item.emoji}</div>`;
+            card.innerHTML = `<div style="font-size: 6rem;">${item.emoji}</div>`;
             
-            // Eventos de drop para desktop
+            // Eventos de drop
             card.addEventListener('dragover', handleDragOver);
             card.addEventListener('dragleave', handleDragLeave);
             card.addEventListener('drop', handleDrop);
@@ -887,119 +739,7 @@
             return card;
         }
 
-        // Funciones para móvil
-        function handleMobileWordSelect(card) {
-            if (matchedPairs.has(card.dataset.spanish)) {
-                return; // Ya está emparejada
-            }
-            
-            // Deseleccionar palabra anterior
-            if (selectedWord) {
-                selectedWord.classList.remove('selected');
-            }
-            
-            // Seleccionar nueva palabra
-            card.classList.add('selected');
-            selectedWord = card;
-            
-            // Resaltar imágenes posibles
-            highlightPossibleImages(card.dataset.spanish);
-            
-            // Desplazar suavemente hacia las imágenes
-            if (isMobile) {
-                setTimeout(() => {
-                    imagesColumnMobile.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            }
-        }
-
-        function handleMobileImageSelect(card) {
-            if (!selectedWord || matchedPairs.has(card.dataset.spanish)) {
-                return;
-            }
-            
-            totalAttempts++;
-            updateStats();
-            
-            if (selectedWord.dataset.spanish === card.dataset.spanish) {
-                // Correcto
-                selectedWord.classList.remove('selected');
-                selectedWord.classList.add('matched');
-                card.classList.add('matched');
-                
-                correctMatches++;
-                matchedPairs.add(card.dataset.spanish);
-                updateStats();
-                
-                // Mostrar información cultural
-                const culturalInfo = document.getElementById(`cultural-mobile-${selectedWord.dataset.word}`);
-                if (culturalInfo) {
-                    culturalInfo.classList.add('show');
-                }
-                
-                playSound('correct');
-                selectedWord = null;
-                
-                // Verificar victoria
-                if (correctMatches === gameData.length) {
-                    setTimeout(() => {
-                        showVictory();
-                    }, 800);
-                }
-            } else {
-                // Incorrecto
-                card.classList.add('incorrect');
-                setTimeout(() => {
-                    card.classList.remove('incorrect');
-                    selectedWord.classList.remove('selected');
-                    selectedWord = null;
-                }, 600);
-                
-                lives--;
-                updateLives();
-                playSound('incorrect');
-                
-                if (lives === 0) {
-                    setTimeout(() => {
-                        alert('¡Se acabaron las vidas! Intenta de nuevo.');
-                        initGame();
-                    }, 600);
-                }
-            }
-            
-            // Quitar resaltado de imágenes
-            removeImageHighlights();
-        }
-
-        function highlightPossibleImages(spanishWord) {
-            const images = isMobile ? 
-                imagesColumnMobile.querySelectorAll('.image-card') : 
-                imagesColumnDesktop.querySelectorAll('.image-card');
-            
-            images.forEach(img => {
-                if (img.dataset.spanish === spanishWord && !matchedPairs.has(spanishWord)) {
-                    img.classList.add('active-drop');
-                }
-            });
-        }
-
-        function removeImageHighlights() {
-            const images = isMobile ? 
-                imagesColumnMobile.querySelectorAll('.image-card') : 
-                imagesColumnDesktop.querySelectorAll('.image-card');
-            
-            images.forEach(img => {
-                img.classList.remove('active-drop');
-            });
-        }
-
-        // Funciones para desktop (drag & drop)
         function handleDragStart(e) {
-            if (matchedPairs.has(this.dataset.spanish)) {
-                e.preventDefault();
-                return;
-            }
-            
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.innerHTML);
             e.dataTransfer.setData('word', this.dataset.word);
@@ -1036,27 +776,21 @@
             const droppedSpanish = e.dataTransfer.getData('spanish');
             const targetSpanish = this.dataset.spanish;
             
-            if (matchedPairs.has(targetSpanish)) {
-                return false;
-            }
-            
             totalAttempts++;
             updateStats();
             
-            if (droppedSpanish === targetSpanish) {
+            if (droppedSpanish === targetSpanish && !matchedPairs.has(targetSpanish)) {
                 // Correcto
                 this.classList.add('matched');
                 const wordCard = document.querySelector(`.word-card[data-word="${droppedWord}"]`);
-                if (wordCard) {
-                    wordCard.classList.add('matched');
-                }
+                wordCard.classList.add('matched');
                 
                 correctMatches++;
                 matchedPairs.add(targetSpanish);
                 updateStats();
                 
                 // Mostrar información cultural
-                const culturalInfo = document.getElementById(`cultural-desktop-${droppedWord}`);
+                const culturalInfo = document.getElementById(`cultural-${droppedWord}`);
                 if (culturalInfo) {
                     culturalInfo.classList.add('show');
                 }
@@ -1138,7 +872,7 @@
 
         function createConfetti() {
             const colors = ['#6A4C93', '#9370DB', '#4682B4', '#87CEEB', '#2E8B57', '#98FB98'];
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < 100; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
@@ -1146,28 +880,19 @@
                     confetti.style.top = '-10px';
                     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                     confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    confetti.style.width = Math.random() * 8 + 4 + 'px';
-                    confetti.style.height = Math.random() * 8 + 4 + 'px';
                     document.body.appendChild(confetti);
                     
                     const animation = confetti.animate([
                         { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
                         { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
                     ], {
-                        duration: 2000 + Math.random() * 2000,
+                        duration: 3000 + Math.random() * 2000,
                         easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                     });
                     
                     animation.onfinish = () => confetti.remove();
                 }, i * 30);
             }
-        }
-
-        // Detectar si es móvil
-        function checkMobile() {
-            isMobile = window.innerWidth <= 768;
-            // Reiniciar el juego con el layout correcto
-            initGame();
         }
 
         // Event listeners
@@ -1180,17 +905,8 @@
             initGame();
         });
 
-        // Redimensionar ventana
-        window.addEventListener('resize', checkMobile);
-
         // Inicializar al cargar
-        window.addEventListener('load', function() {
-            checkMobile();
-            initGame();
-            
-            // Guardar progreso
-            guardarProgreso();
-        });
+        initGame();
 
         // Guardar progreso cuando se abre la página
         async function guardarProgreso() {
@@ -1211,14 +927,18 @@
                 console.error('Error al guardar progreso:', error);
             }
         }
+
+        // Guardar progreso al cargar la página
+        window.addEventListener('load', guardarProgreso);
     </script>
 
-    <!-- Floating return button (always visible) -->
-    <div id="floating-return">
-        <button aria-label="Volver al Panel" onclick="window.location.href='../interfaz_alumno.html'">
-            📚
-        </button>
-    </div>
+<!-- Floating return button (always visible) -->
+<div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 10000;">
+    <button aria-label="Volver al Panel" onclick="window.location.href='../interfaz_alumno.html'" 
+        style="padding:10px 16px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 18px; cursor: pointer; box-shadow: 0 8px 20px rgba(43,230,70,0.2);">
+        📚
+    </button>
+</div>
 
 </body>
 </html>

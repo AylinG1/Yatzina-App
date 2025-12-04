@@ -5,22 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memorama Español-Otomí</title>
     <style>
+        /* 1. Reset Básico */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* 2. Body / Fondo */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            min-height: 100vh;
+            width: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden; /* Previene scroll horizontal en móviles */
+        }
+
+        @media (min-width: 769px) {
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
         }
 
         @keyframes gradientShift {
@@ -29,6 +38,7 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* 3. Header y Stats */
         .header {
             padding: 10px 20px;
             display: flex;
@@ -37,6 +47,8 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            /* Permite que los botones se envuelvan en pantallas pequeñas */
+            flex-wrap: wrap; 
         }
 
         .title {
@@ -44,6 +56,7 @@
             color: white;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-right: auto; /* Empuja los stats y botones a la derecha */
         }
 
         .stats {
@@ -51,6 +64,8 @@
             gap: 20px;
             color: white;
             font-weight: bold;
+            margin-left: 15px;
+            margin-right: 15px;
         }
 
         .stat-item {
@@ -61,7 +76,7 @@
         }
 
         .reset-btn {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            /* Estilo base para todos los botones de control */
             color: white;
             border: none;
             padding: 10px 25px;
@@ -71,37 +86,48 @@
             font-size: 1rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             transition: transform 0.2s;
+            margin: 5px; /* Espacio entre botones */
+        }
+        
+        /* Estilo específico para el botón REINICIAR */
+        .reset-btn:nth-last-child(1) {
+             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
         .reset-btn:hover {
             transform: scale(1.05);
         }
 
+        /* 4. Contenedor del Juego */
         .game-container {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 15px;
+            width: 100%;
+            overflow-y: auto;
         }
 
+        /* 5. La Grilla (Desktop - Base) */
         .grid {
             display: grid;
+            /* Desktop: 8 columnas (40 tarjetas = 5 filas) */
             grid-template-columns: repeat(8, 1fr);
             grid-template-rows: repeat(5, 1fr);
-            gap: 8px;
-            max-width: 100%;
-            max-height: 100%;
-            width: 95vw;
-            height: 80vh;
+            gap: 10px; 
+            max-width: 1000px; 
+            width: 100%;
+            max-height: 85vh;
         }
 
+        /* 6. Las Tarjetas */
         .card {
             position: relative;
             cursor: pointer;
             perspective: 1000px;
-            min-width: 80px;
-            min-height: 100px;
+            /* CLAVE: Mantiene la proporción */
+            aspect-ratio: 3 / 4; 
         }
 
         .card-inner {
@@ -134,13 +160,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8px;
+            padding: 5px; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-
+        
+        /* Cara frontal (Por defecto: Blanco suave - para tarjetas Otomí) */
         .card-front {
             background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
             border: 3px solid rgba(255,255,255,0.5);
+        }
+
+        /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (Gris suave) */
+        .card.type-spanish .card-inner .card-front {
+            background: linear-gradient(135deg, rgba(230, 230, 230, 0.9), rgba(200, 200, 200, 0.9)); /* Gris más oscuro */
+            border: 3px solid rgba(255,255,255,0.8);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.3); 
         }
 
         .card-front::before {
@@ -153,16 +187,14 @@
             color: white;
             font-weight: bold;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 1rem; 
             line-height: 1.2;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
             word-wrap: break-word;
+            padding: 5px; 
         }
 
-        .card.matched .card-back {
-            box-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 40px currentColor;
-        }
-
+        /* Estilos del Modal (se mantienen) */
         .completion-modal {
             position: fixed;
             top: 0;
@@ -258,49 +290,85 @@
         .pair-18 { background: linear-gradient(135deg, #F4D03F, #16A085); }
         .pair-19 { background: linear-gradient(135deg, #D38312, #A83279); }
 
-        @media (max-width: 1200px) {
+        /* ========================================================= */
+        /* 7. MEDIA QUERIES (Ajustes para dispositivos) */
+        /* ========================================================= */
+
+        /* Tablets y Pantallas medianas (Máx. 768px) */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            .stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            /* Cambiamos a 5 columnas */
             .grid {
-                gap: 6px;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(8, 1fr);
+                gap: 8px;
+                max-width: 600px;
+                aspect-ratio: auto;
+                max-height: 80vh; 
             }
             .card-back {
-                font-size: 0.7rem;
+                font-size: 0.8rem;
             }
             .title {
                 font-size: 1.2rem;
             }
+            /* Apilar botones en móvil */
+             .header .reset-btn {
+                width: calc(33% - 10px); 
+                margin: 5px 2px;
+                padding: 8px 10px;
+            }
+            .header .stats {
+                order: -1; /* Mueve los stats arriba en columna */
+            }
+            .header .title {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
         }
 
-        @media (max-width: 768px) {
+        /* Teléfonos Móviles Pequeños (Máx. 500px) */
+        @media (max-width: 500px) {
+            /* Cambiamos a 4 columnas */
             .grid {
-                grid-template-columns: repeat(5, 1fr);
-                grid-template-rows: repeat(8, 1fr);
-                gap: 4px;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(10, 1fr);
+                gap: 5px;
+                max-height: 80vh;
             }
-            .header {
-                flex-direction: column;
-                gap: 10px;
-                padding: 8px;
-            }
-            .stats {
-                gap: 10px;
+            .card-back {
+                font-size: 0.7rem;
             }
             .stat-item {
-                font-size: 0.8rem;
-                padding: 6px 10px;
+                font-size: 0.75rem;
+                padding: 4px 8px;
             }
-            .completion-title {
-                font-size: 2rem;
+            .title {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <script src="sistemaPuntos.js"></script>
     <div class="header">
         <div class="title">🎯 Memorama Español-Otomí</div>
         <div class="stats">
             <div class="stat-item">⏱️ <span id="timer">00:00</span></div>
             <div class="stat-item">🔄 <span id="moves">0</span> movimientos</div>
         </div>
+        <button class="reset-btn" onclick="shuffleCards()" style="background: linear-gradient(135deg, #FFD700 0%, #FFA800 100%);">🔀 Revolver</button>
+        <button class="reset-btn" id="hintBtn" onclick="giveHint()" style="background: linear-gradient(135deg, #4facfe 0%, #00F2FE 100%);">💡 Pista</button>
         <button class="reset-btn" onclick="resetGame()">🔄 Reiniciar</button>
     </div>
 
@@ -350,6 +418,8 @@
         let startTime = null;
         let timerInterval = null;
         let canFlip = true;
+        let isShuffling = false; // NUEVA VARIABLE
+        let hintUsed = false;    // NUEVA VARIABLE
 
         function initGame() {
             const gameGrid = document.getElementById('gameGrid');
@@ -359,6 +429,7 @@
             matchedPairs = 0;
             moves = 0;
             canFlip = true;
+            isShuffling = false;
             
             document.getElementById('moves').textContent = '0';
             document.getElementById('timer').textContent = '00:00';
@@ -386,7 +457,7 @@
             // Crear elementos DOM
             cards.forEach((card, index) => {
                 const cardElement = document.createElement('div');
-                cardElement.className = 'card';
+                cardElement.className = `card type-${card.type}`;
                 cardElement.dataset.id = card.id;
                 cardElement.dataset.pair = card.pair;
                 
@@ -410,7 +481,7 @@
         }
 
         function flipCard(cardElement, card) {
-            if (!canFlip || cardElement.classList.contains('flipped') || 
+            if (!canFlip || isShuffling || cardElement.classList.contains('flipped') || 
                 cardElement.classList.contains('matched')) {
                 return;
             }
@@ -482,8 +553,94 @@
             document.getElementById('finalMoves').textContent = moves;
             document.getElementById('completionModal').classList.add('show');
             
+            // Guardar progreso al completar
+            guardarProgreso();
+            
             createConfetti();
         }
+
+        // =========================================================
+        // NUEVAS FUNCIONALIDADES
+        // =========================================================
+
+        function shuffleCards() {
+            if (isShuffling || flippedCards.length > 0) return;
+            isShuffling = true;
+            canFlip = false;
+            
+            const gameGrid = document.getElementById('gameGrid');
+            const matchedCardElements = document.querySelectorAll('.card.matched');
+            const unmatchedCardElements = document.querySelectorAll('.card:not(.matched)');
+            
+            // 1. Ocultar o voltear todas las tarjetas no emparejadas para el efecto
+            unmatchedCardElements.forEach(card => {
+                card.classList.remove('flipped');
+            });
+
+            // 2. Esperar a que se volteen (por si alguna estaba abierta)
+            setTimeout(() => {
+                
+                let unmatchedCards = Array.from(unmatchedCardElements);
+
+                // 3. Barajar las tarjetas en el DOM (Fisher-Yates)
+                for (let i = unmatchedCards.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [unmatchedCards[i], unmatchedCards[j]] = [unmatchedCards[j], unmatchedCards[i]];
+                }
+                
+                // 4. Reinsertar las tarjetas barajadas y las emparejadas en el orden correcto
+                gameGrid.innerHTML = ''; // Limpiar la cuadrícula
+                
+                let allElements = Array.from(matchedCardElements).concat(unmatchedCards);
+                
+                // Rebarajar el orden final de todos los elementos para que los emparejados no queden juntos
+                allElements.sort(() => Math.random() - 0.5); 
+                
+                allElements.forEach(element => gameGrid.appendChild(element));
+
+                // 5. Restablecer el estado
+                setTimeout(() => {
+                    isShuffling = false;
+                    canFlip = true;
+                }, 300); 
+
+            }, 600); // Esperar a que la animación de volteo termine
+        }
+
+
+        function giveHint() {
+            if (!canFlip || isShuffling) return;
+
+            // Obtener TODAS las tarjetas que aún no han sido emparejadas
+            const unmatchedCards = Array.from(document.querySelectorAll('.card:not(.matched)'));
+
+            if (unmatchedCards.length === 0) {
+                alert("¡Ya has encontrado todos los pares!");
+                return;
+            }
+
+            // 1. Bloquear clics y voltear todas las tarjetas
+            canFlip = false;
+            
+            unmatchedCards.forEach(card => {
+                card.classList.add('flipped');
+            });
+
+            // 2. Esperar 2 segundos para que el usuario tome el vistazo
+            setTimeout(() => {
+                // 3. Voltear de nuevo todas las tarjetas para ocultar la pista
+                unmatchedCards.forEach(card => {
+                    card.classList.remove('flipped');
+                });
+                
+                // 4. Desbloquear los clics
+                canFlip = true;
+            }, 2000); // 2000 milisegundos = 2 segundos
+        }
+
+        // =========================================================
+        // OTRAS FUNCIONES
+        // =========================================================
 
         function createConfetti() {
             const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
@@ -507,8 +664,63 @@
             initGame();
         }
 
+        // Guardar progreso cuando se completa el juego
+        async function guardarProgreso() {
+            try {
+                const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        leccion: 'partes_del_cuerpo',
+                        completado: 1,
+                        progreso: 100
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.error('Error en respuesta del servidor:', response.status);
+                    return;
+                }
+                
+                const result = await response.json();
+                if (result.success) {
+                    console.log('✅ Progreso guardado correctamente:', result);
+                    
+                    // Si se ganaron puntos, disparar evento para mostrar notificación
+                    if (result.puntosGanados > 0) {
+                        const event = new CustomEvent('puntosRegistrados', {
+                            detail: {
+                                puntos_ganados: result.puntosGanados,
+                                puntos_totales: result.puntosTotales,
+                                tipo: 'leccion',
+                                nombre: 'Partes del Cuerpo'
+                            }
+                        });
+                        document.dispatchEvent(event);
+                    }
+                } else {
+                    console.error('❌ Error al guardar progreso:', result.error || result.message);
+                }
+            } catch (error) {
+                console.error('❌ Error de red al guardar progreso:', error);
+            }
+        }
+
         // Iniciar juego al cargar
         initGame();
     </script>
+
+    <div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 50; pointer-events: auto;">
+        <button aria-label="Volver al Panel" id="float-btn" 
+            style="padding: 12px 18px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(43, 230, 70, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+            📚
+        </button>
+    </div>
+    <script>
+        document.getElementById('float-btn').addEventListener('click', function() {
+            window.location.href = '../interfaz_alumno.html';
+        });
+    </script>
+    <script src="../notificacionesPuntos.js"></script>
 </body>
 </html>
