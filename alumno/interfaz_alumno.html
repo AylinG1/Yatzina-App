@@ -268,7 +268,29 @@
             console.log('🎉 Puntos actualizados:', event.detail);
         });
 
+<<<<<<< HEAD
         // Asegurarse de validar sesión al mostrar la página
+=======
+        // Función para cerrar sesión: hace una petición al endpoint y redirige al index
+        // usamos location.replace para reemplazar la entrada en el historial y evitar volver atrás
+        function cerrarSesion() {
+            fetch('../backend/cerrarSesion.php', { method: 'GET', credentials: 'include' })
+                .then(async (res) => {
+                    try {
+                        await res.json();
+                    } catch (e) {
+                        // ignore parse errors
+                    }
+                    window.location.replace('../index.html');
+                })
+                .catch(err => {
+                    console.error('Error al cerrar sesión:', err);
+                    window.location.replace('../index.html');
+                });
+        }
+
+        // Asegurarse de validar sesión al mostrar la página (maneja navegación "back")
+>>>>>>> d50b0e6 (Fijar rutas relativas en cerrarSesion() para que funcione en cualquier contexto)
         window.addEventListener('pageshow', (event) => {
             cargarDatosAlumno();
         });
