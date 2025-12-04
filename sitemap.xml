@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap generated for initial SEO. Replace the domain below
+  with your real production domain if different from the Azure hostname.
+  For larger sites consider generating this dynamically from the DB.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/index.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/registro.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/alumno/interfaz_alumno.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/interfaz_maestro.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- Example lesson pages (add more or generate dynamically) -->
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/alumno/lecciones/PartesDelCuerpo.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://yatzina-app.azurewebsites.net/alumno/lecciones/abecedario.html</loc>
+    <lastmod>2025-12-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
