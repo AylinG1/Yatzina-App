@@ -67,7 +67,67 @@ if ($checkResult->num_rows > 0) {
 
 // 5. Ejecutar la sentencia (INSERT o UPDATE)
 if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Progreso guardado correctamente', 'progreso' => $progreso]);
+    $puntosGanados = 0;
+    $mensaje = 'Progreso guardado correctamente';
+    
+    // Si la lección se completó, registrar puntos automáticamente
+    if ($completada === 1) {
+        $puntosPorLeccion = 100; // Puntos por completar una lección
+        
+        // Crear tabla de puntos si no existe
+        $crearTabla = "CREATE TABLE IF NOT EXISTS puntos_alumnos (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            id_alumno INT NOT NULL,
+            tipo VARCHAR(50),
+            id_referencia VARCHAR(255),
+            puntos INT,
+            fecha_obtenido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY unique_punto (id_alumno, tipo, id_referencia),
+            FOREIGN KEY (id_alumno) REFERENCES usuarios(id) ON DELETE CASCADE
+        )";
+        $conn->query($crearTabla);
+        
+        // Verificar si ya obtuvo puntos por esta lección
+        $checkPuntosSql = "SELECT id FROM puntos_alumnos WHERE id_alumno = ? AND tipo = 'leccion' AND id_referencia = ?";
+        $checkPuntosStmt = $conn->prepare($checkPuntosSql);
+        $checkPuntosStmt->bind_param("is", $idAlumno, $leccion);
+        $checkPuntosStmt->execute();
+        $puntosResult = $checkPuntosStmt->get_result();
+        
+        // Solo registrar si no existen puntos previos
+        if ($puntosResult->num_rows === 0) {
+            $insertPuntosSql = "INSERT INTO puntos_alumnos (id_alumno, tipo, id_referencia, puntos) 
+                               VALUES (?, 'leccion', ?, ?)";
+            $insertPuntosStmt = $conn->prepare($insertPuntosSql);
+            $insertPuntosStmt->bind_param("isi", $idAlumno, $leccion, $puntosPorLeccion);
+            $insertPuntosStmt->execute();
+            $insertPuntosStmt->close();
+            
+            $puntosGanados = $puntosPorLeccion;
+            $mensaje = 'Progreso guardado y puntos registrados';
+        }
+        
+        $checkPuntosStmt->close();
+    }
+    
+    // Obtener puntos totales
+    $totalPuntosSql = "SELECT COALESCE(SUM(puntos), 0) as total FROM puntos_alumnos WHERE id_alumno = ?";
+    $totalPuntosStmt = $conn->prepare($totalPuntosSql);
+    $totalPuntosStmt->bind_param("i", $idAlumno);
+    $totalPuntosStmt->execute();
+    $totalPuntosResult = $totalPuntosStmt->get_result();
+    $totalPuntosData = $totalPuntosResult->fetch_assoc();
+    $puntosTotales = $totalPuntosData['total'];
+    $totalPuntosStmt->close();
+    
+    echo json_encode([
+        'success' => true, 
+        'message' => $mensaje, 
+        'progreso' => $progreso,
+        'puntosGanados' => $puntosGanados,
+        'puntosTotales' => $puntosTotales,
+        'leccionCompletada' => $completada === 1
+    ]);
 } else {
     // Si falla la ejecución por un error SQL, lo reporta
     http_response_code(500); 

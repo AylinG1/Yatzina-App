@@ -37,7 +37,7 @@ while($row = $resultado->fetch_assoc()) {
     $lecciones[] = [
         'nombreLeccion' => $row['nombreLeccion'],
         'completado' => (int)$row['completado'],
-        'porcentaje' => (int)$row['porcentaje'],
+        'progreso' => (int)$row['porcentaje'],
         'puntos' => (int)$row['puntos'],
         'fecha' => $row['fecha_actualizacion']
     ];

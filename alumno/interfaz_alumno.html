@@ -215,7 +215,6 @@
                 
                 if (data.success) {
                     let completadas = 0;
-                    let totalPuntos = 0;
                     
                     data.progreso.forEach(leccion => {
                         const progressBar = document.getElementById(`progress-${leccion.leccion}`);
@@ -224,19 +223,40 @@
                         }
                         
                         if (leccion.completado) completadas++;
-                        totalPuntos += leccion.puntos || 0;
                     });
                     
                     document.getElementById('leccionesCompletadas').textContent = `${completadas}/7`;
-                    document.getElementById('puntosTotales').textContent = totalPuntos;
                     document.getElementById('progresoTotal').textContent = Math.round((completadas / 7) * 100) + '%';
+                    
+                    // Cargar puntos totales
+                    cargarPuntosTotales();
                 }
             } catch (error) {
                 console.log('[v0] Error cargando progreso:', error);
             }
         }
 
+        async function cargarPuntosTotales() {
+            try {
+                const response = await fetch('../backend/obtenerPuntos.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('puntosTotales').textContent = data.puntos_totales;
+                }
+            } catch (error) {
+                console.log('[v0] Error cargando puntos:', error);
+                document.getElementById('puntosTotales').textContent = '0';
+            }
+        }
+
         // Modal de éxito removido — no se muestra nada al completar lecciones
+
+        // Listener para actualizar puntos cuando se registren nuevos puntos desde una lección
+        document.addEventListener('puntosRegistrados', (event) => {
+            cargarPuntosTotales();
+            console.log('🎉 Puntos actualizados:', event.detail);
+        });
 
         // Función para cerrar sesión: hace una petición al endpoint y redirige al index
         // usamos location.replace para reemplazar la entrada en el historial y evitar volver atrás
@@ -267,8 +287,14 @@
             }
         });
 
+        // Auto-refresh cada 5 segundos para mantener puntos actualizados
+        setInterval(() => {
+            cargarPuntosTotales();
+        }, 5000);
+
         cargarDatosAlumno();
     </script>
+    <script src="./notificacionesPuntos.js"></script>
 
 </body>
 </html>
