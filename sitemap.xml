@@ -4,7 +4,7 @@
   with your real production domain if different from the Azure hostname.
   For larger sites consider generating this dynamically from the DB.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="yatzina-app-csfddgd7dfe7cjgw.centralus-01.azurewebsites.net">
   <url>
     <loc>https://yatzina-app.azurewebsites.net/</loc>
     <lastmod>2025-12-04</lastmod>

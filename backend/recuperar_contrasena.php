@@ -101,9 +101,17 @@ $stmt_insert->close();
 $conn->close();
 
 // Construir el enlace de restablecimiento
-// IMPORTANTE: Cambia esta URL por la URL real de tu aplicación
+// Detectar si estamos en localhost o en producción
 $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
-$reset_link = $base_url . "/crearnuevacontrasena.html?token=" . $token;
+
+// Ajustar la ruta dependiendo del entorno
+if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false) {
+    // Entorno local
+    $reset_link = $base_url . "/Yatzina-App/crearnuevacontrasena.html?token=" . $token;
+} else {
+    // Producción (Azure u otro host)
+    $reset_link = $base_url . "/crearnuevacontrasena.html?token=" . $token;
+}
 
 // Preparar el correo electrónico
 $asunto = "Restablecimiento de Contraseña - Yätzina";

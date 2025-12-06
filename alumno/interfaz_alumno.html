@@ -129,7 +129,7 @@
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='./lecciones/conversaciones.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/saludos.html'">
                 <div class="lesson-icon">🗣️</div>
                 <div class="lesson-title">Conversaciones</div>
                 <div class="progress-bar">
@@ -137,11 +137,11 @@
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='./lecciones/vocabulario.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/lecturas.html'">
                 <div class="lesson-icon">📚</div>
                 <div class="lesson-title">Vocabulario</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progress-vocabulario" style="width: 100%"></div>
+                    <div class="progress-fill" style="width: 100%"></div>
                 </div>
             </div>
 
@@ -161,7 +161,7 @@
                 </div>
             </div>
 
-            <div class="lesson-card" onclick="window.location.href='./lecciones/Numeros.html'">
+            <div class="lesson-card" onclick="window.location.href='./lecciones/Numeros.html'"></div>
                 <div class="lesson-icon">🔢</div>
                 <div class="lesson-title">Números</div>
                 <div class="progress-bar">
@@ -173,11 +173,13 @@
                 <div class="lesson-icon">🏆</div>
                 <div class="lesson-title">Mis Logros</div>
                 <div class="progress-bar">
-                    <div class="progress-fill" id="progress-logros" style="width: 100%"></div>
+                    <div class="progress-fill" style="width: 100%"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal de éxito eliminado por solicitud del usuario -->
 
     <script>
         function createStars() {
@@ -231,8 +233,8 @@
                         if (leccion.completado) completadas++;
                     });
                     
-                    document.getElementById('leccionesCompletadas').textContent = `${completadas}/10`;
-                    document.getElementById('progresoTotal').textContent = Math.round((completadas / 10) * 100) + '%';
+                    document.getElementById('leccionesCompletadas').textContent = `${completadas}/7`;
+                    document.getElementById('progresoTotal').textContent = Math.round((completadas / 7) * 100) + '%';
                     
                     // Cargar puntos totales
                     cargarPuntosTotales();
@@ -256,11 +258,7 @@
             }
         }
 
-        // Función para cerrar sesión
-        function cerrarSesion() {
-            // Redirige directamente a index.html
-            window.location.href = '../index.html';
-        }
+        // Modal de éxito removido — no se muestra nada al completar lecciones
 
         // Listener para actualizar puntos cuando se registren nuevos puntos desde una lección
         document.addEventListener('puntosRegistrados', (event) => {
@@ -268,9 +266,33 @@
             console.log('🎉 Puntos actualizados:', event.detail);
         });
 
-        // Asegurarse de validar sesión al mostrar la página
+        // Función para cerrar sesión: hace una petición al endpoint y redirige al index
+        // usamos location.replace para reemplazar la entrada en el historial y evitar volver atrás
+        function cerrarSesion() {
+            fetch('../backend/cerrarSesion.php', { method: 'GET', credentials: 'include' })
+                .then(async (res) => {
+                    try {
+                        await res.json();
+                    } catch (e) {
+                        // ignore parse errors
+                    }
+                    window.location.replace('../index.html');
+                })
+                .catch(err => {
+                    console.error('Error al cerrar sesión:', err);
+                    window.location.replace('../index.html');
+                });
+        }
+
+        // Asegurarse de validar sesión al mostrar la página (maneja navegación "back")
         window.addEventListener('pageshow', (event) => {
+            // Siempre revalidar con el servidor
             cargarDatosAlumno();
+            if (event.persisted) {
+                // Si la página viene del cache del navegador, forzar recarga
+                // para que la comprobación de sesión sea efectiva
+                window.location.reload();
+            }
         });
 
         // Auto-refresh cada 5 segundos para mantener puntos actualizados
