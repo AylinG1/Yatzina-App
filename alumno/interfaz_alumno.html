@@ -11,7 +11,7 @@
     <style>
         :root{
             --primary: #2bee4b;
-            --background-light: #e8f5e9; /* CAMBIADO: Color más suave y claro */
+            --background-light: #f6f8f6;
             --background-dark: #102213;
             --card-radius: 1rem;
             --card-radius-lg: 1.5rem;
@@ -21,10 +21,20 @@
         *{box-sizing:border-box;margin:0;padding:0}
         body{
             font-family: 'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-            background: var(--background-light); /* Usa el nuevo color */
+            /* CAMBIADO: Fondo con degradado animado como el memorama */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             color: var(--text-dark);
             min-height:100vh;
             padding:24px;
+        }
+
+        /* Animación del degradado */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .header{

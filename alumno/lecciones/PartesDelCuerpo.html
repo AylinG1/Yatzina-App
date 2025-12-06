@@ -164,46 +164,22 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        /* Modificado el estilo de la cara frontal para incluir imágenes */
         /* Cara frontal (Por defecto: Blanco suave - para tarjetas Otomí) */
         .card-front {
             background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
             border: 3px solid rgba(255,255,255,0.5);
-            flex-direction: column;
-            gap: 5px;
         }
 
-        /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (con imagen) */
+        /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (Gris suave) */
         .card.type-spanish .card-inner .card-front {
             background: linear-gradient(135deg, rgba(230, 230, 230, 0.9), rgba(200, 200, 200, 0.9)); /* Gris más oscuro */
             border: 3px solid rgba(255,255,255,0.8);
             box-shadow: 0 6px 10px rgba(0,0,0,0.3); 
         }
 
-        /* Imagen de las tarjetas españolas */
-        .card-front-image {
-            width: 60%;
-            height: 60%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        /* Texto debajo de la imagen */
-        .card-front-text {
-            font-size: 0.7rem;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-        }
-
         .card-front::before {
             content: '🎭';
             font-size: 2rem;
-        }
-
-        /* Ocultar el emoji para tarjetas españolas */
-        .card.type-spanish .card-front::before {
-            display: none;
         }
 
         .card-back {
@@ -380,9 +356,6 @@
             .title {
                 font-size: 1rem;
             }
-            .card-front-text {
-                font-size: 0.6rem;
-            }
         }
     </style>
 </head>
@@ -410,8 +383,7 @@
                 <p>⏱️ Tiempo: <span id="finalTime"></span></p>
                 <p>🔄 Movimientos: <span id="finalMoves"></span></p>
             </div>
-            <!-- Botón modificado para continuar y redirigir -->
-            <button class="reset-btn" onclick="continuarAlumno()">➡️ Continuar</button>
+            <button class="reset-btn" onclick="resetGame()">🎮 Jugar de nuevo</button>
         </div>
     </div>
 
@@ -446,8 +418,8 @@
         let startTime = null;
         let timerInterval = null;
         let canFlip = true;
-        let isShuffling = false;
-        let hintUsed = false;
+        let isShuffling = false; // NUEVA VARIABLE
+        let hintUsed = false;    // NUEVA VARIABLE
 
         function initGame() {
             const gameGrid = document.getElementById('gameGrid');
@@ -482,30 +454,16 @@
             // Barajar cartas
             cards.sort(() => Math.random() - 0.5);
 
+            // Crear elementos DOM
             cards.forEach((card, index) => {
                 const cardElement = document.createElement('div');
                 cardElement.className = `card type-${card.type}`;
                 cardElement.dataset.id = card.id;
                 cardElement.dataset.pair = card.pair;
                 
-                // Crear contenido de la cara frontal según el tipo
-                let frontContent = '';
-                if (card.type === 'spanish') {
-                    // Generar imagen placeholder con el nombre de la parte del cuerpo
-                    const imageName = card.text.toLowerCase().replace(/ /g, '-');
-                    frontContent = `
-                        <img src="/placeholder.svg?height=100&width=100" 
-                             alt="${card.text}" 
-                             class="card-front-image">
-                        <div class="card-front-text">${card.text}</div>
-                    `;
-                } else {
-                    frontContent = ''; // Para otomí usa el emoji del CSS
-                }
-                
                 cardElement.innerHTML = `
                     <div class="card-inner">
-                        <div class="card-face card-front">${frontContent}</div>
+                        <div class="card-face card-front"></div>
                         <div class="card-face card-back pair-${card.pair}">
                             ${card.text}
                         </div>
@@ -599,10 +557,6 @@
             guardarProgreso();
             
             createConfetti();
-        }
-
-        function continuarAlumno() {
-            window.location.href = '../interfaz_alumno.html';
         }
 
         // =========================================================
