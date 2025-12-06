@@ -645,12 +645,21 @@
         </div>
     </div>
 
-    <!-- Modal de victoria -->
+    <!-- Modal de victoria MODIFICADO: Ahora redirige a interfaz_alumno.html -->
     <div class="modal" id="victory-modal">
         <div class="modal-content">
             <div class="modal-title">¡Excelente! 🎉</div>
             <p class="modal-message">Has completado todas las palabras correctamente. ¡Qué bueno que estás aprendiendo Hñähñu!</p>
-            <button class="btn" id="play-again-btn">Jugar de Nuevo</button>
+            <button class="btn" id="go-to-panel-btn">📚 Ir al Panel</button>
+        </div>
+    </div>
+
+    <!-- NUEVO: Modal de "Game Over" -->
+    <div class="modal" id="gameover-modal">
+        <div class="modal-content">
+            <div class="modal-title">¡Se acabaron las vidas! 😔</div>
+            <p class="modal-message">No te preocupes, puedes intentarlo nuevamente para mejorar.</p>
+            <button class="btn" id="try-again-btn">🔄 Volver a Intentar</button>
         </div>
     </div>
 
@@ -719,8 +728,10 @@
         const attemptsDisplay = document.getElementById('attempts');
         const livesContainerCompact = document.getElementById('lives-container-compact');
         const victoryModal = document.getElementById('victory-modal');
+        const gameoverModal = document.getElementById('gameover-modal');
         const restartBtn = document.getElementById('restart-btn');
-        const playAgainBtn = document.getElementById('play-again-btn');
+        const goToPanelBtn = document.getElementById('go-to-panel-btn');
+        const tryAgainBtn = document.getElementById('try-again-btn');
         const mobileLayout = document.querySelector('.mobile-layout');
         const desktopLayout = document.querySelector('.desktop-layout');
 
@@ -941,10 +952,9 @@
                 updateLives();
                 playSound('incorrect');
                 
-                if (lives === 0) {
+                if (lives <= 0) {
                     setTimeout(() => {
-                        alert('¡Se acabaron las vidas! Intenta de nuevo.');
-                        initGame();
+                        showGameOver();
                     }, 600);
                 }
             }
@@ -1062,10 +1072,9 @@
                 updateLives();
                 playSound('incorrect');
                 
-                if (lives === 0) {
+                if (lives <= 0) {
                     setTimeout(() => {
-                        alert('¡Se acabaron las vidas! Intenta de nuevo.');
-                        initGame();
+                        showGameOver();
                     }, 500);
                 }
             }
@@ -1121,6 +1130,10 @@
             createConfetti();
         }
 
+        function showGameOver() {
+            gameoverModal.classList.add('show');
+        }
+
         function createConfetti() {
             const colors = ['#6A4C93', '#9370DB', '#4682B4', '#87CEEB', '#2E8B57', '#98FB98'];
             for (let i = 0; i < 80; i++) {
@@ -1159,8 +1172,14 @@
             initGame();
         });
 
-        playAgainBtn.addEventListener('click', () => {
-            victoryModal.classList.remove('show');
+        // MODIFICADO: Ahora redirige a interfaz_alumno.html
+        goToPanelBtn.addEventListener('click', () => {
+            window.location.href = '../interfaz_alumno.html';
+        });
+
+        // NUEVO: Botón para intentar de nuevo cuando se acaban las vidas
+        tryAgainBtn.addEventListener('click', () => {
+            gameoverModal.classList.remove('show');
             initGame();
         });
 
