@@ -268,17 +268,30 @@
                 </div>
                 
                 <div id="quiz-end" class="hidden text-center">
-                    <div class="text-6xl mb-6">🎉</div>
-                    <h3 class="text-3xl font-bold text-purple-600 mb-4">¡Excelente Trabajo!</h3>
-                    <p class="text-2xl text-gray-700 mb-6">
-                        Tu puntuación final: <span id="final-score" class="font-bold text-pink-500">0</span> de <span id="max-score">5</span>
-                    </p>
-                    <button onclick="restartQuiz()" class="bg-gradient-to-r from-green-400 to-blue-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 mr-4">
-                        🔄 Jugar de Nuevo
-                    </button>
-                    <button onclick="backToLearning()" class="bg-gradient-to-r from-purple-400 to-pink-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
-                        📚 Volver a Aprender
-                    </button>
+                    <div id="success-end" class="hidden">
+                        <div class="text-6xl mb-6">🏆</div>
+                        <h3 class="text-3xl font-bold text-purple-600 mb-4">¡Lección Completada!</h3>
+                        <p class="text-2xl text-gray-700 mb-6">
+                            Has completado todas las preguntas correctamente
+                        </p>
+                        <button onclick="goToPanel()" class="bg-gradient-to-r from-green-400 to-blue-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                            📚 Ir al Panel
+                        </button>
+                    </div>
+                    
+                    <div id="retry-end" class="hidden">
+                        <div class="text-6xl mb-6">😔</div>
+                        <h3 class="text-3xl font-bold text-purple-600 mb-4">¡Inténtalo de Nuevo!</h3>
+                        <p class="text-2xl text-gray-700 mb-6">
+                            Tu puntuación final: <span id="final-score" class="font-bold text-pink-500">0</span> de <span id="max-score">5</span>
+                        </p>
+                        <button onclick="restartQuiz()" class="bg-gradient-to-r from-green-400 to-blue-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 mr-4">
+                            🔄 Reintentar
+                        </button>
+                        <button onclick="backToLearning()" class="bg-gradient-to-r from-purple-400 to-pink-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
+                            📚 Volver a Aprender
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -422,8 +435,18 @@
         function endQuiz() {
             document.getElementById('quiz-content').classList.add('hidden');
             document.getElementById('quiz-end').classList.remove('hidden');
-            document.getElementById('final-score').textContent = score;
-            document.getElementById('max-score').textContent = quizQuestions.length;
+            
+            if (score === 5) {
+                // Todas correctas: mostrar mensaje de lección completada
+                document.getElementById('success-end').classList.remove('hidden');
+                document.getElementById('retry-end').classList.add('hidden');
+            } else {
+                // No todas correctas: mostrar opciones de reintentar
+                document.getElementById('retry-end').classList.remove('hidden');
+                document.getElementById('success-end').classList.add('hidden');
+                document.getElementById('final-score').textContent = score;
+                document.getElementById('max-score').textContent = quizQuestions.length;
+            }
         }
         
         function restartQuiz() {
@@ -438,6 +461,10 @@
             document.getElementById('quiz-section').classList.add('hidden');
             document.getElementById('learning-section').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function goToPanel() {
+            window.location.href = '../interfaz_alumno.html';
         }
     </script>
 </body>
