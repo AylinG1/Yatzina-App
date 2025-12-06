@@ -73,7 +73,7 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             padding: 15px;
-            margin-bottom: 10px; /* Reducido para más espacio */
+            margin-bottom: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             text-align: center;
         }
@@ -91,7 +91,7 @@
         .subtitle {
             color: #666;
             font-size: 0.9rem;
-            margin-bottom: 10px; /* Reducido */
+            margin-bottom: 10px;
         }
 
         /* Contenedor de estadísticas y vidas compacto */
@@ -183,13 +183,6 @@
             overflow: hidden;
         }
 
-        .game-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 15px; /* Reducido */
-        }
-
         /* Layout para móviles - Una sola columna */
         .mobile-layout {
             display: flex;
@@ -200,19 +193,19 @@
         .column {
             display: flex;
             flex-direction: column;
-            gap: 10px; /* Reducido */
+            gap: 10px;
         }
 
         .column-title {
             text-align: center;
-            font-size: 1.1rem; /* Reducido */
+            font-size: 1.1rem;
             font-weight: 600;
             background: linear-gradient(135deg, #6A4C93, #4682B4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 6px; /* Reducido */
-            padding: 6px; /* Reducido */
+            margin-bottom: 6px;
+            padding: 6px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -220,24 +213,24 @@
 
         .words-container, .images-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Ajustado */
-            gap: 8px; /* Reducido */
-            margin-bottom: 8px; /* Reducido */
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .word-card, .image-card {
             background: white;
             border: 2px solid #e0e0e0;
-            border-radius: 10px; /* Reducido */
-            padding: 12px; /* Reducido */
+            border-radius: 10px;
+            padding: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Reducido */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             position: relative;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
-            min-height: 70px; /* Reducido */
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -245,7 +238,7 @@
         }
 
         .word-card {
-            font-size: 1.1rem; /* Reducido */
+            font-size: 1.1rem;
             font-weight: 600;
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -266,17 +259,11 @@
 
         .image-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 90px; /* Reducido */
-        }
-
-        .image-card img {
-            max-width: 100%;
-            max-height: 70px; /* Reducido */
-            border-radius: 6px; /* Reducido */
+            min-height: 90px;
         }
 
         .image-card .emoji {
-            font-size: 3rem; /* Reducido */
+            font-size: 3rem;
         }
 
         .drop-zone {
@@ -323,10 +310,10 @@
         .cultural-info {
             background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
             border-left: 4px solid #f39c12;
-            padding: 8px; /* Reducido */
-            margin-top: 6px; /* Reducido */
-            border-radius: 6px; /* Reducido */
-            font-size: 0.75rem; /* Reducido */
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             color: #333;
             display: none;
         }
@@ -350,17 +337,17 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 12px; /* Reducido */
+            gap: 12px;
             flex-wrap: wrap;
-            margin-top: 15px; /* Reducido */
+            margin-top: 15px;
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 10px 25px; /* Reducido */
-            font-size: 0.9rem; /* Reducido */
+            padding: 10px 25px;
+            font-size: 0.9rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
@@ -368,7 +355,7 @@
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
             font-family: 'Poppins', sans-serif;
             flex: 1;
-            max-width: 180px; /* Reducido */
+            max-width: 180px;
         }
 
         .btn:active {
@@ -379,13 +366,12 @@
         /* Instrucciones para móvil */
         .mobile-instructions {
             text-align: center;
-            padding: 8px; /* Reducido */
-            margin-bottom: 12px; /* Reducido */
+            padding: 8px;
+            margin-bottom: 12px;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
-            font-size: 0.85rem; /* Reducido */
+            font-size: 0.85rem;
             color: #666;
-            display: none;
         }
 
         .modal {
@@ -399,7 +385,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 12px; /* Reducido */
+            padding: 12px;
         }
 
         .modal.show {
@@ -414,11 +400,11 @@
 
         .modal-content {
             background: white;
-            padding: 20px; /* Reducido */
+            padding: 20px;
             border-radius: 15px;
             text-align: center;
             width: 100%;
-            max-width: 350px; /* Reducido */
+            max-width: 350px;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
             animation: slideUp 0.4s ease;
         }
@@ -435,8 +421,8 @@
         }
 
         .modal-title {
-            font-size: 1.8rem; /* Reducido */
-            margin-bottom: 12px; /* Reducido */
+            font-size: 1.8rem;
+            margin-bottom: 12px;
             background: linear-gradient(135deg, #2E8B57, #98FB98);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -444,16 +430,16 @@
         }
 
         .modal-message {
-            font-size: 1rem; /* Reducido */
+            font-size: 1rem;
             color: #666;
-            margin-bottom: 15px; /* Reducido */
+            margin-bottom: 15px;
             line-height: 1.4;
         }
 
         .confetti {
             position: fixed;
-            width: 6px; /* Reducido */
-            height: 6px; /* Reducido */
+            width: 6px;
+            height: 6px;
             background: #f0f;
             pointer-events: none;
             z-index: 999;
@@ -501,18 +487,15 @@
                 border-radius: 15px;
             }
 
-            .game-grid {
+            /* Layout para desktop - dos columnas */
+            .desktop-layout {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 20px;
+                gap: 25px;
             }
 
             .mobile-layout {
                 display: none;
-            }
-
-            .desktop-layout {
-                display: block;
             }
 
             .column-title {
@@ -522,12 +505,12 @@
 
             .words-container, .images-container {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                gap: 12px;
             }
 
             .word-card, .image-card {
                 padding: 15px;
-                min-height: 90px;
+                min-height: 100px;
             }
 
             .word-card {
@@ -547,15 +530,6 @@
             .mobile-instructions {
                 display: none !important;
             }
-        }
-
-        /* Clase para mostrar instrucciones en móvil */
-        .show-on-mobile {
-            display: block;
-        }
-
-        .hide-on-mobile {
-            display: none;
         }
 
         /* Floating return button */
@@ -582,16 +556,6 @@
         #floating-return button:active {
             transform: scale(0.95);
         }
-
-        @media (max-width: 767px) {
-            .show-on-mobile {
-                display: block;
-            }
-            
-            .hide-on-mobile {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -608,7 +572,7 @@
             <p class="subtitle">Relaciona las palabras con sus imágenes</p>
             
             <!-- Instrucciones para móvil -->
-            <div class="mobile-instructions show-on-mobile">
+            <div class="mobile-instructions">
                 👆 <strong>Toca una palabra</strong>, luego toca la imagen correspondiente
             </div>
             
@@ -639,7 +603,7 @@
 
         <div class="game-area">
             <!-- Layout para móviles (una sola columna) -->
-            <div class="mobile-layout show-on-mobile">
+            <div class="mobile-layout">
                 <div class="column">
                     <h2 class="column-title">Palabras en Hñähñu</h2>
                     <div class="words-container" id="words-column-mobile"></div>
@@ -652,7 +616,7 @@
             </div>
 
             <!-- Layout para desktop (dos columnas) -->
-            <div class="game-grid hide-on-mobile">
+            <div class="desktop-layout">
                 <div class="column">
                     <h2 class="column-title">Palabras en Hñähñu</h2>
                     <div class="words-container" id="words-column-desktop"></div>
@@ -757,6 +721,8 @@
         const victoryModal = document.getElementById('victory-modal');
         const restartBtn = document.getElementById('restart-btn');
         const playAgainBtn = document.getElementById('play-again-btn');
+        const mobileLayout = document.querySelector('.mobile-layout');
+        const desktopLayout = document.querySelector('.desktop-layout');
 
         // Inicializar juego
         function initGame() {
@@ -774,12 +740,13 @@
             const shuffledImages = [...gameData].sort(() => Math.random() - 0.5);
             
             // Crear tarjetas para móvil
-            if (isMobile) {
-                createCardsForMobile(shuffledWords, shuffledImages);
-            }
+            createCardsForMobile(shuffledWords, shuffledImages);
             
             // Crear tarjetas para desktop
             createCardsForDesktop(shuffledWords, shuffledImages);
+            
+            // Mostrar layout correcto
+            updateLayout();
         }
 
         function createCardsForMobile(words, images) {
@@ -896,6 +863,17 @@
             card.addEventListener('drop', handleDrop);
             
             return card;
+        }
+
+        // Actualizar layout según tamaño de pantalla
+        function updateLayout() {
+            if (isMobile) {
+                mobileLayout.style.display = 'flex';
+                desktopLayout.style.display = 'none';
+            } else {
+                mobileLayout.style.display = 'none';
+                desktopLayout.style.display = 'grid';
+            }
         }
 
         // Funciones para móvil
@@ -1170,11 +1148,10 @@
             }
         }
 
-        // Detectar si es móvil
+        // Detectar si es móvil y actualizar layout
         function checkMobile() {
             isMobile = window.innerWidth <= 768;
-            // Reiniciar el juego con el layout correcto
-            initGame();
+            updateLayout();
         }
 
         // Event listeners
