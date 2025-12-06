@@ -123,27 +123,63 @@ $mensaje .= "Este enlace es válido por 1 hora.\n\n";
 $mensaje .= "Si no solicitaste este restablecimiento, puedes ignorar este correo de forma segura. Tu contraseña actual no cambiará.\n\n";
 $mensaje .= "Saludos,\nEquipo de Yätzina";
 
-// Headers del correo
-$headers = "From: noreply@yatzina.com\r\n";
-$headers .= "Reply-To: soporte@yatzina.com\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion();
+// Mensaje HTML (opcional, mejor presentación)
+$mensaje_html = "
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #2bee4b 0%, #21c13b 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+        .button { display: inline-block; padding: 15px 30px; background: #2bee4b; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0; }
+        .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1>🔐 Restablecimiento de Contraseña</h1>
+        </div>
+        <div class='content'>
+            <p>Hola <strong>$nombre_usuario</strong>,</p>
+            <p>Hemos recibido una solicitud para restablecer tu contraseña en <strong>Yätzina</strong>.</p>
+            <p>Para crear una nueva contraseña, haz clic en el siguiente botón:</p>
+            <p style='text-align: center;'>
+                <a href='$reset_link' class='button'>Restablecer Contraseña</a>
+            </p>
+            <p>O copia y pega este enlace en tu navegador:</p>
+            <p style='word-break: break-all; background: white; padding: 10px; border-radius: 5px;'>$reset_link</p>
+            <p><strong>⏰ Este enlace es válido por 1 hora.</strong></p>
+            <p>Si no solicitaste este restablecimiento, puedes ignorar este correo de forma segura. Tu contraseña actual no cambiará.</p>
+            <div class='footer'>
+                <p>Saludos,<br><strong>Equipo de Yätzina</strong> 🎓</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+";
 
-// Intentar enviar el correo
-// NOTA: en entornos de producción es preferible usar PHPMailer + SMTP autenticado.
-if (mail($correo_usuario, $asunto, $mensaje, $headers)) {
+// Incluir el helper de email
+include __DIR__ . '/email_helper.php';
+
+// Intentar enviar el correo mediante SMTP
+if (enviarEmail($correo_usuario, $asunto, $mensaje, $mensaje_html)) {
     echo json_encode([
         "status" => "ok",
         "msg" => "Se ha enviado un enlace de restablecimiento a tu correo electrónico. Por favor, revisa tu bandeja de entrada."
     ]);
 } else {
-    // Registrar en log para depuración sin revelar información al cliente
-    error_log("[recuperar_contrasena] mail() fallo al enviar a: $correo_usuario | headers: " . $headers);
-
-    // Responder de forma genérica para no filtrar existencia de cuentas
+    // Registrar en log para depuración
+    error_log("[recuperar_contrasena] No se pudo enviar el email a: $correo_usuario");
+    
+    // Responder indicando el problema
     echo json_encode([
-        "status" => "ok",
-        "msg" => "Si el correo existe en nuestro sistema, recibirás un enlace de restablecimiento."
+        "status" => "error",
+        "msg" => "No se pudo enviar el correo. Por favor, contacta al administrador o intenta más tarde."
     ]);
 }
 ?>

@@ -5,6 +5,7 @@ desktop.ini
 
 # Configuración local
 backend/conexion_local.php
+backend/email_config.php
 
 # Logs y temporales
 *.log
