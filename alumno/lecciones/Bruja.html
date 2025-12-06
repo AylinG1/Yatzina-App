@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ra 'bede rä Xitsu Bädí - El Cuento de la Bruja</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive, sans-serif;
+            background: linear-gradient(-45deg, #8b5cf6, #7c3aed, #6d28d9, #5b21b6);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #5b21b6;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(139, 92, 246, 0.3);
+            animation: titleBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7c3aed;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+        }
+
+        /* Reading Section */
+        .reading-section {
+            display: block;
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .column {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            padding: 25px;
+            border-radius: 20px;
+            border: 3px solid #8b5cf6;
+        }
+
+        .column h2 {
+            color: #5b21b6;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+            border-bottom: 3px solid #a78bfa;
+            padding-bottom: 10px;
+        }
+
+        .text-line {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        .text-line:hover {
+            background: rgba(196, 181, 253, 0.4);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .text-line.highlight {
+            background: rgba(196, 181, 253, 0.6);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .otomi-text {
+            color: #4c1d95;
+            font-weight: bold;
+        }
+
+        .spanish-text {
+            color: #5b21b6;
+        }
+
+        /* Start Button */
+        .start-button {
+            display: block;
+            margin: 40px auto;
+            padding: 20px 50px;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .start-button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4); }
+            50% { box-shadow: 0 10px 50px rgba(139, 92, 246, 0.8); }
+        }
+
+        /* Exercise Section */
+        .exercise-section {
+            display: none;
+        }
+
+        .lives {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .heart {
+            display: inline-block;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .heart.lost {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+
+        .progress {
+            text-align: center;
+            font-size: 1.5em;
+            color: #5b21b6;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .exercise-box {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            padding: 40px;
+            border-radius: 25px;
+            border: 4px solid #8b5cf6;
+            margin-bottom: 30px;
+            min-height: 300px;
+        }
+
+        .sentence-container {
+            font-size: 1.4em;
+            color: #4c1d95;
+            line-height: 2;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .blank-space {
+            display: inline-block;
+            min-width: 150px;
+            padding: 10px 20px;
+            border: 3px dashed #8b5cf6;
+            border-radius: 15px;
+            background: white;
+            transition: all 0.3s ease;
+            vertical-align: middle;
+        }
+
+        .blank-space.drag-over {
+            background: rgba(196, 181, 253, 0.5);
+            transform: scale(1.05);
+        }
+
+        .blank-space.filled {
+            border: 3px solid #7c3aed;
+            background: rgba(196, 181, 253, 0.3);
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .option {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: grab;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .option:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .option.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .option.used {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: rgba(139, 92, 246, 0.3);
+            color: #4c1d95;
+            display: block;
+            animation: bounceIn 0.5s ease;
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.3);
+            color: #991b1b;
+            display: block;
+            animation: shakeIt 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shakeIt {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .success-screen h2 {
+            font-size: 3em;
+            color: #5b21b6;
+            margin-bottom: 20px;
+        }
+
+        .success-screen p {
+            font-size: 1.5em;
+            color: #7c3aed;
+            margin-bottom: 40px;
+        }
+
+        .success-icon {
+            font-size: 6em;
+            margin-bottom: 30px;
+            animation: rotateIcon 2s ease-in-out infinite;
+        }
+
+        @keyframes rotateIcon {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+
+        /* Game Over Screen */
+        .gameover-screen {
+            display: none;
+            text-align: center;
+            padding: 60px;
+        }
+
+        .gameover-screen h2 {
+            font-size: 3em;
+            color: #991b1b;
+            margin-bottom: 20px;
+        }
+
+        .gameover-screen p {
+            font-size: 1.5em;
+            color: #5b21b6;
+            margin-bottom: 40px;
+        }
+
+        .restart-button {
+            padding: 20px 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .restart-button:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .columns {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .options-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧙 Ra 'bede rä Xitsu Bädí 🧙</h1>
+        <p class="subtitle">El Cuento de la Bruja</p>
+
+        <!-- Reading Section -->
+        <div class="reading-section" id="readingSection">
+            <div class="columns">
+                <div class="column">
+                    <h2>Otomí</h2>
+                    <div class="text-line otomi-text" data-pair="1">Mä metsu Carmelita bí xikí ga nu'bu mä ya'ba, nu'bu̱ mi nt'u̱hni 'u̱ ma ndowe mi 'bu̱hyä bädí.</div>
+                    <div class="text-line otomi-text" data-pair="2">N'da rä xü ge mi ähä nu'u̱ mä ndo̱we. mi nt'o̱de ge ja ä mi lyobu̱ ja rä ngü, bi mu̱dí bi nzoni u̱ ya t'u̱ were.</div>
+                    <div class="text-line otomi-text" data-pair="3">Nu'u̱ ma ndo̱ta bi nü ge nu'u̱ yä bädí mi ne xti zixu mä ndo̱we.</div>
+                    <div class="text-line otomi-text" data-pair="4">Za mi nü ma ndo̱ta u̱ yä bädí bi Japi 'na rä tso ge pa hinda za dä 'iäni pe nu'ä ma metsu bi lhioni na ra 'ñäxi ge bi 'nütä rä bädí padä 'wege 'ne da ma.</div>
+                    <div class="text-line otomi-text" data-pair="5">Ma metsu bi xiki ge nu'u̱ ya bädí xitsu 'i tsu u̱ ya 'näxi. Nu'bu̱ bu̱i yä were i pa njagpi 'na rä 'ñaxi nubu̱ rä hühni pa hinda zixu̱ yä bädi.</div>
+                </div>
+                <div class="column">
+                    <h2>Español</h2>
+                    <div class="text-line spanish-text" data-pair="1">Mi abuelita Carmelita me contó que hace tiempo cuando mis tíos eran bebés se encontraban durmiendo.</div>
+                    <div class="text-line spanish-text" data-pair="2">De repente se escuchaban unos ruidos y después de un rato empezaron a llorar mis tíos.</div>
+                    <div class="text-line spanish-text" data-pair="3">Mis abuelos fueron a ver que pasaba y vieron que las brujas se los querían llevar.</div>
+                    <div class="text-line spanish-text" data-pair="4">Las brujas empezaron a como que amarrar a mi abuelo porque mi abuelito no se podía mover y mi abuela fue a traer tijeras para que se fueran.</div>
+                    <div class="text-line spanish-text" data-pair="5">Mi abuela me dijo que las tijeras cortan a las brujas. Ahora en adelante cuando nace un bebé se dejan tijeras en la ventana.</div>
+                </div>
+            </div>
+
+            <button class="start-button" onclick="startExercise()">🚀 Comenzar la aventura 🚀</button>
+        </div>
+
+        <!-- Exercise Section -->
+        <div class="exercise-section" id="exerciseSection">
+            <div class="lives" id="livesDisplay">
+                <span class="heart" id="heart1">💜</span>
+                <span class="heart" id="heart2">💜</span>
+                <span class="heart" id="heart3">💜</span>
+            </div>
+
+            <div class="progress" id="progressDisplay">Pregunta 1 de 5</div>
+
+            <div class="exercise-box">
+                <div class="sentence-container" id="sentenceDisplay"></div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen">
+            <div class="success-icon">✨</div>
+            <h2>¡Lección completada con éxito!</h2>
+            <p>Has aprendido palabras clave en otomí sobre el cuento de la bruja.</p>
+            <button class="restart-button" onclick="goToLecturas()">📚 Ir a lecturas</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="gameover-screen" id="gameoverScreen">
+            <div class="success-icon">😔</div>
+            <h2>Lección terminada</h2>
+            <p>No te preocupes, puedes intentarlo nuevamente</p>
+            <button class="restart-button" onclick="restartExercise()">🔄 Reintentar</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para redirigir a lecturas.html
+        function goToLecturas() {
+            window.location.href = 'lecturas.html';
+        }
+
+        // Reading section hover effect
+        const textLines = document.querySelectorAll('.text-line');
+        textLines.forEach(line => {
+            line.addEventListener('mouseenter', function() {
+                const pairId = this.getAttribute('data-pair');
+                document.querySelectorAll(`[data-pair="${pairId}"]`).forEach(el => {
+                    el.classList.add('highlight');
+                });
+            });
+            
+            line.addEventListener('mouseleave', function() {
+                const pairId = this.getAttribute('data-pair');
+                document.querySelectorAll(`[data-pair="${pairId}"]`).forEach(el => {
+                    el.classList.remove('highlight');
+                });
+            });
+        });
+
+        // Exercise data - Cuento de la Bruja
+        const exercises = [
+            {
+                sentence: "Mä metsu _____ bí xikí ga nu'bu mä ya'ba.",
+                correct: "Carmelita",
+                options: ["Carmelita", "Fela", "Rafaela"]
+            },
+            {
+                sentence: "nu'bu̱ mi nt'u̱hni 'u̱ ma ndowe mi 'bu̱hyä _____.",
+                correct: "bädí",
+                options: ["bädí", "xitsu", "metsu"]
+            },
+            {
+                sentence: "N'da rä xü ge mi ähä nu'u̱ mä _____.",
+                correct: "ndo̱we",
+                options: ["ndo̱we", "were", "xitsu"]
+            },
+            {
+                sentence: "bi mu̱dí bi nzoni u̱ ya t'u̱ _____.",
+                correct: "were",
+                options: ["were", "xitsu", "bädí"]
+            },
+            {
+                sentence: "Nu'u̱ ma ndo̱ta bi nü ge nu'u̱ yä bädí mi ne xti zixu mä _____.",
+                correct: "ndo̱we",
+                options: ["ndo̱we", "xitsu", "ñäxi"]
+            },
+            {
+                sentence: "Za mi nü ma ndo̱ta u̱ yä bädí bi _____ 'na rä tso.",
+                correct: "Japi",
+                options: ["Japi", "Carmelita", "xitsu"]
+            },
+            {
+                sentence: "pe nu'ä ma metsu bi lhioni na ra 'ñäxi ge bi 'nütä rä bädí padä _____ 'ne da ma.",
+                correct: "'wege",
+                options: ["'wege", "were", "xitsu"]
+            },
+            {
+                sentence: "Ma metsu bi xiki ge nu'u̱ ya bädí _____ 'i tsu u̱ ya 'näxi.",
+                correct: "xitsu",
+                options: ["xitsu", "bädí", "ndo̱we"]
+            },
+            {
+                sentence: "Nu'bu̱ bu̱i yä were i pa njagpi 'na rä _____ nubu̱ rä hühni.",
+                correct: "'ñaxi",
+                options: ["'ñaxi", "'wege", "xitsu"]
+            },
+            {
+                sentence: "pa hinda zixu̱ yä _____.",
+                correct: "bädi",
+                options: ["bädi", "xitsu", "ndo̱we"]
+            }
+        ];
+
+        let lives = 3;
+        let correctAnswers = 0;
+        let usedExercises = [];
+        let availableExercises = [...exercises];
+        let currentCorrectAnswer = '';
+        let draggedElement = null;
+
+        function startExercise() {
+            document.getElementById('readingSection').style.display = 'none';
+            document.getElementById('exerciseSection').style.display = 'block';
+            resetExercise();
+            loadExercise();
+        }
+
+        function resetExercise() {
+            lives = 3;
+            correctAnswers = 0;
+            usedExercises = [];
+            availableExercises = [...exercises];
+            updateLivesDisplay();
+            updateProgressDisplay();
+        }
+
+        function loadExercise() {
+            if (availableExercises.length === 0) {
+                availableExercises = exercises.filter(ex => !usedExercises.includes(ex));
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableExercises.length);
+            const exercise = availableExercises[randomIndex];
+            
+            currentCorrectAnswer = exercise.correct;
+
+            // Display sentence with blank
+            const sentenceHTML = exercise.sentence.replace('_____', 
+                '<span class="blank-space" id="blankSpace" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)"></span>');
+            document.getElementById('sentenceDisplay').innerHTML = sentenceHTML;
+
+            // Display options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            const shuffledOptions = [...exercise.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.draggable = true;
+                optionElement.textContent = option;
+                optionElement.ondragstart = drag;
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('feedback').className = 'feedback';
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+            event.target.classList.add('drag-over');
+        }
+
+        function dragLeave(event) {
+            event.target.classList.remove('drag-over');
+        }
+
+        function drag(event) {
+            draggedElement = event.target;
+            event.target.classList.add('dragging');
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            event.target.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                const droppedWord = draggedElement.textContent;
+                const blankSpace = document.getElementById('blankSpace');
+                blankSpace.textContent = droppedWord;
+                blankSpace.classList.add('filled');
+                
+                draggedElement.classList.remove('dragging');
+                draggedElement.classList.add('used');
+                
+                checkAnswer(droppedWord);
+            }
+        }
+
+        function checkAnswer(answer) {
+            const feedbackElement = document.getElementById('feedback');
+            
+            if (answer === currentCorrectAnswer) {
+                feedbackElement.textContent = '¡Correcto! ✨';
+                feedbackElement.className = 'feedback correct';
+                correctAnswers++;
+                
+                const currentExercise = availableExercises.find(ex => ex.correct === currentCorrectAnswer);
+                usedExercises.push(currentExercise);
+                availableExercises = availableExercises.filter(ex => ex.correct !== currentCorrectAnswer);
+                
+                setTimeout(() => {
+                    if (correctAnswers >= 5) {
+                        showSuccess();
+                    } else {
+                        updateProgressDisplay();
+                        loadExercise();
+                    }
+                }, 1500);
+            } else {
+                feedbackElement.textContent = 'Incorrecto, pierdes una vida 💜';
+                feedbackElement.className = 'feedback incorrect';
+                lives--;
+                updateLivesDisplay();
+                
+                setTimeout(() => {
+                    if (lives <= 0) {
+                        showGameOver();
+                    } else {
+                        loadExercise();
+                    }
+                }, 1500);
+            }
+        }
+
+        function updateLivesDisplay() {
+            for (let i = 1; i <= 3; i++) {
+                const heart = document.getElementById(`heart${i}`);
+                if (i > lives) {
+                    heart.classList.add('lost');
+                } else {
+                    heart.classList.remove('lost');
+                }
+            }
+        }
+
+        function updateProgressDisplay() {
+            document.getElementById('progressDisplay').textContent = `Pregunta ${correctAnswers + 1} de 5`;
+        }
+
+        function showSuccess() {
+            document.getElementById('exerciseSection').style.display = 'none';
+            document.getElementById('successScreen').style.display = 'block';
+        }
+
+        function showGameOver() {
+            document.getElementById('exerciseSection').style.display = 'none';
+            document.getElementById('gameoverScreen').style.display = 'block';
+        }
+
+        function restartExercise() {
+            document.getElementById('gameoverScreen').style.display = 'none';
+            document.getElementById('exerciseSection').style.display = 'block';
+            resetExercise();
+            loadExercise();
+        }
+    </script>
+
+    <!-- Floating return button (always visible) -->
+    <div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 50; pointer-events: auto;">
+        <button aria-label="Volver al Panel" id="float-btn" 
+            style="padding: 12px 18px; background: linear-gradient(90deg, #8b5cf6, #7c3aed); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+            📚
+        </button>
+    </div>
+    <script>
+        document.getElementById('float-btn').addEventListener('click', function() {
+            window.location.href = '../interfaz_alumno.html';
+        });
+    </script>
+    <script src="../notificacionesPuntos.js"></script>
+</body>
+</html>
