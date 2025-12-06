@@ -168,6 +168,18 @@
         .card-front {
             background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
             border: 3px solid rgba(255,255,255,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .card-front img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 8px;
         }
 
         /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (Gris suave) */
@@ -177,9 +189,11 @@
             box-shadow: 0 6px 10px rgba(0,0,0,0.3); 
         }
 
-        .card-front::before {
-            content: '🎭';
-            font-size: 2rem;
+        .card-front .card-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
         }
 
         .card-back {
@@ -192,6 +206,9 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
             word-wrap: break-word;
             padding: 5px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Estilos del Modal (se mantienen) */
@@ -318,11 +335,18 @@
             .card-back {
                 font-size: 0.8rem;
             }
+            .card-front img {
+                width: 40px;
+                height: 40px;
+            }
+            .card-front .card-title {
+                font-size: 0.8rem;
+            }
             .title {
                 font-size: 1.2rem;
             }
             /* Apilar botones en móvil */
-             .header .reset-btn {
+            .header .reset-btn {
                 width: calc(33% - 10px); 
                 margin: 5px 2px;
                 padding: 8px 10px;
@@ -347,6 +371,13 @@
                 max-height: 80vh;
             }
             .card-back {
+                font-size: 0.7rem;
+            }
+            .card-front img {
+                width: 35px;
+                height: 35px;
+            }
+            .card-front .card-title {
                 font-size: 0.7rem;
             }
             .stat-item {
@@ -383,11 +414,35 @@
                 <p>⏱️ Tiempo: <span id="finalTime"></span></p>
                 <p>🔄 Movimientos: <span id="finalMoves"></span></p>
             </div>
-            <button class="reset-btn" onclick="resetGame()">🎮 Jugar de nuevo</button>
+            <button class="reset-btn" onclick="continuarAlPanel()">➡️ Continuar</button>
         </div>
     </div>
 
     <script>
+        // Mapeo de palabras españolas a sus imágenes correspondientes
+        const wordImages = {
+            'Cabello': 'https://cdn-icons-png.flaticon.com/512/3037/3037081.png',
+            'Frente': 'https://cdn-icons-png.flaticon.com/512/3037/3037080.png',
+            'Ceja': 'https://cdn-icons-png.flaticon.com/512/3037/3037068.png',
+            'Pestaña': 'https://cdn-icons-png.flaticon.com/512/3037/3037075.png',
+            'Ojo': 'https://cdn-icons-png.flaticon.com/512/3037/3037076.png',
+            'Nariz': 'https://cdn-icons-png.flaticon.com/512/3037/3037071.png',
+            'Oreja': 'https://cdn-icons-png.flaticon.com/512/3037/3037070.png',
+            'Mejilla': 'https://cdn-icons-png.flaticon.com/512/3037/3037086.png',
+            'Boca': 'https://cdn-icons-png.flaticon.com/512/3037/3037065.png',
+            'Labios': 'https://cdn-icons-png.flaticon.com/512/3037/3037078.png',
+            'Diente': 'https://cdn-icons-png.flaticon.com/512/3037/3037072.png',
+            'Muela': 'https://cdn-icons-png.flaticon.com/512/3037/3037073.png',
+            'Barbilla': 'https://cdn-icons-png.flaticon.com/512/3037/3037084.png',
+            'Cuello': 'https://cdn-icons-png.flaticon.com/512/3037/3037085.png',
+            'Hombros': 'https://cdn-icons-png.flaticon.com/512/3037/3037066.png',
+            'Brazo': 'https://cdn-icons-png.flaticon.com/512/3037/3037087.png',
+            'Mano': 'https://cdn-icons-png.flaticon.com/512/3037/3037077.png',
+            'Dedo': 'https://cdn-icons-png.flaticon.com/512/3037/3037083.png',
+            'Uña': 'https://cdn-icons-png.flaticon.com/512/3037/3037082.png',
+            'Pie': 'https://cdn-icons-png.flaticon.com/512/3037/3037079.png'
+        };
+
         const words = [
             { spanish: 'Cabello', otomi: 'xtä', pair: 0 },
             { spanish: 'Frente', otomi: 'Dë', pair: 1 },
@@ -418,8 +473,8 @@
         let startTime = null;
         let timerInterval = null;
         let canFlip = true;
-        let isShuffling = false; // NUEVA VARIABLE
-        let hintUsed = false;    // NUEVA VARIABLE
+        let isShuffling = false;
+        let hintUsed = false;
 
         function initGame() {
             const gameGrid = document.getElementById('gameGrid');
@@ -437,12 +492,15 @@
 
             // Crear pares de cartas
             words.forEach((word, index) => {
+                // Carta en español con imagen
                 cards.push({ 
                     id: index * 2, 
                     text: word.spanish, 
                     pair: word.pair,
-                    type: 'spanish'
+                    type: 'spanish',
+                    image: wordImages[word.spanish]
                 });
+                // Carta en otomí
                 cards.push({ 
                     id: index * 2 + 1, 
                     text: word.otomi, 
@@ -461,9 +519,21 @@
                 cardElement.dataset.id = card.id;
                 cardElement.dataset.pair = card.pair;
                 
+                let frontContent = '';
+                if (card.type === 'spanish' && card.image) {
+                    frontContent = `
+                        <img src="${card.image}" alt="${card.text}">
+                        <div class="card-title">${card.text}</div>
+                    `;
+                } else {
+                    frontContent = '🎭';
+                }
+                
                 cardElement.innerHTML = `
                     <div class="card-inner">
-                        <div class="card-face card-front"></div>
+                        <div class="card-face card-front">
+                            ${frontContent}
+                        </div>
                         <div class="card-face card-back pair-${card.pair}">
                             ${card.text}
                         </div>
@@ -559,9 +629,9 @@
             createConfetti();
         }
 
-        // =========================================================
-        // NUEVAS FUNCIONALIDADES
-        // =========================================================
+        function continuarAlPanel() {
+            window.location.href = '../interfaz_alumno.html';
+        }
 
         function shuffleCards() {
             if (isShuffling || flippedCards.length > 0) return;
@@ -607,7 +677,6 @@
             }, 600); // Esperar a que la animación de volteo termine
         }
 
-
         function giveHint() {
             if (!canFlip || isShuffling) return;
 
@@ -637,10 +706,6 @@
                 canFlip = true;
             }, 2000); // 2000 milisegundos = 2 segundos
         }
-
-        // =========================================================
-        // OTRAS FUNCIONES
-        // =========================================================
 
         function createConfetti() {
             const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
