@@ -164,36 +164,46 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
+        /* Modificado el estilo de la cara frontal para incluir imágenes */
         /* Cara frontal (Por defecto: Blanco suave - para tarjetas Otomí) */
         .card-front {
             background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
             border: 3px solid rgba(255,255,255,0.5);
-            display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            gap: 5px;
         }
 
-        .card-front img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            margin-bottom: 8px;
-        }
-
-        /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (Gris suave) */
+        /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (con imagen) */
         .card.type-spanish .card-inner .card-front {
             background: linear-gradient(135deg, rgba(230, 230, 230, 0.9), rgba(200, 200, 200, 0.9)); /* Gris más oscuro */
             border: 3px solid rgba(255,255,255,0.8);
             box-shadow: 0 6px 10px rgba(0,0,0,0.3); 
         }
 
-        .card-front .card-title {
+        /* Imagen de las tarjetas españolas */
+        .card-front-image {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Texto debajo de la imagen */
+        .card-front-text {
+            font-size: 0.7rem;
             font-weight: bold;
-            font-size: 0.9rem;
             color: #333;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            text-align: center;
+        }
+
+        .card-front::before {
+            content: '🎭';
+            font-size: 2rem;
+        }
+
+        /* Ocultar el emoji para tarjetas españolas */
+        .card.type-spanish .card-front::before {
+            display: none;
         }
 
         .card-back {
@@ -206,9 +216,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
             word-wrap: break-word;
             padding: 5px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         /* Estilos del Modal (se mantienen) */
@@ -335,18 +342,11 @@
             .card-back {
                 font-size: 0.8rem;
             }
-            .card-front img {
-                width: 40px;
-                height: 40px;
-            }
-            .card-front .card-title {
-                font-size: 0.8rem;
-            }
             .title {
                 font-size: 1.2rem;
             }
             /* Apilar botones en móvil */
-            .header .reset-btn {
+             .header .reset-btn {
                 width: calc(33% - 10px); 
                 margin: 5px 2px;
                 padding: 8px 10px;
@@ -373,19 +373,15 @@
             .card-back {
                 font-size: 0.7rem;
             }
-            .card-front img {
-                width: 35px;
-                height: 35px;
-            }
-            .card-front .card-title {
-                font-size: 0.7rem;
-            }
             .stat-item {
                 font-size: 0.75rem;
                 padding: 4px 8px;
             }
             .title {
                 font-size: 1rem;
+            }
+            .card-front-text {
+                font-size: 0.6rem;
             }
         }
     </style>
@@ -414,35 +410,12 @@
                 <p>⏱️ Tiempo: <span id="finalTime"></span></p>
                 <p>🔄 Movimientos: <span id="finalMoves"></span></p>
             </div>
-            <button class="reset-btn" onclick="continuarAlPanel()">➡️ Continuar</button>
+            <!-- Botón modificado para continuar y redirigir -->
+            <button class="reset-btn" onclick="continuarAlumno()">➡️ Continuar</button>
         </div>
     </div>
 
     <script>
-        // Mapeo de palabras españolas a sus imágenes correspondientes
-        const wordImages = {
-            'Cabello': 'https://cdn-icons-png.flaticon.com/512/3037/3037081.png',
-            'Frente': 'https://cdn-icons-png.flaticon.com/512/3037/3037080.png',
-            'Ceja': 'https://cdn-icons-png.flaticon.com/512/3037/3037068.png',
-            'Pestaña': 'https://cdn-icons-png.flaticon.com/512/3037/3037075.png',
-            'Ojo': 'https://cdn-icons-png.flaticon.com/512/3037/3037076.png',
-            'Nariz': 'https://cdn-icons-png.flaticon.com/512/3037/3037071.png',
-            'Oreja': 'https://cdn-icons-png.flaticon.com/512/3037/3037070.png',
-            'Mejilla': 'https://cdn-icons-png.flaticon.com/512/3037/3037086.png',
-            'Boca': 'https://cdn-icons-png.flaticon.com/512/3037/3037065.png',
-            'Labios': 'https://cdn-icons-png.flaticon.com/512/3037/3037078.png',
-            'Diente': 'https://cdn-icons-png.flaticon.com/512/3037/3037072.png',
-            'Muela': 'https://cdn-icons-png.flaticon.com/512/3037/3037073.png',
-            'Barbilla': 'https://cdn-icons-png.flaticon.com/512/3037/3037084.png',
-            'Cuello': 'https://cdn-icons-png.flaticon.com/512/3037/3037085.png',
-            'Hombros': 'https://cdn-icons-png.flaticon.com/512/3037/3037066.png',
-            'Brazo': 'https://cdn-icons-png.flaticon.com/512/3037/3037087.png',
-            'Mano': 'https://cdn-icons-png.flaticon.com/512/3037/3037077.png',
-            'Dedo': 'https://cdn-icons-png.flaticon.com/512/3037/3037083.png',
-            'Uña': 'https://cdn-icons-png.flaticon.com/512/3037/3037082.png',
-            'Pie': 'https://cdn-icons-png.flaticon.com/512/3037/3037079.png'
-        };
-
         const words = [
             { spanish: 'Cabello', otomi: 'xtä', pair: 0 },
             { spanish: 'Frente', otomi: 'Dë', pair: 1 },
@@ -492,15 +465,12 @@
 
             // Crear pares de cartas
             words.forEach((word, index) => {
-                // Carta en español con imagen
                 cards.push({ 
                     id: index * 2, 
                     text: word.spanish, 
                     pair: word.pair,
-                    type: 'spanish',
-                    image: wordImages[word.spanish]
+                    type: 'spanish'
                 });
-                // Carta en otomí
                 cards.push({ 
                     id: index * 2 + 1, 
                     text: word.otomi, 
@@ -512,28 +482,30 @@
             // Barajar cartas
             cards.sort(() => Math.random() - 0.5);
 
-            // Crear elementos DOM
             cards.forEach((card, index) => {
                 const cardElement = document.createElement('div');
                 cardElement.className = `card type-${card.type}`;
                 cardElement.dataset.id = card.id;
                 cardElement.dataset.pair = card.pair;
                 
+                // Crear contenido de la cara frontal según el tipo
                 let frontContent = '';
-                if (card.type === 'spanish' && card.image) {
+                if (card.type === 'spanish') {
+                    // Generar imagen placeholder con el nombre de la parte del cuerpo
+                    const imageName = card.text.toLowerCase().replace(/ /g, '-');
                     frontContent = `
-                        <img src="${card.image}" alt="${card.text}">
-                        <div class="card-title">${card.text}</div>
+                        <img src="/placeholder.svg?height=100&width=100" 
+                             alt="${card.text}" 
+                             class="card-front-image">
+                        <div class="card-front-text">${card.text}</div>
                     `;
                 } else {
-                    frontContent = '🎭';
+                    frontContent = ''; // Para otomí usa el emoji del CSS
                 }
                 
                 cardElement.innerHTML = `
                     <div class="card-inner">
-                        <div class="card-face card-front">
-                            ${frontContent}
-                        </div>
+                        <div class="card-face card-front">${frontContent}</div>
                         <div class="card-face card-back pair-${card.pair}">
                             ${card.text}
                         </div>
@@ -629,9 +601,13 @@
             createConfetti();
         }
 
-        function continuarAlPanel() {
+        function continuarAlumno() {
             window.location.href = '../interfaz_alumno.html';
         }
+
+        // =========================================================
+        // NUEVAS FUNCIONALIDADES
+        // =========================================================
 
         function shuffleCards() {
             if (isShuffling || flippedCards.length > 0) return;
@@ -677,6 +653,7 @@
             }, 600); // Esperar a que la animación de volteo termine
         }
 
+
         function giveHint() {
             if (!canFlip || isShuffling) return;
 
@@ -706,6 +683,10 @@
                 canFlip = true;
             }, 2000); // 2000 milisegundos = 2 segundos
         }
+
+        // =========================================================
+        // OTRAS FUNCIONES
+        // =========================================================
 
         function createConfetti() {
             const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
