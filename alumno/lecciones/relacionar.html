@@ -73,7 +73,7 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             padding: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* Reducido para más espacio */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             text-align: center;
         }
@@ -91,42 +91,87 @@
         .subtitle {
             color: #666;
             font-size: 0.9rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* Reducido */
+        }
+
+        /* Contenedor de estadísticas y vidas compacto */
+        .stats-lives-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 10px;
+            gap: 15px;
         }
 
         .stats-bar {
             display: flex;
-            justify-content: space-around;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+            justify-content: space-between;
+            flex: 1;
+            gap: 8px;
         }
 
         .stat-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 10px 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            min-width: 100px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
             flex: 1;
+            min-width: 70px;
             animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            50% { transform: scale(1.02); }
         }
 
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             opacity: 0.9;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .stat-value {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
+        }
+
+        /* Contenedor de vidas compacto */
+        .lives-container-compact {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px 12px;
+            border-radius: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .lives-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #666;
+            margin-right: 5px;
+        }
+
+        .heart-compact {
+            font-size: 1.2rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .heart-compact.lost {
+            opacity: 0.3;
+            filter: grayscale(100%);
+            animation: none;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .game-area {
@@ -142,7 +187,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reducido */
         }
 
         /* Layout para móviles - Una sola columna */
@@ -155,44 +200,44 @@
         .column {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px; /* Reducido */
         }
 
         .column-title {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem; /* Reducido */
             font-weight: 600;
             background: linear-gradient(135deg, #6A4C93, #4682B4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
-            padding: 8px;
+            margin-bottom: 6px; /* Reducido */
+            padding: 6px; /* Reducido */
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .words-container, .images-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            margin-bottom: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); /* Ajustado */
+            gap: 8px; /* Reducido */
+            margin-bottom: 8px; /* Reducido */
         }
 
         .word-card, .image-card {
             background: white;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 10px; /* Reducido */
+            padding: 12px; /* Reducido */
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Reducido */
             position: relative;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
-            min-height: 80px;
+            min-height: 70px; /* Reducido */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -200,15 +245,15 @@
         }
 
         .word-card {
-            font-size: 1.3rem;
+            font-size: 1.1rem; /* Reducido */
             font-weight: 600;
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
         .word-card:active, .image-card:active {
-            transform: translateY(-3px) scale(0.98);
-            box-shadow: 0 5px 15px rgba(106, 76, 147, 0.25);
+            transform: translateY(-2px) scale(0.98);
+            box-shadow: 0 4px 12px rgba(106, 76, 147, 0.25);
             border-color: #6A4C93;
         }
 
@@ -216,22 +261,22 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             transform: scale(0.95);
-            box-shadow: 0 5px 15px rgba(106, 76, 147, 0.3);
+            box-shadow: 0 4px 12px rgba(106, 76, 147, 0.3);
         }
 
         .image-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100px;
+            min-height: 90px; /* Reducido */
         }
 
         .image-card img {
             max-width: 100%;
-            max-height: 80px;
-            border-radius: 8px;
+            max-height: 70px; /* Reducido */
+            border-radius: 6px; /* Reducido */
         }
 
         .image-card .emoji {
-            font-size: 3.5rem;
+            font-size: 3rem; /* Reducido */
         }
 
         .drop-zone {
@@ -278,10 +323,10 @@
         .cultural-info {
             background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
             border-left: 4px solid #f39c12;
-            padding: 10px;
-            margin-top: 8px;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            padding: 8px; /* Reducido */
+            margin-top: 6px; /* Reducido */
+            border-radius: 6px; /* Reducido */
+            font-size: 0.75rem; /* Reducido */
             color: #333;
             display: none;
         }
@@ -305,40 +350,40 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px; /* Reducido */
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 15px; /* Reducido */
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
+            padding: 10px 25px; /* Reducido */
+            font-size: 0.9rem; /* Reducido */
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
             font-family: 'Poppins', sans-serif;
             flex: 1;
-            max-width: 200px;
+            max-width: 180px; /* Reducido */
         }
 
         .btn:active {
             transform: translateY(-2px) scale(0.98);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Instrucciones para móvil */
         .mobile-instructions {
             text-align: center;
-            padding: 10px;
-            margin-bottom: 15px;
+            padding: 8px; /* Reducido */
+            margin-bottom: 12px; /* Reducido */
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem; /* Reducido */
             color: #666;
             display: none;
         }
@@ -354,7 +399,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 12px; /* Reducido */
         }
 
         .modal.show {
@@ -369,19 +414,19 @@
 
         .modal-content {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
+            padding: 20px; /* Reducido */
+            border-radius: 15px;
             text-align: center;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            max-width: 350px; /* Reducido */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
             animation: slideUp 0.4s ease;
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(25px);
             }
             to {
                 opacity: 1;
@@ -390,8 +435,8 @@
         }
 
         .modal-title {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem; /* Reducido */
+            margin-bottom: 12px; /* Reducido */
             background: linear-gradient(135deg, #2E8B57, #98FB98);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -399,82 +444,67 @@
         }
 
         .modal-message {
-            font-size: 1.1rem;
+            font-size: 1rem; /* Reducido */
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* Reducido */
             line-height: 1.4;
         }
 
         .confetti {
             position: fixed;
-            width: 8px;
-            height: 8px;
+            width: 6px; /* Reducido */
+            height: 6px; /* Reducido */
             background: #f0f;
             pointer-events: none;
             z-index: 999;
         }
 
-        .lives-container {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-
-        .heart {
-            font-size: 1.5rem;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        .heart.lost {
-            opacity: 0.3;
-            filter: grayscale(100%);
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
         /* Para tablets y pantallas más grandes */
         @media (min-width: 768px) {
             body {
-                padding: 20px;
+                padding: 15px;
             }
 
             header {
-                padding: 25px;
-                border-radius: 20px;
-                margin-bottom: 25px;
+                padding: 20px;
+                border-radius: 15px;
+                margin-bottom: 15px;
             }
 
             h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
 
             .subtitle {
-                font-size: 1.1rem;
+                font-size: 1rem;
+            }
+
+            .stats-lives-container {
+                padding: 12px;
             }
 
             .stat-card {
-                padding: 15px 25px;
-                min-width: 140px;
+                padding: 10px 15px;
+                min-width: 80px;
             }
 
             .stat-value {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
+            }
+
+            .heart-compact {
+                font-size: 1.4rem;
             }
 
             .game-area {
-                padding: 30px;
-                border-radius: 20px;
+                padding: 20px;
+                border-radius: 15px;
             }
 
             .game-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 30px;
+                gap: 20px;
             }
 
             .mobile-layout {
@@ -486,36 +516,36 @@
             }
 
             .column-title {
-                font-size: 1.5rem;
-                padding: 12px;
+                font-size: 1.3rem;
+                padding: 10px;
+            }
+
+            .words-container, .images-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
             .word-card, .image-card {
-                padding: 20px;
-                min-height: 100px;
+                padding: 15px;
+                min-height: 90px;
             }
 
             .word-card {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
 
             .image-card .emoji {
-                font-size: 5rem;
+                font-size: 4rem;
             }
 
             .btn {
-                padding: 15px 40px;
-                font-size: 1.1rem;
+                padding: 12px 30px;
+                font-size: 1rem;
+                max-width: 200px;
             }
 
             .mobile-instructions {
                 display: none !important;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .words-container, .images-container {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -524,24 +554,28 @@
             display: block;
         }
 
+        .hide-on-mobile {
+            display: none;
+        }
+
         /* Floating return button */
         #floating-return {
             position: fixed;
-            right: 15px;
-            bottom: 15px;
+            right: 12px;
+            bottom: 12px;
             z-index: 10000;
         }
 
         #floating-return button {
-            padding: 12px 20px;
+            padding: 10px 16px;
             background: linear-gradient(90deg, #2bee4b, #1a9d3a);
             color: white;
             border: none;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 6px 15px rgba(43, 230, 70, 0.25);
+            box-shadow: 0 5px 12px rgba(43, 230, 70, 0.25);
             transition: all 0.3s ease;
         }
 
@@ -549,35 +583,7 @@
             transform: scale(0.95);
         }
 
-        /* Scroll suave para móviles */
-        .scroll-hint {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(106, 76, 147, 0.9);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            animation: bounce 2s infinite;
-            display: none;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(-50%); }
-            50% { transform: translateY(-70%); }
-        }
-
         @media (max-width: 767px) {
-            .scroll-hint {
-                display: flex;
-            }
-            
             .show-on-mobile {
                 display: block;
             }
@@ -606,22 +612,29 @@
                 👆 <strong>Toca una palabra</strong>, luego toca la imagen correspondiente
             </div>
             
-            <div class="stats-bar">
-                <div class="stat-card">
-                    <div class="stat-label">Correctas</div>
-                    <div class="stat-value" id="correct-count">0</div>
+            <!-- Contenedor compacto de estadísticas y vidas -->
+            <div class="stats-lives-container">
+                <div class="stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-label">Correctas</div>
+                        <div class="stat-value" id="correct-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Progreso</div>
+                        <div class="stat-value" id="progress">0/7</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Intentos</div>
+                        <div class="stat-value" id="attempts">0</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Progreso</div>
-                    <div class="stat-value" id="progress">0/7</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Intentos</div>
-                    <div class="stat-value" id="attempts">0</div>
+                
+                <!-- Contenedor compacto de vidas -->
+                <div class="lives-container-compact" id="lives-container-compact">
+                    <div class="lives-label">Vidas:</div>
+                    <!-- Las vidas se insertarán aquí con JavaScript -->
                 </div>
             </div>
-
-            <div class="lives-container" id="lives-container"></div>
         </header>
 
         <div class="game-area">
@@ -631,8 +644,6 @@
                     <h2 class="column-title">Palabras en Hñähñu</h2>
                     <div class="words-container" id="words-column-mobile"></div>
                 </div>
-                
-                <div class="scroll-hint">👇</div>
                 
                 <div class="column">
                     <h2 class="column-title">Imágenes</h2>
@@ -657,11 +668,11 @@
             </div>
         </div>
         
-        <div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
+        <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
             <button onclick="window.location.href='../interfaz_alumno.html'" 
-                style="padding: 12px 28px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); 
-                color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; 
-                cursor: pointer; box-shadow: 0 6px 18px rgba(43, 230, 70, 0.2); 
+                style="padding: 10px 24px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); 
+                color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; 
+                cursor: pointer; box-shadow: 0 5px 15px rgba(43, 230, 70, 0.2); 
                 transition: all 0.3s ease;"
                 ontouchstart="this.style.transform='scale(0.98)'"
                 ontouchend="this.style.transform='scale(1)'">
@@ -742,7 +753,7 @@
         const correctCount = document.getElementById('correct-count');
         const progressDisplay = document.getElementById('progress');
         const attemptsDisplay = document.getElementById('attempts');
-        const livesContainer = document.getElementById('lives-container');
+        const livesContainerCompact = document.getElementById('lives-container-compact');
         const victoryModal = document.getElementById('victory-modal');
         const restartBtn = document.getElementById('restart-btn');
         const playAgainBtn = document.getElementById('play-again-btn');
@@ -904,13 +915,6 @@
             
             // Resaltar imágenes posibles
             highlightPossibleImages(card.dataset.spanish);
-            
-            // Desplazar suavemente hacia las imágenes
-            if (isMobile) {
-                setTimeout(() => {
-                    imagesColumnMobile.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
-            }
         }
 
         function handleMobileImageSelect(card) {
@@ -1098,12 +1102,15 @@
         }
 
         function updateLives() {
-            livesContainer.innerHTML = '';
+            livesContainerCompact.innerHTML = `
+                <div class="lives-label">Vidas:</div>
+            `;
+            
             for (let i = 0; i < 5; i++) {
                 const heart = document.createElement('span');
-                heart.className = 'heart' + (i >= lives ? ' lost' : '');
+                heart.className = 'heart-compact' + (i >= lives ? ' lost' : '');
                 heart.textContent = '❤️';
-                livesContainer.appendChild(heart);
+                livesContainerCompact.appendChild(heart);
             }
         }
 
