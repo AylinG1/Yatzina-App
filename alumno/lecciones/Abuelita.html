@@ -398,6 +398,7 @@
             <div class="lives" id="livesDisplay">
                 <span class="heart" id="heart1">💚</span>
                 <span class="heart" id="heart2">💚</span>
+                <span class="heart" id="heart3">💚</span> <!-- Tercer corazón añadido -->
             </div>
 
             <div class="progress" id="progressDisplay">Pregunta 1 de 5</div>
@@ -414,7 +415,7 @@
             <div class="success-icon">🎉</div>
             <h2>¡Lección completada con éxito!</h2>
             <p>Has aprendido palabras clave en otomí sobre las tradiciones de la abuela Fela.</p>
-            <button class="restart-button" onclick="backToReading()">📖 Volver a la lectura</button>
+            <button class="restart-button" onclick="goToLecturas()">📚 Ir a lecturas</button>
         </div>
 
         <!-- Game Over Screen -->
@@ -427,6 +428,11 @@
     </div>
 
     <script>
+        // Función para redirigir a lecturas.html
+        function goToLecturas() {
+            window.location.href = 'lecturas.html';
+        }
+
         // Reading section hover effect
         const textLines = document.querySelectorAll('.text-line');
         textLines.forEach(line => {
@@ -499,7 +505,7 @@
             }
         ];
 
-        let lives = 2;
+        let lives = 3; // Cambiado de 2 a 3 vidas
         let correctAnswers = 0;
         let currentExerciseIndex = 0;
         let usedExercises = [];
@@ -515,7 +521,7 @@
         }
 
         function resetExercise() {
-            lives = 2;
+            lives = 3; // Cambiado de 2 a 3 vidas
             correctAnswers = 0;
             usedExercises = [];
             availableExercises = [...exercises];
@@ -624,7 +630,7 @@
         }
 
         function updateLivesDisplay() {
-            for (let i = 1; i <= 2; i++) {
+            for (let i = 1; i <= 3; i++) { // Cambiado de 2 a 3
                 const heart = document.getElementById(`heart${i}`);
                 if (i > lives) {
                     heart.classList.add('lost');
@@ -646,11 +652,6 @@
         function showGameOver() {
             document.getElementById('exerciseSection').style.display = 'none';
             document.getElementById('gameoverScreen').style.display = 'block';
-        }
-
-        function backToReading() {
-            document.getElementById('successScreen').style.display = 'none';
-            document.getElementById('readingSection').style.display = 'block';
         }
 
         function restartExercise() {
