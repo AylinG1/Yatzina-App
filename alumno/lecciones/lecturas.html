@@ -274,55 +274,105 @@
       </div>
     </div>
 
-    <!-- Nueva Lección 2: Saludos -->
-    <div class="leccion">
+    <div class="leccion"></div>
       <div class="leccion-wrapper">
-        <a href="saludos.html" class="link-leccion">
+        <a href="Bruja.html" class="link-leccion">
           <div class="circulo-leccion leccion-2">
             <div class="numero-nivel">2</div>
             <div class="contenido-circulo">
               <svg class="ilustracion" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Dos personas saludándose -->
-                <!-- Persona 1 (izquierda) -->
-                <circle cx="30" cy="35" r="10" fill="#fbbf24"/>
-                <ellipse cx="30" cy="55" rx="12" ry="18" fill="#34d399"/>
-                <!-- Brazo derecho levantado saludando -->
-                <line x1="30" y1="45" x2="20" y2="30" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
-                <circle cx="20" cy="30" r="4" fill="#fef3c7"/>
-                <!-- Brazo izquierdo -->
-                <line x1="30" y1="45" x2="35" y2="60" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
-                <!-- Piernas -->
-                <line x1="30" y1="70" x2="25" y2="85" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
-                <line x1="30" y1="70" x2="35" y2="85" stroke="#10b981" stroke-width="4" stroke-linecap="round"/>
-                
-                <!-- Persona 2 (derecha) -->
-                <circle cx="70" cy="35" r="10" fill="#fbbf24"/>
-                <ellipse cx="70" cy="55" rx="12" ry="18" fill="#60a5fa"/>
-                <!-- Brazo izquierdo levantado saludando -->
-                <line x1="70" y1="45" x2="80" y2="30" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
-                <circle cx="80" cy="30" r="4" fill="#fef3c7"/>
-                <!-- Brazo derecho -->
-                <line x1="70" y1="45" x2="65" y2="60" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
-                <!-- Piernas -->
-                <line x1="70" y1="70" x2="65" y2="85" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
-                <line x1="70" y1="70" x2="75" y2="85" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/>
-                
-                <!-- Corazón en el medio -->
-                <path d="M 50 45 C 50 42 48 40 45 40 C 42 40 40 42 40 45 C 40 50 50 55 50 55 C 50 55 60 50 60 45 C 60 42 58 40 55 40 C 52 40 50 42 50 45 Z" fill="#ec4899" opacity="0.8"/>
-                
-                <!-- Estrellas de alegría -->
-                <polygon points="15,15 16,18 19,18 17,20 18,23 15,21 12,23 13,20 11,18 14,18" fill="#fbbf24"/>
-                <polygon points="85,15 86,18 89,18 87,20 88,23 85,21 82,23 83,20 81,18 84,18" fill="#fbbf24"/>
+                <!-- Abuela -->
+                <circle cx="50" cy="50" r="35" fill="#ffe4b5" stroke="#cd853f" stroke-width="2"/>
+                <circle cx="50" cy="40" r="10" fill="#f5deb3"/>
+                <circle cx="45" cy="38" r="2" fill="#000"/>
+                <circle cx="55" cy="38" r="2" fill="#000"/>
+                <path d="M 45 45 Q 50 50 55 45" stroke="#000" stroke-width="1.5" fill="none"/>
+                <path d="M 40 30 Q 50 20 60 30" stroke="#d3d3d3" stroke-width="3" fill="none"/>
               </svg>
             </div>
           </div>
         </a>
-        <h2 class="titulo-leccion">Saludos</h2>
-        <p class="descripcion-leccion">Aprende a saludar</p>
+        <h2 class="titulo-leccion">El cuento de la bruja</h2>
+        <p class="descripcion-leccion">Historia con misterio</p>
       </div>
     </div>
 
-  </div>
+    <div class="leccion"></div>
+      <div class="leccion-wrapper">
+        <a href="Abuelita.html" class="link-leccion">
+          <div class="circulo-leccion leccion-3">
+            <div class="numero-nivel">3</div>
+            <div class="contenido-circulo">
+              <svg class="ilustracion" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Bruja -->
+                <circle cx="50" cy="50" r="35" fill="#8a2be2" stroke="#4b0082" stroke-width="2"/>
+                <path d="M 40 60 Q 50 40 60 60 Z" fill="#000" />
+                <circle cx="50" cy="45" r="10" fill="#ffe4b5"/>
+                <circle cx="47" cy="43" r="2" fill="#000"/>
+                <circle cx="53" cy="43" r="2" fill="#000"/>
+                <path d="M 47 48 Q 50 50 53 48" stroke="#000" stroke-width="1.5" fill="none"/>
+                <path d="M 35 30 Q 50 10 65 30" stroke="#4b0082" stroke-width="3" fill="none"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+        <h2 class="titulo-leccion">Mi abuelita Fela</h2>
+        <p class="descripcion-leccion">Historia de sabiduria</p>
+      </div>
+    </div>
+
+
+  <script>
+    // Guardar progreso cuando se abre la página
+    async function guardarProgreso() {
+      try {
+        const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            leccion: 'lecturas',
+            completado: 1,
+            progreso: 100,
+            puntos: 120
+          })
+        });
+        const result = await response.json();
+        console.log('Progreso guardado:', result);
+        
+        // Si se ganaron puntos, disparar evento para mostrar notificación
+        if (result.success && result.puntosGanados > 0) {
+          const event = new CustomEvent('puntosRegistrados', {
+            detail: {
+              puntos_ganados: result.puntosGanados,
+              puntos_totales: result.puntosTotales,
+              tipo: 'leccion',
+              nombre: 'Lecturas'
+            }
+          });
+          document.dispatchEvent(event);
+        }
+      } catch (error) {
+        console.error('Error al guardar progreso:', error);
+      }
+    }
+
+    // Guardar progreso al cargar la página
+    window.addEventListener('load', guardarProgreso);
+  </script>
+
+<!-- Floating return button (always visible) -->
+<div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 50; pointer-events: auto;">
+  <button aria-label="Volver al Panel" id="float-btn" 
+    style="padding: 12px 18px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(43, 230, 70, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+    📚
+  </button>
+</div>
+<script>
+  document.getElementById('float-btn').addEventListener('click', function() {
+    window.location.href = '../interfaz_alumno.html';
+  });
+</script>
+<script src="../notificacionesPuntos.js"></script>
 
 </body>
 </html>

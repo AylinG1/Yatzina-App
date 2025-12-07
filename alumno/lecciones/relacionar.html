@@ -18,9 +18,10 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
             position: relative;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* Decoraciones flotantes */
@@ -32,17 +33,17 @@
         }
 
         .star {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
             background: white;
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             animation: float 6s ease-in-out infinite;
         }
 
         .circle {
-            width: 40px;
-            height: 40px;
-            border: 3px solid white;
+            width: 30px;
+            height: 30px;
+            border: 2px solid white;
             border-radius: 50%;
             animation: float 8s ease-in-out infinite;
         }
@@ -50,15 +51,15 @@
         .triangle {
             width: 0;
             height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 35px solid white;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 26px solid white;
             animation: float 7s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+            50% { transform: translateY(-15px) rotate(180deg); }
         }
 
         .container {
@@ -70,10 +71,10 @@
 
         header {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             text-align: center;
         }
 
@@ -82,144 +83,204 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         .subtitle {
             color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        /* Contenedor de estadísticas y vidas compacto */
+        .stats-lives-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 10px;
+            gap: 15px;
         }
 
         .stats-bar {
             display: flex;
-            justify-content: space-around;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
+            justify-content: space-between;
+            flex: 1;
+            gap: 8px;
         }
 
         .stat-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 15px 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            min-width: 150px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            flex: 1;
+            min-width: 70px;
             animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.02); }
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             opacity: 0.9;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .stat-value {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 700;
+        }
+
+        /* Contenedor de vidas compacto */
+        .lives-container-compact {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 6px 12px;
+            border-radius: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .lives-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #666;
+            margin-right: 5px;
+        }
+
+        .heart-compact {
+            font-size: 1.2rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .heart-compact.lost {
+            opacity: 0.3;
+            filter: grayscale(100%);
+            animation: none;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .game-area {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            margin-bottom: 15px;
+            overflow: hidden;
         }
 
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+        /* Layout para móviles - Una sola columna */
+        .mobile-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .column {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-        }
-
-        .column:first-child {
-            position: sticky;
-            top: 20px;
-            align-self: start;
-            max-height: calc(100vh - 40px);
-            overflow-y: auto;
+            gap: 10px;
         }
 
         .column-title {
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             background: linear-gradient(135deg, #6A4C93, #4682B4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .words-container, .images-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .word-card, .image-card {
             background: white;
-            border: 3px solid #e0e0e0;
-            border-radius: 15px;
-            padding: 20px;
-            cursor: move;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         .word-card {
-            text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
-        .word-card:hover, .image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(106, 76, 147, 0.3);
+        .word-card:active, .image-card:active {
+            transform: translateY(-2px) scale(0.98);
+            box-shadow: 0 4px 12px rgba(106, 76, 147, 0.25);
             border-color: #6A4C93;
         }
 
-        .word-card.dragging, .image-card.dragging {
-            opacity: 0.5;
-            transform: rotate(5deg) scale(0.95);
+        .word-card.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(0.95);
+            box-shadow: 0 4px 12px rgba(106, 76, 147, 0.3);
         }
 
         .image-card {
-            min-height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 90px;
         }
 
-        .image-card img {
-            max-width: 100%;
-            max-height: 150px;
-            border-radius: 10px;
+        .image-card .emoji {
+            font-size: 3rem;
         }
 
         .drop-zone {
-            border: 3px dashed #b0b0b0;
+            border: 2px dashed #b0b0b0;
             background: #f9f9f9;
         }
 
-        .drop-zone.drag-over {
+        .drop-zone.active-drop {
             border-color: #4682B4;
             background: #e3f2fd;
-            transform: scale(1.05);
+            transform: scale(1.02);
+            animation: pulse-drop 1.5s infinite;
+        }
+
+        @keyframes pulse-drop {
+            0%, 100% { border-color: #4682B4; }
+            50% { border-color: #6A4C93; }
         }
 
         .matched {
@@ -231,7 +292,7 @@
 
         @keyframes matchSuccess {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1) rotate(5deg); }
+            50% { transform: scale(1.05) rotate(3deg); }
             100% { transform: scale(1); }
         }
 
@@ -242,30 +303,30 @@
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
         }
 
         .cultural-info {
             background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
-            border-left: 5px solid #f39c12;
-            padding: 15px;
-            margin-top: 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border-left: 4px solid #f39c12;
+            padding: 8px;
+            margin-top: 6px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             color: #333;
             display: none;
         }
 
         .cultural-info.show {
             display: block;
-            animation: slideDown 0.5s ease;
+            animation: slideDown 0.4s ease;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-8px);
             }
             to {
                 opacity: 1;
@@ -276,31 +337,41 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 12px;
             flex-wrap: wrap;
+            margin-top: 15px;
         }
 
         .btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
+            padding: 10px 25px;
+            font-size: 0.9rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
             font-family: 'Poppins', sans-serif;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            flex: 1;
+            max-width: 180px;
         }
 
         .btn:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(0.98);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Instrucciones para móvil */
+        .mobile-instructions {
+            text-align: center;
+            padding: 8px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #666;
         }
 
         .modal {
@@ -310,10 +381,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 12px;
         }
 
         .modal.show {
@@ -328,180 +400,29 @@
 
         .modal-content {
             background: white;
-            padding: 50px;
-            border-radius: 25px;
+            padding: 20px;
+            border-radius: 15px;
             text-align: center;
-            max-width: 500px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.5s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #2E8B57, #98FB98);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .modal-message {
-            font-size: 1.3rem;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
-            position: fixed;
-            pointer-events: none;
-            z-index: 999;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes matchSuccess {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1) rotate(5deg); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .lives-container {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .heart {
-            font-size: 2rem;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        .heart.lost {
-            opacity: 0.3;
-            filter: grayscale(100%);
-        }
-
-        .matched {
-            background: linear-gradient(135deg, #2E8B57, #98FB98) !important;
-            border-color: #2E8B57 !important;
-            animation: matchSuccess 0.6s ease;
-            pointer-events: none;
-        }
-
-        .incorrect {
-            animation: shake 0.5s ease;
-            border-color: #ff5252 !important;
-        }
-
-        .cultural-info {
-            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
-            border-left: 5px solid #f39c12;
-            padding: 15px;
-            margin-top: 10px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            color: #333;
-            display: none;
-        }
-
-        .cultural-info.show {
-            display: block;
-            animation: slideDown 0.5s ease;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            max-width: 350px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.4s ease;
         }
 
-        .modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 50px;
-            border-radius: 25px;
-            text-align: center;
-            max-width: 500px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.5s ease;
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .modal-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
             background: linear-gradient(135deg, #2E8B57, #98FB98);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -509,95 +430,236 @@
         }
 
         .modal-message {
-            font-size: 1.3rem;
+            font-size: 1rem;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
         .confetti {
             position: fixed;
-            width: 10px;
-            height: 10px;
+            width: 6px;
+            height: 6px;
             background: #f0f;
-            position: fixed;
             pointer-events: none;
             z-index: 999;
         }
 
-        @media (max-width: 768px) {
+        /* Para tablets y pantallas más grandes */
+        @media (min-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            header {
+                padding: 20px;
+                border-radius: 15px;
+                margin-bottom: 15px;
+            }
+
             h1 {
                 font-size: 2rem;
             }
 
-            .game-grid {
-                grid-template-columns: 1fr;
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .stats-lives-container {
+                padding: 12px;
             }
 
             .stat-card {
-                min-width: 120px;
+                padding: 10px 15px;
+                min-width: 80px;
+            }
+
+            .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .heart-compact {
+                font-size: 1.4rem;
             }
 
             .game-area {
                 padding: 20px;
+                border-radius: 15px;
             }
+
+            /* Layout para desktop - dos columnas */
+            .desktop-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+
+            .mobile-layout {
+                display: none;
+            }
+
+            .column-title {
+                font-size: 1.3rem;
+                padding: 10px;
+            }
+
+            .words-container, .images-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .word-card, .image-card {
+                padding: 15px;
+                min-height: 100px;
+            }
+
+            .word-card {
+                font-size: 1.3rem;
+            }
+
+            .image-card .emoji {
+                font-size: 4rem;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+                max-width: 200px;
+            }
+
+            .mobile-instructions {
+                display: none !important;
+            }
+        }
+
+        /* Floating return button */
+        #floating-return {
+            position: fixed;
+            right: 12px;
+            bottom: 12px;
+            z-index: 10000;
+        }
+
+        #floating-return button {
+            padding: 10px 16px;
+            background: linear-gradient(90deg, #2bee4b, #1a9d3a);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(43, 230, 70, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        #floating-return button:active {
+            transform: scale(0.95);
         }
     </style>
 </head>
 <body>
     <!-- Decoraciones flotantes -->
-    <div class="floating-decoration star" style="top: 10%; left: 5%;"></div>
-    <div class="floating-decoration circle" style="top: 20%; right: 10%;"></div>
-    <div class="floating-decoration triangle" style="top: 60%; left: 15%;"></div>
-    <div class="floating-decoration star" style="top: 70%; right: 20%;"></div>
-    <div class="floating-decoration circle" style="top: 40%; left: 80%;"></div>
+    <div class="floating-decoration star" style="top: 5%; left: 3%;"></div>
+    <div class="floating-decoration circle" style="top: 15%; right: 5%;"></div>
+    <div class="floating-decoration triangle" style="top: 50%; left: 10%;"></div>
+    <div class="floating-decoration star" style="top: 65%; right: 15%;"></div>
+    <div class="floating-decoration circle" style="top: 35%; left: 85%;"></div>
 
     <div class="container">
         <header>
             <h1>🎮 Juego de Hñähñu</h1>
-            <p class="subtitle">Relaciona las palabras con sus imágenes - ¡Arrastra y suelta!</p>
+            <p class="subtitle">Relaciona las palabras con sus imágenes</p>
             
-            <div class="stats-bar">
-                <div class="stat-card">
-                    <div class="stat-label">Correctas</div>
-                    <div class="stat-value" id="correct-count">0</div>
+            <!-- Instrucciones para móvil -->
+            <div class="mobile-instructions">
+                👆 <strong>Toca una palabra</strong>, luego toca la imagen correspondiente
+            </div>
+            
+            <!-- Contenedor compacto de estadísticas y vidas -->
+            <div class="stats-lives-container">
+                <div class="stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-label">Correctas</div>
+                        <div class="stat-value" id="correct-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Progreso</div>
+                        <div class="stat-value" id="progress">0/7</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Intentos</div>
+                        <div class="stat-value" id="attempts">0</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Progreso</div>
-                    <div class="stat-value" id="progress">0/7</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Intentos</div>
-                    <div class="stat-value" id="attempts">0</div>
+                
+                <!-- Contenedor compacto de vidas -->
+                <div class="lives-container-compact" id="lives-container-compact">
+                    <div class="lives-label">Vidas:</div>
+                    <!-- Las vidas se insertarán aquí con JavaScript -->
                 </div>
             </div>
-
-            <div class="lives-container" id="lives-container"></div>
         </header>
 
         <div class="game-area">
-            <div class="game-grid">
+            <!-- Layout para móviles (una sola columna) -->
+            <div class="mobile-layout">
                 <div class="column">
                     <h2 class="column-title">Palabras en Hñähñu</h2>
-                    <div id="words-column"></div>
+                    <div class="words-container" id="words-column-mobile"></div>
+                </div>
+                
+                <div class="column">
+                    <h2 class="column-title">Imágenes</h2>
+                    <div class="images-container" id="images-column-mobile"></div>
+                </div>
+            </div>
+
+            <!-- Layout para desktop (dos columnas) -->
+            <div class="desktop-layout">
+                <div class="column">
+                    <h2 class="column-title">Palabras en Hñähñu</h2>
+                    <div class="words-container" id="words-column-desktop"></div>
                 </div>
                 <div class="column">
                     <h2 class="column-title">Imágenes</h2>
-                    <div id="images-column"></div>
+                    <div class="images-container" id="images-column-desktop"></div>
                 </div>
             </div>
 
             <div class="controls">
-                <button class="btn" id="restart-btn">🔄 Reiniciar Juego</button>
+                <button class="btn" id="restart-btn">🔄 Reiniciar</button>
             </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+            <button onclick="window.location.href='../interfaz_alumno.html'" 
+                style="padding: 10px 24px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); 
+                color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; 
+                cursor: pointer; box-shadow: 0 5px 15px rgba(43, 230, 70, 0.2); 
+                transition: all 0.3s ease;"
+                ontouchstart="this.style.transform='scale(0.98)'"
+                ontouchend="this.style.transform='scale(1)'">
+                📚 Volver al Panel
+            </button>
         </div>
     </div>
 
-    <!-- Modal de victoria -->
+    <!-- Modal de victoria MODIFICADO: Ahora redirige a interfaz_alumno.html -->
     <div class="modal" id="victory-modal">
         <div class="modal-content">
             <div class="modal-title">¡Excelente! 🎉</div>
             <p class="modal-message">Has completado todas las palabras correctamente. ¡Qué bueno que estás aprendiendo Hñähñu!</p>
-            <button class="btn" id="play-again-btn">Jugar de Nuevo</button>
+            <button class="btn" id="go-to-panel-btn">📚 Ir al Panel</button>
+        </div>
+    </div>
+
+    <!-- NUEVO: Modal de "Game Over" -->
+    <div class="modal" id="gameover-modal">
+        <div class="modal-content">
+            <div class="modal-title">¡Se acabaron las vidas! 😔</div>
+            <p class="modal-message">No te preocupes, puedes intentarlo nuevamente para mejorar.</p>
+            <button class="btn" id="try-again-btn">🔄 Volver a Intentar</button>
         </div>
     </div>
 
@@ -653,17 +715,25 @@
         let totalAttempts = 0;
         let lives = 5;
         let matchedPairs = new Set();
+        let selectedWord = null;
+        let isMobile = window.innerWidth <= 768;
 
         // Elementos del DOM
-        const wordsColumn = document.getElementById('words-column');
-        const imagesColumn = document.getElementById('images-column');
+        const wordsColumnMobile = document.getElementById('words-column-mobile');
+        const imagesColumnMobile = document.getElementById('images-column-mobile');
+        const wordsColumnDesktop = document.getElementById('words-column-desktop');
+        const imagesColumnDesktop = document.getElementById('images-column-desktop');
         const correctCount = document.getElementById('correct-count');
         const progressDisplay = document.getElementById('progress');
         const attemptsDisplay = document.getElementById('attempts');
-        const livesContainer = document.getElementById('lives-container');
+        const livesContainerCompact = document.getElementById('lives-container-compact');
         const victoryModal = document.getElementById('victory-modal');
+        const gameoverModal = document.getElementById('gameover-modal');
         const restartBtn = document.getElementById('restart-btn');
-        const playAgainBtn = document.getElementById('play-again-btn');
+        const goToPanelBtn = document.getElementById('go-to-panel-btn');
+        const tryAgainBtn = document.getElementById('try-again-btn');
+        const mobileLayout = document.querySelector('.mobile-layout');
+        const desktopLayout = document.querySelector('.desktop-layout');
 
         // Inicializar juego
         function initGame() {
@@ -671,6 +741,7 @@
             totalAttempts = 0;
             lives = 5;
             matchedPairs.clear();
+            selectedWord = null;
             
             updateStats();
             updateLives();
@@ -679,22 +750,98 @@
             const shuffledWords = [...gameData].sort(() => Math.random() - 0.5);
             const shuffledImages = [...gameData].sort(() => Math.random() - 0.5);
             
-            // Crear tarjetas de palabras
-            wordsColumn.innerHTML = '';
-            shuffledWords.forEach((item, index) => {
-                const wordCard = createWordCard(item, index);
-                wordsColumn.appendChild(wordCard);
+            // Crear tarjetas para móvil
+            createCardsForMobile(shuffledWords, shuffledImages);
+            
+            // Crear tarjetas para desktop
+            createCardsForDesktop(shuffledWords, shuffledImages);
+            
+            // Mostrar layout correcto
+            updateLayout();
+        }
+
+        function createCardsForMobile(words, images) {
+            // Limpiar columnas
+            wordsColumnMobile.innerHTML = '';
+            imagesColumnMobile.innerHTML = '';
+            
+            // Crear tarjetas de palabras para móvil
+            words.forEach((item, index) => {
+                const wordCard = createMobileWordCard(item, index);
+                wordsColumnMobile.appendChild(wordCard);
             });
             
-            // Crear tarjetas de imágenes
-            imagesColumn.innerHTML = '';
-            shuffledImages.forEach((item, index) => {
-                const imageCard = createImageCard(item, index);
-                imagesColumn.appendChild(imageCard);
+            // Crear tarjetas de imágenes para móvil
+            images.forEach((item, index) => {
+                const imageCard = createMobileImageCard(item, index);
+                imagesColumnMobile.appendChild(imageCard);
             });
         }
 
-        function createWordCard(item, index) {
+        function createCardsForDesktop(words, images) {
+            // Limpiar columnas
+            wordsColumnDesktop.innerHTML = '';
+            imagesColumnDesktop.innerHTML = '';
+            
+            // Crear tarjetas de palabras para desktop
+            words.forEach((item, index) => {
+                const wordCard = createDesktopWordCard(item, index);
+                wordsColumnDesktop.appendChild(wordCard);
+            });
+            
+            // Crear tarjetas de imágenes para desktop
+            images.forEach((item, index) => {
+                const imageCard = createDesktopImageCard(item, index);
+                imagesColumnDesktop.appendChild(imageCard);
+            });
+        }
+
+        function createMobileWordCard(item, index) {
+            const card = document.createElement('div');
+            card.className = 'word-card';
+            card.dataset.word = item.word;
+            card.dataset.spanish = item.spanish;
+            card.innerHTML = `
+                <div>${item.word}</div>
+                <div class="cultural-info" id="cultural-mobile-${item.word}">
+                    <strong>📖 ${item.spanish}</strong><br>
+                    ${item.cultural}
+                </div>
+            `;
+            
+            // Evento táctil para móvil
+            card.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                handleMobileWordSelect(this);
+            });
+            
+            card.addEventListener('click', function() {
+                handleMobileWordSelect(this);
+            });
+            
+            return card;
+        }
+
+        function createMobileImageCard(item, index) {
+            const card = document.createElement('div');
+            card.className = 'image-card';
+            card.dataset.spanish = item.spanish;
+            card.innerHTML = `<div class="emoji">${item.emoji}</div>`;
+            
+            // Evento táctil para móvil
+            card.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                handleMobileImageSelect(this);
+            });
+            
+            card.addEventListener('click', function() {
+                handleMobileImageSelect(this);
+            });
+            
+            return card;
+        }
+
+        function createDesktopWordCard(item, index) {
             const card = document.createElement('div');
             card.className = 'word-card';
             card.draggable = true;
@@ -702,26 +849,26 @@
             card.dataset.spanish = item.spanish;
             card.innerHTML = `
                 <div>${item.word}</div>
-                <div class="cultural-info" id="cultural-${item.word}">
+                <div class="cultural-info" id="cultural-desktop-${item.word}">
                     <strong>📖 ${item.spanish}</strong><br>
                     ${item.cultural}
                 </div>
             `;
             
-            // Eventos de arrastre
+            // Eventos de arrastre para desktop
             card.addEventListener('dragstart', handleDragStart);
             card.addEventListener('dragend', handleDragEnd);
             
             return card;
         }
 
-        function createImageCard(item, index) {
+        function createDesktopImageCard(item, index) {
             const card = document.createElement('div');
             card.className = 'image-card drop-zone';
             card.dataset.spanish = item.spanish;
-            card.innerHTML = `<div style="font-size: 6rem;">${item.emoji}</div>`;
+            card.innerHTML = `<div class="emoji">${item.emoji}</div>`;
             
-            // Eventos de drop
+            // Eventos de drop para desktop
             card.addEventListener('dragover', handleDragOver);
             card.addEventListener('dragleave', handleDragLeave);
             card.addEventListener('drop', handleDrop);
@@ -729,7 +876,122 @@
             return card;
         }
 
+        // Actualizar layout según tamaño de pantalla
+        function updateLayout() {
+            if (isMobile) {
+                mobileLayout.style.display = 'flex';
+                desktopLayout.style.display = 'none';
+            } else {
+                mobileLayout.style.display = 'none';
+                desktopLayout.style.display = 'grid';
+            }
+        }
+
+        // Funciones para móvil
+        function handleMobileWordSelect(card) {
+            if (matchedPairs.has(card.dataset.spanish)) {
+                return; // Ya está emparejada
+            }
+            
+            // Deseleccionar palabra anterior
+            if (selectedWord) {
+                selectedWord.classList.remove('selected');
+            }
+            
+            // Seleccionar nueva palabra
+            card.classList.add('selected');
+            selectedWord = card;
+            
+            // Resaltar imágenes posibles
+            highlightPossibleImages(card.dataset.spanish);
+        }
+
+        function handleMobileImageSelect(card) {
+            if (!selectedWord || matchedPairs.has(card.dataset.spanish)) {
+                return;
+            }
+            
+            totalAttempts++;
+            updateStats();
+            
+            if (selectedWord.dataset.spanish === card.dataset.spanish) {
+                // Correcto
+                selectedWord.classList.remove('selected');
+                selectedWord.classList.add('matched');
+                card.classList.add('matched');
+                
+                correctMatches++;
+                matchedPairs.add(card.dataset.spanish);
+                updateStats();
+                
+                // Mostrar información cultural
+                const culturalInfo = document.getElementById(`cultural-mobile-${selectedWord.dataset.word}`);
+                if (culturalInfo) {
+                    culturalInfo.classList.add('show');
+                }
+                
+                playSound('correct');
+                selectedWord = null;
+                
+                // Verificar victoria
+                if (correctMatches === gameData.length) {
+                    setTimeout(() => {
+                        showVictory();
+                    }, 800);
+                }
+            } else {
+                // Incorrecto
+                card.classList.add('incorrect');
+                setTimeout(() => {
+                    card.classList.remove('incorrect');
+                    selectedWord.classList.remove('selected');
+                    selectedWord = null;
+                }, 600);
+                
+                lives--;
+                updateLives();
+                playSound('incorrect');
+                
+                if (lives <= 0) {
+                    setTimeout(() => {
+                        showGameOver();
+                    }, 600);
+                }
+            }
+            
+            // Quitar resaltado de imágenes
+            removeImageHighlights();
+        }
+
+        function highlightPossibleImages(spanishWord) {
+            const images = isMobile ? 
+                imagesColumnMobile.querySelectorAll('.image-card') : 
+                imagesColumnDesktop.querySelectorAll('.image-card');
+            
+            images.forEach(img => {
+                if (img.dataset.spanish === spanishWord && !matchedPairs.has(spanishWord)) {
+                    img.classList.add('active-drop');
+                }
+            });
+        }
+
+        function removeImageHighlights() {
+            const images = isMobile ? 
+                imagesColumnMobile.querySelectorAll('.image-card') : 
+                imagesColumnDesktop.querySelectorAll('.image-card');
+            
+            images.forEach(img => {
+                img.classList.remove('active-drop');
+            });
+        }
+
+        // Funciones para desktop (drag & drop)
         function handleDragStart(e) {
+            if (matchedPairs.has(this.dataset.spanish)) {
+                e.preventDefault();
+                return;
+            }
+            
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', this.innerHTML);
             e.dataTransfer.setData('word', this.dataset.word);
@@ -766,21 +1028,27 @@
             const droppedSpanish = e.dataTransfer.getData('spanish');
             const targetSpanish = this.dataset.spanish;
             
+            if (matchedPairs.has(targetSpanish)) {
+                return false;
+            }
+            
             totalAttempts++;
             updateStats();
             
-            if (droppedSpanish === targetSpanish && !matchedPairs.has(targetSpanish)) {
+            if (droppedSpanish === targetSpanish) {
                 // Correcto
                 this.classList.add('matched');
                 const wordCard = document.querySelector(`.word-card[data-word="${droppedWord}"]`);
-                wordCard.classList.add('matched');
+                if (wordCard) {
+                    wordCard.classList.add('matched');
+                }
                 
                 correctMatches++;
                 matchedPairs.add(targetSpanish);
                 updateStats();
                 
                 // Mostrar información cultural
-                const culturalInfo = document.getElementById(`cultural-${droppedWord}`);
+                const culturalInfo = document.getElementById(`cultural-desktop-${droppedWord}`);
                 if (culturalInfo) {
                     culturalInfo.classList.add('show');
                 }
@@ -804,10 +1072,9 @@
                 updateLives();
                 playSound('incorrect');
                 
-                if (lives === 0) {
+                if (lives <= 0) {
                     setTimeout(() => {
-                        alert('¡Se acabaron las vidas! Intenta de nuevo.');
-                        initGame();
+                        showGameOver();
                     }, 500);
                 }
             }
@@ -822,12 +1089,15 @@
         }
 
         function updateLives() {
-            livesContainer.innerHTML = '';
+            livesContainerCompact.innerHTML = `
+                <div class="lives-label">Vidas:</div>
+            `;
+            
             for (let i = 0; i < 5; i++) {
                 const heart = document.createElement('span');
-                heart.className = 'heart' + (i >= lives ? ' lost' : '');
+                heart.className = 'heart-compact' + (i >= lives ? ' lost' : '');
                 heart.textContent = '❤️';
-                livesContainer.appendChild(heart);
+                livesContainerCompact.appendChild(heart);
             }
         }
 
@@ -860,9 +1130,13 @@
             createConfetti();
         }
 
+        function showGameOver() {
+            gameoverModal.classList.add('show');
+        }
+
         function createConfetti() {
             const colors = ['#6A4C93', '#9370DB', '#4682B4', '#87CEEB', '#2E8B57', '#98FB98'];
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 80; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
@@ -870,13 +1144,15 @@
                     confetti.style.top = '-10px';
                     confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                     confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    confetti.style.width = Math.random() * 8 + 4 + 'px';
+                    confetti.style.height = Math.random() * 8 + 4 + 'px';
                     document.body.appendChild(confetti);
                     
                     const animation = confetti.animate([
                         { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
                         { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
                     ], {
-                        duration: 3000 + Math.random() * 2000,
+                        duration: 2000 + Math.random() * 2000,
                         easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                     });
                     
@@ -885,18 +1161,67 @@
             }
         }
 
+        // Detectar si es móvil y actualizar layout
+        function checkMobile() {
+            isMobile = window.innerWidth <= 768;
+            updateLayout();
+        }
+
         // Event listeners
         restartBtn.addEventListener('click', () => {
             initGame();
         });
 
-        playAgainBtn.addEventListener('click', () => {
-            victoryModal.classList.remove('show');
+        // MODIFICADO: Ahora redirige a interfaz_alumno.html
+        goToPanelBtn.addEventListener('click', () => {
+            window.location.href = '../interfaz_alumno.html';
+        });
+
+        // NUEVO: Botón para intentar de nuevo cuando se acaban las vidas
+        tryAgainBtn.addEventListener('click', () => {
+            gameoverModal.classList.remove('show');
             initGame();
         });
 
+        // Redimensionar ventana
+        window.addEventListener('resize', checkMobile);
+
         // Inicializar al cargar
-        initGame();
+        window.addEventListener('load', function() {
+            checkMobile();
+            initGame();
+            
+            // Guardar progreso
+            guardarProgreso();
+        });
+
+        // Guardar progreso cuando se abre la página
+        async function guardarProgreso() {
+            try {
+                const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        leccion: 'relacionar',
+                        completado: 1,
+                        progreso: 100,
+                        puntos: 200
+                    })
+                });
+                const result = await response.json();
+                console.log('Progreso guardado:', result);
+            } catch (error) {
+                console.error('Error al guardar progreso:', error);
+            }
+        }
     </script>
+
+    <!-- Floating return button (always visible) -->
+    <div id="floating-return">
+        <button aria-label="Volver al Panel" onclick="window.location.href='../interfaz_alumno.html'">
+            📚
+        </button>
+    </div>
+
 </body>
 </html>

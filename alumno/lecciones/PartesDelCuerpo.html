@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorama Español-Otomí</title>
+    <style>
+        /* 1. Reset Básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 2. Body / Fondo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Previene scroll horizontal en móviles */
+        }
+
+        @media (min-width: 769px) {
+            body {
+                height: 100vh;
+                overflow: hidden;
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3. Header y Stats */
+        .header {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            /* Permite que los botones se envuelvan en pantallas pequeñas */
+            flex-wrap: wrap; 
+        }
+
+        .title {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-right: auto; /* Empuja los stats y botones a la derecha */
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            color: white;
+            font-weight: bold;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .reset-btn {
+            /* Estilo base para todos los botones de control */
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            margin: 5px; /* Espacio entre botones */
+        }
+        
+        /* Estilo específico para el botón REINICIAR */
+        .reset-btn:nth-last-child(1) {
+             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .reset-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* 4. Contenedor del Juego */
+        .game-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        /* 5. La Grilla (Desktop - Base) */
+        .grid {
+            display: grid;
+            /* Desktop: 8 columnas (40 tarjetas = 5 filas) */
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 10px; 
+            max-width: 1000px; 
+            width: 100%;
+            max-height: 85vh;
+        }
+
+        /* 6. Las Tarjetas */
+        .card {
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+            /* CLAVE: Mantiene la proporción */
+            aspect-ratio: 3 / 4; 
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched .card-inner {
+            animation: matchAnimation 0.6s ease;
+        }
+
+        @keyframes matchAnimation {
+            0%, 100% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.15); }
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Cara frontal (Por defecto: Blanco suave - para tarjetas Otomí) */
+        .card-front {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,240,240,0.9));
+            border: 3px solid rgba(255,255,255,0.5);
+        }
+
+        /* MODIFICACIÓN CLAVE: Cara frontal para tarjetas en ESPAÑOL (Gris suave) */
+        .card.type-spanish .card-inner .card-front {
+            background: linear-gradient(135deg, rgba(230, 230, 230, 0.9), rgba(200, 200, 200, 0.9)); /* Gris más oscuro */
+            border: 3px solid rgba(255,255,255,0.8);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.3); 
+        }
+
+        .card-front::before {
+            content: '🎭';
+            font-size: 2rem;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1rem; 
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            word-wrap: break-word;
+            padding: 5px; 
+        }
+
+        /* Estilos del Modal (se mantienen) */
+        .completion-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s;
+        }
+
+        .completion-modal.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .completion-content {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ffd700 100%);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            animation: scaleIn 0.5s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.5); }
+            to { transform: scale(1); }
+        }
+
+        .completion-title {
+            font-size: 3rem;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .completion-stats {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confettiFall 3s linear;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Colores para cada par */
+        .pair-0 { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
+        .pair-1 { background: linear-gradient(135deg, #4ECDC4, #44A08D); }
+        .pair-2 { background: linear-gradient(135deg, #F7B731, #FA8231); }
+        .pair-3 { background: linear-gradient(135deg, #5F27CD, #341F97); }
+        .pair-4 { background: linear-gradient(135deg, #00D2FF, #3A7BD5); }
+        .pair-5 { background: linear-gradient(135deg, #F093FB, #F5576C); }
+        .pair-6 { background: linear-gradient(135deg, #4FACFE, #00F2FE); }
+        .pair-7 { background: linear-gradient(135deg, #43E97B, #38F9D7); }
+        .pair-8 { background: linear-gradient(135deg, #FA709A, #FEE140); }
+        .pair-9 { background: linear-gradient(135deg, #30CFD0, #330867); }
+        .pair-10 { background: linear-gradient(135deg, #A8EDEA, #FED6E3); }
+        .pair-11 { background: linear-gradient(135deg, #FF9A56, #FF6A88); }
+        .pair-12 { background: linear-gradient(135deg, #FCCF31, #F55555); }
+        .pair-13 { background: linear-gradient(135deg, #667EEA, #764BA2); }
+        .pair-14 { background: linear-gradient(135deg, #FFA8A8, #FCFF00); }
+        .pair-15 { background: linear-gradient(135deg, #FF6A00, #EE0979); }
+        .pair-16 { background: linear-gradient(135deg, #56CCF2, #2F80ED); }
+        .pair-17 { background: linear-gradient(135deg, #B721FF, #21D4FD); }
+        .pair-18 { background: linear-gradient(135deg, #F4D03F, #16A085); }
+        .pair-19 { background: linear-gradient(135deg, #D38312, #A83279); }
+
+        /* ========================================================= */
+        /* 7. MEDIA QUERIES (Ajustes para dispositivos) */
+        /* ========================================================= */
+
+        /* Tablets y Pantallas medianas (Máx. 768px) */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+            .stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            /* Cambiamos a 5 columnas */
+            .grid {
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(8, 1fr);
+                gap: 8px;
+                max-width: 600px;
+                aspect-ratio: auto;
+                max-height: 80vh; 
+            }
+            .card-back {
+                font-size: 0.8rem;
+            }
+            .title {
+                font-size: 1.2rem;
+            }
+            /* Apilar botones en móvil */
+             .header .reset-btn {
+                width: calc(33% - 10px); 
+                margin: 5px 2px;
+                padding: 8px 10px;
+            }
+            .header .stats {
+                order: -1; /* Mueve los stats arriba en columna */
+            }
+            .header .title {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Teléfonos Móviles Pequeños (Máx. 500px) */
+        @media (max-width: 500px) {
+            /* Cambiamos a 4 columnas */
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(10, 1fr);
+                gap: 5px;
+                max-height: 80vh;
+            }
+            .card-back {
+                font-size: 0.7rem;
+            }
+            .stat-item {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+            .title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="sistemaPuntos.js"></script>
+    <div class="header">
+        <div class="title">🎯 Memorama Español-Otomí</div>
+        <div class="stats">
+            <div class="stat-item">⏱️ <span id="timer">00:00</span></div>
+            <div class="stat-item">🔄 <span id="moves">0</span> movimientos</div>
+        </div>
+        <button class="reset-btn" onclick="shuffleCards()" style="background: linear-gradient(135deg, #FFD700 0%, #FFA800 100%);">🔀 Revolver</button>
+        <button class="reset-btn" id="hintBtn" onclick="giveHint()" style="background: linear-gradient(135deg, #4facfe 0%, #00F2FE 100%);">💡 Pista</button>
+        <button class="reset-btn" onclick="resetGame()">🔄 Reiniciar</button>
+    </div>
+
+    <div class="game-container">
+        <div class="grid" id="gameGrid"></div>
+    </div>
+
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <div class="completion-title">🎉 ¡LECCIÓN COMPLETADA! 🎉</div>
+            <div class="completion-stats">
+                <p>⏱️ Tiempo: <span id="finalTime"></span></p>
+                <p>🔄 Movimientos: <span id="finalMoves"></span></p>
+            </div>
+            <button class="reset-btn" onclick="resetGame()">🎮 Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+            { spanish: 'Cabello', otomi: 'xtä', pair: 0 },
+            { spanish: 'Frente', otomi: 'Dë', pair: 1 },
+            { spanish: 'Ceja', otomi: '\'yo da̲', pair: 2 },
+            { spanish: 'Pestaña', otomi: 'xida̲', pair: 3 },
+            { spanish: 'Ojo', otomi: 'Da̲', pair: 4 },
+            { spanish: 'Nariz', otomi: 'xiñü', pair: 5 },
+            { spanish: 'Oreja', otomi: 'Zagü', pair: 6 },
+            { spanish: 'Mejilla', otomi: 'Hiongü', pair: 7 },
+            { spanish: 'Boca', otomi: 'Ne', pair: 8 },
+            { spanish: 'Labios', otomi: 'xine', pair: 9 },
+            { spanish: 'Diente', otomi: 'ts\'i', pair: 10 },
+            { spanish: 'Muela', otomi: 'Ts\'afi', pair: 11 },
+            { spanish: 'Barbilla', otomi: '\'yone', pair: 12 },
+            { spanish: 'Cuello', otomi: '\'yu̱gá', pair: 13 },
+            { spanish: 'Hombros', otomi: 'xinxi', pair: 14 },
+            { spanish: 'Brazo', otomi: 'Ma\'ye̲', pair: 15 },
+            { spanish: 'Mano', otomi: '\'ye̲', pair: 16 },
+            { spanish: 'Dedo', otomi: 'xa̲', pair: 17 },
+            { spanish: 'Uña', otomi: 'xixa̲', pair: 18 },
+            { spanish: 'Pie', otomi: 'hnini', pair: 19 }
+        ];
+
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let canFlip = true;
+        let isShuffling = false; // NUEVA VARIABLE
+        let hintUsed = false;    // NUEVA VARIABLE
+
+        function initGame() {
+            const gameGrid = document.getElementById('gameGrid');
+            gameGrid.innerHTML = '';
+            cards = [];
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            canFlip = true;
+            isShuffling = false;
+            
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('timer').textContent = '00:00';
+            document.getElementById('completionModal').classList.remove('show');
+
+            // Crear pares de cartas
+            words.forEach((word, index) => {
+                cards.push({ 
+                    id: index * 2, 
+                    text: word.spanish, 
+                    pair: word.pair,
+                    type: 'spanish'
+                });
+                cards.push({ 
+                    id: index * 2 + 1, 
+                    text: word.otomi, 
+                    pair: word.pair,
+                    type: 'otomi'
+                });
+            });
+
+            // Barajar cartas
+            cards.sort(() => Math.random() - 0.5);
+
+            // Crear elementos DOM
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = `card type-${card.type}`;
+                cardElement.dataset.id = card.id;
+                cardElement.dataset.pair = card.pair;
+                
+                cardElement.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-face card-front"></div>
+                        <div class="card-face card-back pair-${card.pair}">
+                            ${card.text}
+                        </div>
+                    </div>
+                `;
+                
+                cardElement.addEventListener('click', () => flipCard(cardElement, card));
+                gameGrid.appendChild(cardElement);
+            });
+
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            startTime = null;
+        }
+
+        function flipCard(cardElement, card) {
+            if (!canFlip || isShuffling || cardElement.classList.contains('flipped') || 
+                cardElement.classList.contains('matched')) {
+                return;
+            }
+
+            // Iniciar temporizador en el primer clic
+            if (!startTime) {
+                startTime = Date.now();
+                startTimer();
+            }
+
+            cardElement.classList.add('flipped');
+            flippedCards.push({ element: cardElement, card: card });
+
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [first, second] = flippedCards;
+
+            if (first.card.pair === second.card.pair) {
+                // ¡Match!
+                setTimeout(() => {
+                    first.element.classList.add('matched');
+                    second.element.classList.add('matched');
+                    matchedPairs++;
+                    
+                    flippedCards = [];
+                    canFlip = true;
+
+                    if (matchedPairs === words.length) {
+                        setTimeout(() => gameComplete(), 500);
+                    }
+                }, 600);
+            } else {
+                // No match
+                setTimeout(() => {
+                    first.element.classList.remove('flipped');
+                    second.element.classList.remove('flipped');
+                    flippedCards = [];
+                    canFlip = true;
+                }, 1000);
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('timer').textContent = 
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function gameComplete() {
+            clearInterval(timerInterval);
+            
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            const timeStr = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            
+            document.getElementById('finalTime').textContent = timeStr;
+            document.getElementById('finalMoves').textContent = moves;
+            document.getElementById('completionModal').classList.add('show');
+            
+            // Guardar progreso al completar
+            guardarProgreso();
+            
+            createConfetti();
+        }
+
+        // =========================================================
+        // NUEVAS FUNCIONALIDADES
+        // =========================================================
+
+        function shuffleCards() {
+            if (isShuffling || flippedCards.length > 0) return;
+            isShuffling = true;
+            canFlip = false;
+            
+            const gameGrid = document.getElementById('gameGrid');
+            const matchedCardElements = document.querySelectorAll('.card.matched');
+            const unmatchedCardElements = document.querySelectorAll('.card:not(.matched)');
+            
+            // 1. Ocultar o voltear todas las tarjetas no emparejadas para el efecto
+            unmatchedCardElements.forEach(card => {
+                card.classList.remove('flipped');
+            });
+
+            // 2. Esperar a que se volteen (por si alguna estaba abierta)
+            setTimeout(() => {
+                
+                let unmatchedCards = Array.from(unmatchedCardElements);
+
+                // 3. Barajar las tarjetas en el DOM (Fisher-Yates)
+                for (let i = unmatchedCards.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [unmatchedCards[i], unmatchedCards[j]] = [unmatchedCards[j], unmatchedCards[i]];
+                }
+                
+                // 4. Reinsertar las tarjetas barajadas y las emparejadas en el orden correcto
+                gameGrid.innerHTML = ''; // Limpiar la cuadrícula
+                
+                let allElements = Array.from(matchedCardElements).concat(unmatchedCards);
+                
+                // Rebarajar el orden final de todos los elementos para que los emparejados no queden juntos
+                allElements.sort(() => Math.random() - 0.5); 
+                
+                allElements.forEach(element => gameGrid.appendChild(element));
+
+                // 5. Restablecer el estado
+                setTimeout(() => {
+                    isShuffling = false;
+                    canFlip = true;
+                }, 300); 
+
+            }, 600); // Esperar a que la animación de volteo termine
+        }
+
+
+        function giveHint() {
+            if (!canFlip || isShuffling) return;
+
+            // Obtener TODAS las tarjetas que aún no han sido emparejadas
+            const unmatchedCards = Array.from(document.querySelectorAll('.card:not(.matched)'));
+
+            if (unmatchedCards.length === 0) {
+                alert("¡Ya has encontrado todos los pares!");
+                return;
+            }
+
+            // 1. Bloquear clics y voltear todas las tarjetas
+            canFlip = false;
+            
+            unmatchedCards.forEach(card => {
+                card.classList.add('flipped');
+            });
+
+            // 2. Esperar 2 segundos para que el usuario tome el vistazo
+            setTimeout(() => {
+                // 3. Voltear de nuevo todas las tarjetas para ocultar la pista
+                unmatchedCards.forEach(card => {
+                    card.classList.remove('flipped');
+                });
+                
+                // 4. Desbloquear los clics
+                canFlip = true;
+            }, 2000); // 2000 milisegundos = 2 segundos
+        }
+
+        // =========================================================
+        // OTRAS FUNCIONES
+        // =========================================================
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const modal = document.getElementById('completionModal');
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    modal.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function resetGame() {
+            initGame();
+        }
+
+        // Guardar progreso cuando se completa el juego
+        async function guardarProgreso() {
+            try {
+                const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        leccion: 'partes_del_cuerpo',
+                        completado: 1,
+                        progreso: 100
+                    })
+                });
+                
+                if (!response.ok) {
+                    console.error('Error en respuesta del servidor:', response.status);
+                    return;
+                }
+                
+                const result = await response.json();
+                if (result.success) {
+                    console.log('✅ Progreso guardado correctamente:', result);
+                    
+                    // Si se ganaron puntos, disparar evento para mostrar notificación
+                    if (result.puntosGanados > 0) {
+                        const event = new CustomEvent('puntosRegistrados', {
+                            detail: {
+                                puntos_ganados: result.puntosGanados,
+                                puntos_totales: result.puntosTotales,
+                                tipo: 'leccion',
+                                nombre: 'Partes del Cuerpo'
+                            }
+                        });
+                        document.dispatchEvent(event);
+                    }
+                } else {
+                    console.error('❌ Error al guardar progreso:', result.error || result.message);
+                }
+            } catch (error) {
+                console.error('❌ Error de red al guardar progreso:', error);
+            }
+        }
+
+        // Iniciar juego al cargar
+        initGame();
+    </script>
+
+    <div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 50; pointer-events: auto;">
+        <button aria-label="Volver al Panel" id="float-btn" 
+            style="padding: 12px 18px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(43, 230, 70, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+            📚
+        </button>
+    </div>
+    <script>
+        document.getElementById('float-btn').addEventListener('click', function() {
+            window.location.href = '../interfaz_alumno.html';
+        });
+    </script>
+    <script src="../notificacionesPuntos.js"></script>
+</body>
+</html>

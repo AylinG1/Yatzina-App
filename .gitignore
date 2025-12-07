@@ -1,0 +1,37 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configuración local
+backend/conexion_local.php
+backend/email_config.php
+
+# Logs y temporales
+*.log
+*.tmp
+error_log
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-*
+
+# Archivos de testing
+testing_puntos.html
+alumno/testing_puntos.html
+
+# Documentación de desarrollo (opcional, puedes comentar si quieres subirla)
+SISTEMA_PUNTOS.md
+RESUMEN_PUNTOS.md
+INSTALACION_PUNTOS.md
+ARQUITECTURA_PUNTOS.md
+QUICK_REFERENCE_PUNTOS.md
+INDICE_COMPLETO.md
+IMPLEMENTACION_COMPLETADA.md
+CONSULTAS_PUNTOS.sql
+README_PUNTOS.txt
+RESUMEN_FINAL.md
+COMO_USAR_TESTING.md
+BOTON_TESTING_AGREGADO.md
+INICIO_RAPIDO.sh

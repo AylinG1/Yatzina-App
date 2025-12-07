@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba - Autocompletado Alumnos</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f6f8f6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 { margin-bottom: 20px; color: #2bee4b; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        .autocomplete-container { position: relative; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        input:focus { outline: none; border-color: #2bee4b; box-shadow: 0 0 0 3px rgba(43, 230, 70, 0.1); }
+        .autocomplete-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            list-style: none;
+            margin: 4px 0 0 0;
+            padding: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        .autocomplete-list.show { display: block; }
+        .autocomplete-item {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s;
+        }
+        .autocomplete-item:hover { background: rgba(43, 230, 70, 0.08); }
+        .autocomplete-item:last-child { border-bottom: none; }
+        .item-name { font-weight: 600; color: #333; }
+        .item-email { font-size: 0.85rem; color: #666; margin-top: 2px; }
+        .selected {
+            padding: 10px;
+            background: rgba(43, 230, 70, 0.1);
+            border-radius: 8px;
+            margin-top: 10px;
+            display: none;
+        }
+        .selected.show { display: block; }
+        .result { margin-top: 20px; padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .result.success { background: rgba(43, 230, 70, 0.2); color: #2bee4b; }
+        .result.error { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Prueba - Autocompletado de Alumnos</h1>
+        <p style="color: #666; margin-bottom: 20px;">Escribe un nombre de usuario o correo para ver las sugerencias:</p>
+        
+        <div class="form-group">
+            <label>Buscar Alumno:</label>
+            <div class="autocomplete-container">
+                <input type="text" id="buscar" placeholder="Ej: juan o juan@example.com" autocomplete="off">
+                <ul id="listaSugerencias" class="autocomplete-list"></ul>
+            </div>
+        </div>
+
+        <div id="seleccionado" class="selected">
+            <strong>Alumno seleccionado:</strong> <span id="alumnoNombre"></span>
+        </div>
+
+        <div id="resultado" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        let debounceTimer = null;
+        let alumnoSeleccionado = null;
+
+        document.getElementById('buscar').addEventListener('input', function() {
+            const valor = this.value.trim();
+            
+            if (valor.length < 2) {
+                document.getElementById('listaSugerencias').classList.remove('show');
+                alumnoSeleccionado = null;
+                document.getElementById('seleccionado').classList.remove('show');
+                return;
+            }
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                buscarSugerencias(valor);
+            }, 300);
+        });
+
+        async function buscarSugerencias(valor) {
+            const lista = document.getElementById('listaSugerencias');
+            
+            try {
+                const response = await fetch('backend/buscar_alumnos.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ buscar: valor })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'ok' && data.sugerencias.length > 0) {
+                    let html = '';
+                    data.sugerencias.forEach(alumno => {
+                        html += `
+                            <li class="autocomplete-item" onclick="seleccionar(${alumno.id}, '${alumno.nombre_usuario}', '${alumno.correo}')">
+                                <div class="item-name">${alumno.nombre_usuario}</div>
+                                <div class="item-email">${alumno.correo}</div>
+                            </li>
+                        `;
+                    });
+                    lista.innerHTML = html;
+                    lista.classList.add('show');
+                } else {
+                    lista.innerHTML = '<li class="autocomplete-item" style="color: #999; cursor: default;">Sin resultados</li>';
+                    lista.classList.add('show');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                lista.innerHTML = '<li class="autocomplete-item" style="color: #ff6b6b; cursor: default;">Error en la búsqueda</li>';
+                lista.classList.add('show');
+            }
+        }
+
+        function seleccionar(id, nombre, correo) {
+            alumnoSeleccionado = { id, nombre, correo };
+            document.getElementById('buscar').value = nombre + ' (' + correo + ')';
+            document.getElementById('listaSugerencias').classList.remove('show');
+            document.getElementById('alumnoNombre').textContent = nombre + ' - ' + correo;
+            document.getElementById('seleccionado').classList.add('show');
+        }
+
+        // Cerrar lista al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (e.target.id !== 'buscar' && !e.target.closest('.autocomplete-list')) {
+                document.getElementById('listaSugerencias').classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

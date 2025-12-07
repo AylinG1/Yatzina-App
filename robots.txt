@@ -1,0 +1,10 @@
+# Allow all crawlers by default
+User-agent: *
+Allow: /
+
+# Sitemap location (replace with your custom domain if you use one)
+Sitemap: https://yatzina-app.azurewebsites.net/sitemap.xml
+
+# If you need to block any paths in the future, add rules like:
+# Disallow: /backend/
+# Disallow: /admin/

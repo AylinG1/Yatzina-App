@@ -3,178 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Tortilla de Tilo - YÄTZINA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Lección de Lectura - Hñahñu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Fredoka', sans-serif;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            min-height: 100vh;
-            padding: 20px;
         }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .word-tooltip {
+            position: relative;
+            cursor: help;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
         }
-
-        .story-container {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.8s ease;
+        .word-tooltip:hover {
+            background-color: rgba(147, 51, 234, 0.1);
         }
-
-        .story-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .story-header h1 {
-            color: #f5576c;
-            font-size: 42px;
-            margin-bottom: 10px;
-        }
-
-        .story-header .emoji {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .story-content {
-            font-size: 20px;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .story-content p {
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        .story-content .hnahnu {
-            color: #f5576c;
-            font-weight: 700;
-            font-size: 22px;
-        }
-
-        .story-content .translation {
-            color: #666;
-            font-style: italic;
-            margin-top: 5px;
-        }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 18px;
-            font-weight: 600;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Fredoka', sans-serif;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.9);
             color: white;
-            display: block;
-            margin: 30px auto 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+            z-index: 1000;
+            font-size: 0.9em;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
         }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
         }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .word-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+        .quiz-option:hover {
+            transform: translateX(8px);
+        }
+        .quiz-option.correct {
+            animation: correctPulse 0.5s ease;
+        }
+        .quiz-option.incorrect {
+            animation: shake 0.5s ease;
+        }
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="story-container">
-            <div class="story-header">
-                <div class="emoji">🫓</div>
-                <h1>La Tortilla de Tilo</h1>
-                <p style="color: #666; font-size: 18px;">Un cuento tradicional Hñähñu</p>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 min-h-screen">
+    <!-- Header -->
+    <header class="text-center py-8 px-4">
+        <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 mb-2">
+            Lección de Lectura
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600">Pasa el mouse sobre las palabras para ver la traducción</p>
+    </header>
+
+    <!-- Reading Section -->
+    <main class="container mx-auto px-4 pb-12 max-w-4xl">
+        <!-- Story Card -->
+        <div class="bg-white rounded-3xl shadow-xl p-6 md:p-10 mb-8">
+            <h2 class="text-3xl font-bold text-purple-700 mb-6 text-center">La Tortilla de Tilo</h2>
+            
+            <div class="space-y-4 text-lg md:text-xl leading-relaxed text-gray-800">
+                <p>
+                    <span class="word-tooltip">—¿Ha hingi ma ra ngo, tio?
+                        <span class="tooltip-text">—¿Ya comiste tu tortilla, tío?</span>
+                    </span>
+                    <span class="word-tooltip">—enga ra Tilo.
+                        <span class="tooltip-text">—dice Tilo.</span>
+                    </span>
+                </p>
+
+                <p>
+                    <span class="word-tooltip">—Hina, hinga ma,
+                        <span class="tooltip-text">—Sí, ya comí,</span>
+                    </span>
+                    <span class="word-tooltip">nge'ä jo'o to'o da su ra ngu,
+                        <span class="tooltip-text">pero todavía está caliente la tuya,</span>
+                    </span>
+                    <span class="word-tooltip">—bi dädi rá tio.
+                        <span class="tooltip-text">—le contesta el tío.</span>
+                    </span>
+                </p>
+
+                <p>
+                    <span class="word-tooltip">—Nu'i grí mage, tio.
+                        <span class="tooltip-text">—No importa, tío.</span>
+                    </span>
+                    <span class="word-tooltip">Nuga ga kohiwa ga su ra ngu.
+                        <span class="tooltip-text">Así se enfría la tuya.</span>
+                    </span>
+                </p>
+
+                <p>
+                    <span class="word-tooltip">Pe wa egagi ya ugi,
+                        <span class="tooltip-text">Dámela entonces,</span>
+                    </span>
+                    <span class="word-tooltip">—enga ra Tilo.
+                        <span class="tooltip-text">—dice Tilo.</span>
+                    </span>
+                </p>
+
+                <p>
+                    <span class="word-tooltip">Ha nurá tio bi ma ra ngo,
+                        <span class="tooltip-text">Y el tío le da su tortilla,</span>
+                    </span>
+                    <span class="word-tooltip">ha ba kohi,
+                        <span class="tooltip-text">ya fría,</span>
+                    </span>
+                    <span class="word-tooltip">asta rá datmani ba pengi ha rá ngu,
+                        <span class="tooltip-text">hasta que termina de comer la suya,</span>
+                    </span>
+                    <span class="word-tooltip">ba hä ya ugi pa ra Tilo.
+                        <span class="tooltip-text">y se la pasa a Tilo.</span>
+                    </span>
+                </p>
+
+                <p>
+                    <span class="word-tooltip">—Jamädi, tio
+                        <span class="tooltip-text">—Gracias, tío</span>
+                    </span>
+                    <span class="word-tooltip">—enga ra Tilo—.
+                        <span class="tooltip-text">—dice Tilo—.</span>
+                    </span>
+                    <span class="word-tooltip">¿Hangu di tu'a'i?
+                        <span class="tooltip-text">¿Dónde está tu agua?</span>
+                    </span>
+                </p>
+
+                <p>
+                    <span class="word-tooltip">—Hinte gí tuki.
+                        <span class="tooltip-text">—Allá está.</span>
+                    </span>
+                    <span class="word-tooltip">Nuga go dí tu'a'i
+                        <span class="tooltip-text">Así está tu agua</span>
+                    </span>
+                    <span class="word-tooltip">nge'ä gá su ra ngu
+                        <span class="tooltip-text">pero está tu tortilla</span>
+                    </span>
+                    <span class="word-tooltip">—bi dädi rá tio.
+                        <span class="tooltip-text">—le contesta el tío.</span>
+                    </span>
+                </p>
             </div>
-
-            <div class="story-content">
-                <p>
-                    Hace muchos años, en una comunidad Hñähñu, vivía una familia que hacía las tortillas más deliciosas del pueblo.
-                </p>
-
-                <p>
-                    La abuela, llamada <span class="hnahnu">Nini</span>, enseñaba a sus nietos el arte de hacer tortillas con <span class="hnahnu">tilo</span> (maíz especial).
-                    <div class="translation">"Nini" significa abuela en Hñähñu</div>
-                </p>
-
-                <p>
-                    Cada mañana, Nini decía: <span class="hnahnu">"Jamädi"</span> (Buenos días) y comenzaba a preparar la masa con amor y paciencia.
-                </p>
-
-                <p>
-                    Un día, los niños le preguntaron: <span class="hnahnu">"Ma xei, Nini?"</span> (¿Cómo estás, abuela?), 
-                    y ella respondió: <span class="hnahnu">"Hega"</span> (Sí/Bien), mientras les mostraba cómo hacer la tortilla perfecta.
-                </p>
-
-                <p>
-                    La abuela les enseñó que hacer tortillas no es solo cocinar, es compartir amor con la familia. 
-                    Cada tortilla llevaba un pedacito del corazón de quien la hace.
-                </p>
-
-                <p>
-                    Y así, de generación en generación, la tradición de las tortillas de tilo continúa viva en la comunidad Hñähñu.
-                </p>
-
-                <p style="text-align: center; font-weight: 700; color: #f5576c; font-size: 24px; margin-top: 40px;">
-                    <span class="hnahnu">Japi</span> (Gracias) por leer esta historia
-                </p>
-            </div>
-
-            <button class="btn" onclick="completarLectura()">✓ Completar Lectura</button>
-            <button class="btn" onclick="window.location.href='lecturas.html'" style="margin-top: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">📚 Ver más cuentos</button>
         </div>
-    </div>
+
+        <!-- Quiz Section -->
+        <div class="bg-gradient-to-br from-purple-100 to-pink-100 rounded-3xl shadow-xl p-6 md:p-10">
+            <h2 class="text-3xl font-bold text-purple-700 mb-6 text-center">Completa las Frases</h2>
+            <p class="text-gray-600 text-center mb-8">Selecciona la respuesta correcta según la lectura</p>
+            
+            <div id="quiz-container" class="space-y-6">
+                <!-- Question 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <p class="text-xl font-semibold text-gray-800 mb-4">1. ¿Qué le pregunta Tilo a su tío?</p>
+                    <div class="space-y-3" data-question="1">
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            ¿Dónde está el agua?
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="correct">
+                            ¿Ya comiste tu tortilla?
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            ¿Tienes hambre?
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <p class="text-xl font-semibold text-gray-800 mb-4">2. ¿Por qué el tío le da su tortilla a Tilo?</p>
+                    <div class="space-y-3" data-question="2">
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Porque no tiene hambre
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="correct">
+                            Porque la de Tilo todavía está caliente
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Porque tiene dos tortillas
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <p class="text-xl font-semibold text-gray-800 mb-4">3. ¿Qué dice Tilo sobre la tortilla caliente?</p>
+                    <div class="space-y-3" data-question="3">
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Que no la quiere
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="correct">
+                            Que no importa, así se enfría
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Que espere a que se enfríe
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <p class="text-xl font-semibold text-gray-800 mb-4">4. ¿Qué le pide Tilo al tío después de recibir la tortilla?</p>
+                    <div class="space-y-3" data-question="4">
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Más tortillas
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="correct">
+                            Su agua
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Sal para la comida
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="bg-white rounded-2xl p-6 shadow-md">
+                    <p class="text-xl font-semibold text-gray-800 mb-4">5. ¿Qué palabra en hñahñu significa "gracias"?</p>
+                    <div class="space-y-3" data-question="5">
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Hina
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="correct">
+                            Jamädi
+                        </button>
+                        <button class="quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200" data-answer="wrong">
+                            Nuga
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score Display -->
+            <div id="score-display" class="mt-8 text-center hidden">
+                <div class="bg-white rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-2xl font-bold text-purple-700 mb-2" id="score-title"></h3>
+                    <p class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600" id="score-text"></p>
+                    <button id="score-button" class="mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all">
+                        Intentar de nuevo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <script>
-        async function completarLectura() {
-            try {
-                const response = await fetch('../../backend/guardarProgresoLeccion.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        leccion: 'tortillas',
-                        completado: 1,
-                        progreso: 100
-                    })
+        let score = 0;
+        let answeredQuestions = new Set();
+        const totalQuestions = 5;
+
+        // Handle quiz options
+        document.querySelectorAll('.quiz-option').forEach(button => {
+            button.addEventListener('click', function() {
+                const questionDiv = this.closest('[data-question]');
+                const questionNumber = questionDiv.dataset.question;
+                
+                // Check if already answered
+                if (answeredQuestions.has(questionNumber)) {
+                    return;
+                }
+
+                const isCorrect = this.dataset.answer === 'correct';
+                const allButtons = questionDiv.querySelectorAll('.quiz-option');
+
+                // Disable all buttons for this question
+                allButtons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.remove('hover:bg-purple-100');
                 });
 
-                const result = await response.json();
-                if (result.success) {
-                    alert('¡Felicidades pequeño, vayamos por más! 🎉');
-                    window.location.href = 'Lecturas.html';
+                if (isCorrect) {
+                    this.classList.add('correct', 'bg-green-100', 'border-green-500');
+                    this.innerHTML = this.textContent + ' ✓';
+                    score++;
                 } else {
-                    alert('Error al guardar progreso');
+                    this.classList.add('incorrect', 'bg-red-100', 'border-red-500');
+                    this.innerHTML = this.textContent + ' ✗';
+                    // Show correct answer
+                    allButtons.forEach(btn => {
+                        if (btn.dataset.answer === 'correct') {
+                            btn.classList.add('bg-green-100', 'border-green-500');
+                            btn.innerHTML = btn.textContent + ' ✓';
+                        }
+                    });
                 }
-            } catch (error) {
-                console.error('Error al guardar progreso:', error);
-                alert('Error al guardar el progreso');
+
+                answeredQuestions.add(questionNumber);
+
+                // Check if all questions answered
+                if (answeredQuestions.size === totalQuestions) {
+                    setTimeout(() => showScore(score, totalQuestions), 500);
+                }
+            });
+        });
+
+        function showScore(score, totalQuestions) {
+            const scoreText = document.getElementById('score-text');
+            const scoreTitle = document.getElementById('score-title');
+            const scoreButton = document.getElementById('score-button');
+            const scoreDisplay = document.getElementById('score-display');
+            
+            scoreText.textContent = `Tu puntuación: ${score} de ${totalQuestions}`;
+            
+            if (score === totalQuestions) {
+                // Todas las respuestas correctas
+                scoreTitle.textContent = '¡Lección Completada!';
+                scoreButton.textContent = 'Continuar';
+                scoreButton.onclick = function() {
+                    window.location.href = 'lecturas.html';
+                };
+            } else {
+                // No todas las respuestas correctas
+                scoreTitle.textContent = '¡Excelente trabajo!';
+                scoreButton.textContent = 'Intentar de nuevo';
+                scoreButton.onclick = resetQuiz;
             }
+            
+            scoreDisplay.classList.remove('hidden');
+            scoreDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetQuiz() {
+            score = 0;
+            answeredQuestions.clear();
+            
+            // Reset all buttons
+            document.querySelectorAll('.quiz-option').forEach(button => {
+                button.disabled = false;
+                button.className = 'quiz-option w-full text-left p-4 rounded-xl bg-purple-50 hover:bg-purple-100 border-2 border-purple-200';
+                button.innerHTML = button.textContent.replace(' ✓', '').replace(' ✗', '');
+            });
+
+            // Hide score
+            const scoreDisplay = document.getElementById('score-display');
+            scoreDisplay.classList.add('hidden');
+            
+            // Scroll to top of quiz
+            document.getElementById('quiz-container').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>

@@ -12,6 +12,19 @@ if (!isset($_SESSION['user_id'])) {
 
 $id_alumno = $_SESSION['user_id'];
 
+// Crear tabla de puntos si no existe
+$crearTabla = "CREATE TABLE IF NOT EXISTS puntos_alumnos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_alumno INT NOT NULL,
+    tipo VARCHAR(50),
+    id_referencia VARCHAR(255),
+    puntos INT,
+    fecha_obtenido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_punto (id_alumno, tipo, id_referencia),
+    FOREIGN KEY (id_alumno) REFERENCES usuarios(id) ON DELETE CASCADE
+)";
+$conn->query($crearTabla);
+
 // Obtener progreso de todas las lecciones
 $query = "SELECT leccion, completada, progreso, puntos 
           FROM progreso_lecciones 
@@ -25,16 +38,24 @@ $result = $stmt->get_result();
 
 $lecciones = [];
 $total_completadas = 0;
-$total_puntos = 0;
 $total_lecciones = 7; // Total de lecciones disponibles
 
 while ($row = $result->fetch_assoc()) {
     $lecciones[] = $row;
-    $total_puntos += $row['puntos'];
     if ($row['completada'] == 1) {  // Cambiar 'completado' a 'completada'
         $total_completadas++;
     }
 }
+
+// Obtener puntos totales de la tabla puntos_alumnos
+$puntosSql = "SELECT COALESCE(SUM(puntos), 0) as total FROM puntos_alumnos WHERE id_alumno = ?";
+$puntosStmt = $conn->prepare($puntosSql);
+$puntosStmt->bind_param("i", $id_alumno);
+$puntosStmt->execute();
+$puntosResult = $puntosStmt->get_result();
+$puntosRow = $puntosResult->fetch_assoc();
+$total_puntos = intval($puntosRow['total']);
+$puntosStmt->close();
 
 // Calcular logros
 $logros = [];

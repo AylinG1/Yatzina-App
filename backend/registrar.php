@@ -49,15 +49,23 @@ if (strlen($contrasena_plana) < 8) {
 $passHash = password_hash($contrasena_plana, PASSWORD_DEFAULT);
 
 // 4. Verificar si el usuario o correo ya existe
-$sql_check = "SELECT id FROM usuarios WHERE nombre_usuario = ? OR correo = ?";
+$sql_check = "SELECT id, nombre_usuario, correo FROM usuarios WHERE nombre_usuario = ? OR correo = ?";
 $stmt_check = $conn->prepare($sql_check);
 $stmt_check->bind_param("ss", $usuario, $correo);
 $stmt_check->execute();
 $resultado_check = $stmt_check->get_result();
 
 if ($resultado_check->num_rows > 0) {
+    $usuario_existente = $resultado_check->fetch_assoc();
     http_response_code(409); // Conflict
-    echo json_encode(["status" => "error", "msg" => "El usuario o correo ya está registrado."]);
+    
+    // Mensajes específicos para usuario o correo duplicado
+    if ($usuario_existente['nombre_usuario'] === $usuario) {
+        echo json_encode(["status" => "error", "msg" => "El nombre de usuario ya existe. Por favor, elige otro."]);
+    } else {
+        echo json_encode(["status" => "error", "msg" => "El correo electrónico ya está registrado. Por favor, usa otro."]);
+    }
+    
     $stmt_check->close();
     $conn->close();
     exit;

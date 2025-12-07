@@ -151,9 +151,6 @@
     </div>
 
     <header class="text-center py-8 px-4 relative">
-      <a href="lecturas.html" class="inline-block mb-4 text-orange-600 hover:text-orange-800 font-semibold">
-        ← Volver al Inicio
-      </a>
       <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-pink-600 to-purple-500 mb-2">
         Saludos en Hñahñu
       </h1>
@@ -197,7 +194,6 @@
               <h3 class="text-2xl font-bold text-white mb-2">Hogä ehe</h3>
               <p class="text-lg text-white/90">Buenos días</p>
             </div>
-            <div class="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
               <p class="text-white text-sm text-center">Saludo formal de la mañana</p>
             </div>
           </div>
@@ -497,7 +493,7 @@
           </div>
         </div>
       </div>
-    </main>
+    
 
     <script>
       let score = 0;
@@ -567,6 +563,56 @@
       };
 
       document.getElementById("reset-button").addEventListener("click", resetQuiz);
+
+      // Guardar progreso cuando se abre la página
+      async function guardarProgreso() {
+        try {
+          const response = await fetch('../../backend/guardarProgresoLeccion.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              leccion: 'saludos',
+              completado: 1,
+              progreso: 100,
+              puntos: 150
+            })
+          });
+          const result = await response.json();
+          console.log('Progreso guardado:', result);
+          
+          // Si se ganaron puntos, disparar evento para mostrar notificación
+          if (result.success && result.puntosGanados > 0) {
+            const event = new CustomEvent('puntosRegistrados', {
+              detail: {
+                puntos_ganados: result.puntosGanados,
+                puntos_totales: result.puntosTotales,
+                tipo: 'leccion',
+                nombre: 'Saludos'
+              }
+            });
+            document.dispatchEvent(event);
+          }
+        } catch (error) {
+          console.error('Error al guardar progreso:', error);
+        }
+      }
+
+      // Guardar progreso al cargar la página
+      window.addEventListener('load', guardarProgreso);
     </script>
+
+    <!-- Floating return button (always visible) -->
+    <div id="floating-return" style="position: fixed; right: 24px; bottom: 24px; z-index: 50; pointer-events: auto;">
+        <button aria-label="Volver al Panel" id="float-btn" 
+            style="padding: 12px 18px; background: linear-gradient(90deg, #2bee4b, #1a9d3a); color: white; border: none; border-radius: 9999px; font-weight: 700; font-size: 20px; cursor: pointer; box-shadow: 0 8px 20px rgba(43, 230, 70, 0.3); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center;">
+            📚
+        </button>
+    </div>
+    <script>
+        document.getElementById('float-btn').addEventListener('click', function() {
+            window.location.href = '../interfaz_alumno.html';
+        });
+    </script>
+    <script src="../notificacionesPuntos.js"></script>
   </body>
 </html>

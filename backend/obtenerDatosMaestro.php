@@ -12,7 +12,10 @@ if (!isset($_SESSION['user_id'])) {
 
 $idMaestro = $_SESSION['user_id'];
 
-$sql = "SELECT u.id, up.nombre_completo, up.grado FROM usuarios u LEFT JOIN usuarios_perfiles up ON u.id = up.usuario_id WHERE u.id = ? AND u.rol = 'maestro'";
+$sql = "SELECT u.id, u.nombre_usuario, up.nombre_completo, up.grado 
+        FROM usuarios u 
+        LEFT JOIN usuarios_perfiles up ON u.id = up.usuario_id 
+        WHERE u.id = ? AND u.rol = 'maestro'";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $idMaestro);
 $stmt->execute();
@@ -34,7 +37,7 @@ $countData = $resultCount->fetch_assoc();
 
 echo json_encode([
     'success' => true,
-    'nombreCompleto' => $maestro['nombre_completo'] ?? $maestro['id'],
-    'grado' => $maestro['grado'],
+    'nombreCompleto' => $maestro['nombre_completo'] ?? $maestro['nombre_usuario'] ?? 'Maestro',
+    'grado' => $maestro['grado'] ?? 'N/A',
     'totalAlumnos' => (int)$countData['total']
 ]);
