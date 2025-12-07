@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aventura Espacial en Ñañu - Aprende Pronombres</title>
+    <title>Aventura en Ñañu - Aprende Pronombres</title>
     <style>
         * {
             margin: 0;
@@ -13,53 +13,21 @@
 
         body {
             font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive;
-            /* Fondo espacial estrellado azul oscuro */
-            background: #0a0e27;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Estrellas animadas en el fondo */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, white, transparent),
-                radial-gradient(2px 2px at 60% 70%, white, transparent),
-                radial-gradient(1px 1px at 50% 50%, white, transparent),
-                radial-gradient(1px 1px at 80% 10%, white, transparent),
-                radial-gradient(2px 2px at 90% 60%, white, transparent),
-                radial-gradient(1px 1px at 33% 80%, white, transparent),
-                radial-gradient(1px 1px at 15% 90%, white, transparent);
-            background-size: 200% 200%;
-            background-position: 0 0, 40% 60%, 130% 270%, 70% 100%, 210% 180%, 150% 250%, 90% 320%;
-            animation: twinkle 8s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
 
         .game-title {
             color: white;
             text-align: center;
             margin-bottom: 20px;
-            text-shadow: 0 0 10px #4dabf7, 0 0 20px #4dabf7;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
             animation: bounce 2s infinite;
-            position: relative;
-            z-index: 1;
         }
 
         .game-title h1 {
@@ -68,97 +36,87 @@
         }
 
         .score-board {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 15px 30px;
             border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(74, 171, 247, 0.4);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             margin-bottom: 20px;
             font-size: 1.2em;
             font-weight: bold;
-            color: #1971c2;
-            position: relative;
-            z-index: 1;
+            color: #667eea;
         }
 
         .game-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             border-radius: 30px;
             padding: 30px;
             max-width: 900px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(74, 171, 247, 0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             position: relative;
-            z-index: 1;
         }
 
         .map-container {
             position: relative;
             min-height: 400px;
-            /* Fondo del espacio con gradiente azul oscuro a negro */
-            background: linear-gradient(to bottom, #0a0e27 0%, #1a1d3d 50%, #0a0e27 100%);
+            background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 100%);
             border-radius: 20px;
             overflow: hidden;
             margin-bottom: 30px;
-            border: 2px solid #4dabf7;
         }
 
         .path {
             position: absolute;
-            stroke: #74c0fc;
-            stroke-width: 3;
-            stroke-dasharray: 10, 5;
+            stroke: #FFD700;
+            stroke-width: 8;
+            stroke-dasharray: 15, 10;
             fill: none;
-            filter: drop-shadow(0 0 5px #4dabf7);
-            opacity: 0.6;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
         }
 
         .station {
             position: absolute;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             cursor: pointer;
             transition: transform 0.3s;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
         }
 
         .station:hover {
-            transform: scale(1.15);
+            transform: scale(1.1);
         }
 
         .station.completed {
-            filter: grayscale(50%) drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
-            opacity: 0.6;
+            filter: grayscale(50%);
+            opacity: 0.7;
         }
 
         .station.active {
-            animation: pulse 1.5s infinite;
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.8));
+            animation: pulse 1s infinite;
         }
 
-        /* Nuevo personaje: Transbordador espacial */
         .character {
             position: absolute;
             width: 60px;
             height: 60px;
             transition: all 1s ease-in-out;
             z-index: 100;
-            filter: drop-shadow(0 0 10px #4dabf7);
         }
 
         .character.walking {
-            animation: float 2s ease-in-out infinite;
+            animation: walk 0.5s steps(2) infinite;
         }
 
         .character.jumping {
-            animation: boost 0.8s ease-in-out;
+            animation: jump 0.6s ease-in-out;
         }
 
         .question-panel {
-            background: linear-gradient(135deg, #4c6ef5 0%, #7950f2 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(121, 80, 242, 0.4);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .question-text {
@@ -178,7 +136,7 @@
 
         .option-btn {
             background: white;
-            border: 4px solid #4c6ef5;
+            border: 4px solid #667eea;
             border-radius: 50%;
             width: 140px;
             height: 140px;
@@ -190,30 +148,30 @@
             font-size: 1.1em;
             font-weight: bold;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(74, 171, 247, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             margin: 0 auto;
         }
 
         .option-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(74, 171, 247, 0.5);
-            background: #e7f5ff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            background: #f0f0ff;
         }
 
         .option-btn.correct {
             animation: correctAnswer 0.6s ease;
-            background: #51cf66;
-            border-color: #2f9e44;
+            background: #4ade80;
+            border-color: #22c55e;
         }
 
         .option-btn.wrong {
             animation: wrongAnswer 0.6s ease;
-            background: #ff6b6b;
-            border-color: #c92a2a;
+            background: #f87171;
+            border-color: #ef4444;
         }
 
         .nanuu-text {
-            color: #4c6ef5;
+            color: #667eea;
             font-size: 1.3em;
         }
 
@@ -247,11 +205,11 @@
         }
 
         .feedback.correct h2 {
-            color: #51cf66;
+            color: #4ade80;
         }
 
         .feedback.wrong h2 {
-            color: #ff6b6b;
+            color: #f87171;
         }
 
         .confetti {
@@ -271,21 +229,17 @@
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.15); }
         }
 
-        /* Animación de flotación para el transbordador */
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+        @keyframes walk {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
         }
 
-        /* Animación de impulso espacial */
-        @keyframes boost {
-            0% { transform: translateY(0) scale(1); }
-            30% { transform: translateY(-40px) scale(1.2); }
-            70% { transform: translateY(-40px) scale(1.2); }
-            100% { transform: translateY(0) scale(1); }
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
         }
 
         @keyframes correctAnswer {
@@ -312,7 +266,7 @@
         }
 
         .restart-btn {
-            background: linear-gradient(135deg, #4c6ef5 0%, #7950f2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -320,19 +274,19 @@
             font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(121, 80, 242, 0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: all 0.3s;
             margin-top: 20px;
         }
 
         .restart-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(121, 80, 242, 0.6);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
         .hint {
-            background: #fff4e6;
-            border: 3px solid #ffa94d;
+            background: #fef3c7;
+            border: 3px solid #fbbf24;
             border-radius: 15px;
             padding: 15px;
             margin-top: 15px;
@@ -358,181 +312,109 @@
 </head>
 <body>
     <div class="game-title">
-        <h1>🚀 Aventura Espacial en Ñañu 🌌</h1>
-        <p>¡Aprende los pronombres viajando por el sistema solar!</p>
+        <h1>🌟 Aventura en Ñañu 🌟</h1>
+        <p>¡Aprende los pronombres mientras viajas!</p>
     </div>
 
     <div class="score-board">
-        🪐 Planeta: <span id="current-station">1</span> / 12 | 
+        📍 Estación: <span id="current-station">1</span> / 5 | 
         ⭐ Puntos: <span id="score">0</span>
     </div>
 
     <div class="game-container">
         <div class="map-container">
             <svg width="100%" height="400" style="position: absolute; top: 0; left: 0;">
-                <!-- Camino orbital en el espacio -->
+                <!-- Camino del mapa -->
                 <path class="path" d="M 50,350 Q 150,300 250,320 T 450,280 T 650,300 T 800,250" />
                 
-                <!-- Estrellas decorativas más grandes -->
-                <circle cx="100" cy="50" r="2" fill="white" opacity="0.8">
-                    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="300" cy="80" r="1.5" fill="white" opacity="0.6">
-                    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="500" cy="40" r="2" fill="white" opacity="0.7">
-                    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.5s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="700" cy="100" r="1.5" fill="white" opacity="0.8">
-                    <animate attributeName="opacity" values="0.8;0.4;0.8" dur="3s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="200" cy="150" r="1" fill="white" opacity="0.5">
-                    <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="600" cy="200" r="2" fill="white" opacity="0.7">
-                    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.8s" repeatCount="indefinite"/>
-                </circle>
+                <!-- Decoraciones: árboles -->
+                <g transform="translate(100, 100)">
+                    <rect x="15" y="30" width="10" height="20" fill="#8B4513"/>
+                    <circle cx="20" cy="25" r="20" fill="#228B22"/>
+                </g>
+                <g transform="translate(400, 50)">
+                    <rect x="15" y="30" width="10" height="20" fill="#8B4513"/>
+                    <circle cx="20" cy="25" r="20" fill="#228B22"/>
+                </g>
+                <g transform="translate(700, 100)">
+                    <rect x="15" y="30" width="10" height="20" fill="#8B4513"/>
+                    <circle cx="20" cy="25" r="20" fill="#228B22"/>
+                </g>
+
+                <!-- Sol -->
+                <circle cx="750" cy="50" r="30" fill="#FFD700"/>
+                
+                <!-- Nubes -->
+                <ellipse cx="200" cy="50" rx="40" ry="20" fill="white" opacity="0.8"/>
+                <ellipse cx="500" cy="70" rx="50" ry="25" fill="white" opacity="0.8"/>
             </svg>
 
-            <!-- Estaciones como planetas y lunas del sistema solar -->
-            <div class="station active" data-station="0" style="left: 20px; bottom: 20px;" title="Mercurio">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="30" fill="#8c8c8c" stroke="#666" stroke-width="2"/>
-                    <circle cx="25" cy="25" r="4" fill="#666" opacity="0.6"/>
-                    <circle cx="40" cy="30" r="3" fill="#666" opacity="0.6"/>
-                    <circle cx="30" cy="40" r="5" fill="#666" opacity="0.6"/>
-                    <circle cx="45" cy="42" r="3" fill="#666" opacity="0.6"/>
+            <!-- Estaciones -->
+            <div class="station active" data-station="0" style="left: 20px; bottom: 20px;" title="Casa">
+                <svg viewBox="0 0 80 80">
+                    <rect x="20" y="35" width="40" height="35" fill="#ff6b6b" stroke="#333" stroke-width="2"/>
+                    <polygon points="40,10 10,40 70,40" fill="#c92a2a" stroke="#333" stroke-width="2"/>
+                    <rect x="32" y="50" width="16" height="20" fill="#8B4513"/>
+                    <rect x="25" y="42" width="10" height="10" fill="#87CEEB"/>
+                    <rect x="45" y="42" width="10" height="10" fill="#87CEEB"/>
                 </svg>
             </div>
 
-            <div class="station" data-station="1" style="left: 120px; bottom: 80px;" title="Venus">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="30" fill="#ffa94d" stroke="#fd7e14" stroke-width="2"/>
-                    <ellipse cx="25" cy="30" rx="8" ry="5" fill="#ff922b" opacity="0.4"/>
-                    <ellipse cx="45" cy="38" rx="10" ry="6" fill="#ff922b" opacity="0.4"/>
-                    <ellipse cx="35" cy="45" rx="7" ry="4" fill="#ff922b" opacity="0.4"/>
+            <div class="station" data-station="1" style="left: 220px; bottom: 80px;" title="Escuela">
+                <svg viewBox="0 0 80 80">
+                    <rect x="15" y="30" width="50" height="40" fill="#4dabf7" stroke="#333" stroke-width="2"/>
+                    <polygon points="40,10 10,30 70,30" fill="#1864ab" stroke="#333" stroke-width="2"/>
+                    <rect x="33" y="50" width="14" height="20" fill="#8B4513"/>
+                    <rect x="22" y="40" width="12" height="12" fill="#fff"/>
+                    <rect x="46" y="40" width="12" height="12" fill="#fff"/>
+                    <rect x="34" y="55" width="12" height="8" fill="#fff"/>
                 </svg>
             </div>
 
-            <div class="station" data-station="2" style="left: 220px; bottom: 100px;" title="Tierra">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="30" fill="#4dabf7" stroke="#1971c2" stroke-width="2"/>
-                    <ellipse cx="25" cy="28" rx="10" ry="12" fill="#51cf66" opacity="0.8"/>
-                    <ellipse cx="45" cy="35" rx="8" ry="10" fill="#51cf66" opacity="0.8"/>
-                    <ellipse cx="35" cy="48" rx="6" ry="5" fill="#51cf66" opacity="0.8"/>
-                    <circle cx="40" cy="25" r="4" fill="white" opacity="0.6"/>
+            <div class="station" data-station="2" style="left: 420px; bottom: 60px;" title="Campo">
+                <svg viewBox="0 0 80 80">
+                    <rect x="25" y="40" width="30" height="30" fill="#fff4e6" stroke="#333" stroke-width="2"/>
+                    <polygon points="40,20 20,40 60,40" fill="#ff6b6b" stroke="#333" stroke-width="2"/>
+                    <circle cx="25" cy="55" r="8" fill="#FFD700"/>
+                    <rect x="23" y="55" width="4" height="10" fill="#228B22"/>
+                    <circle cx="55" cy="58" r="7" fill="#ff69b4"/>
+                    <rect x="53" y="58" width="4" height="8" fill="#228B22"/>
                 </svg>
             </div>
 
-            <div class="station" data-station="3" style="left: 320px; bottom: 80px;" title="Luna">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="28" fill="#e9ecef" stroke="#adb5bd" stroke-width="2"/>
-                    <circle cx="25" cy="28" r="5" fill="#ced4da" opacity="0.7"/>
-                    <circle cx="40" cy="32" r="4" fill="#ced4da" opacity="0.7"/>
-                    <circle cx="30" cy="42" r="6" fill="#ced4da" opacity="0.7"/>
-                    <circle cx="45" cy="40" r="3" fill="#ced4da" opacity="0.7"/>
+            <div class="station" data-station="3" style="left: 620px; bottom: 70px;" title="Mercado">
+                <svg viewBox="0 0 80 80">
+                    <rect x="20" y="40" width="40" height="30" fill="#ffa94d" stroke="#333" stroke-width="2"/>
+                    <polygon points="40,20 15,40 65,40" fill="#fd7e14" stroke="#333" stroke-width="2"/>
+                    <rect x="28" y="50" width="10" height="10" fill="#ff6b6b"/>
+                    <rect x="42" y="50" width="10" height="10" fill="#4dabf7"/>
+                    <rect x="28" y="60" width="10" height="10" fill="#51cf66"/>
+                    <rect x="42" y="60" width="10" height="10" fill="#ffd43b"/>
                 </svg>
             </div>
 
-            <div class="station" data-station="4" style="left: 420px; bottom: 60px;" title="Marte">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="30" fill="#ff6b6b" stroke="#c92a2a" stroke-width="2"/>
-                    <ellipse cx="30" cy="30" rx="6" ry="4" fill="#ff8787" opacity="0.6"/>
-                    <ellipse cx="42" cy="36" rx="8" ry="5" fill="#ff8787" opacity="0.6"/>
-                    <circle cx="25" cy="42" r="3" fill="#fa5252" opacity="0.7"/>
+            <div class="station" data-station="4" style="right: 20px; bottom: 10px;" title="Parque">
+                <svg viewBox="0 0 80 80">
+                    <rect x="15" y="50" width="15" height="5" fill="#8B4513"/>
+                    <rect x="45" y="50" width="15" height="5" fill="#8B4513"/>
+                    <rect x="20" y="35" width="35" height="15" fill="#ff8787" stroke="#333" stroke-width="2"/>
+                    <circle cx="37" cy="55" r="3" fill="#333"/>
+                    <circle cx="50" cy="55" r="3" fill="#333"/>
                 </svg>
             </div>
 
-            <div class="station" data-station="5" style="left: 520px; bottom: 50px;" title="Júpiter">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="32" fill="#ffa94d" stroke="#fd7e14" stroke-width="2"/>
-                    <ellipse cx="35" cy="28" rx="28" ry="4" fill="#ff922b" opacity="0.4"/>
-                    <ellipse cx="35" cy="35" rx="28" ry="3" fill="#ff8c42" opacity="0.5"/>
-                    <ellipse cx="35" cy="42" rx="28" ry="4" fill="#ff922b" opacity="0.4"/>
-                    <ellipse cx="45" cy="36" rx="8" ry="10" fill="#ff6b35" opacity="0.6"/>
-                </svg>
-            </div>
-
-            <div class="station" data-station="6" style="left: 620px; bottom: 70px;" title="Saturno">
-                <svg viewBox="0 0 70 70">
-                    <ellipse cx="35" cy="35" rx="40" ry="8" fill="#fab005" opacity="0.4" stroke="#f59f00" stroke-width="1"/>
-                    <circle cx="35" cy="35" r="22" fill="#ffd43b" stroke="#f59f00" stroke-width="2"/>
-                    <ellipse cx="35" cy="32" rx="18" ry="3" fill="#fcc419" opacity="0.5"/>
-                    <ellipse cx="35" cy="38" rx="18" ry="3" fill="#fcc419" opacity="0.5"/>
-                </svg>
-            </div>
-
-            <div class="station" data-station="7" style="right: 140px; bottom: 90px;" title="Urano">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="28" fill="#74c0fc" stroke="#339af0" stroke-width="2"/>
-                    <ellipse cx="35" cy="28" rx="22" ry="3" fill="#4dabf7" opacity="0.4"/>
-                    <ellipse cx="35" cy="35" rx="22" ry="3" fill="#4dabf7" opacity="0.4"/>
-                    <ellipse cx="35" cy="42" rx="22" ry="3" fill="#4dabf7" opacity="0.4"/>
-                </svg>
-            </div>
-
-            <div class="station" data-station="8" style="right: 100px; bottom: 50px;" title="Neptuno">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="28" fill="#4c6ef5" stroke="#364fc7" stroke-width="2"/>
-                    <ellipse cx="28" cy="30" rx="8" ry="10" fill="#5c7cfa" opacity="0.5"/>
-                    <ellipse cx="42" cy="38" rx="7" ry="9" fill="#5c7cfa" opacity="0.5"/>
-                    <circle cx="35" cy="42" r="4" fill="#748ffc" opacity="0.6"/>
-                </svg>
-            </div>
-
-            <div class="station" data-station="9" style="right: 60px; bottom: 30px;" title="Plutón">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="24" fill="#adb5bd" stroke="#868e96" stroke-width="2"/>
-                    <ellipse cx="30" cy="30" rx="6" ry="8" fill="#fff" opacity="0.3"/>
-                    <circle cx="40" cy="35" r="4" fill="#ced4da" opacity="0.6"/>
-                    <circle cx="28" cy="42" r="3" fill="#868e96" opacity="0.5"/>
-                </svg>
-            </div>
-
-            <div class="station" data-station="10" style="right: 30px; bottom: 60px;" title="Europa (Luna de Júpiter)">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="26" fill="#d0ebff" stroke="#74c0fc" stroke-width="2"/>
-                    <path d="M 15,30 Q 25,35 35,32 T 55,28" stroke="#4dabf7" stroke-width="2" fill="none" opacity="0.6"/>
-                    <path d="M 20,40 Q 30,38 40,42 T 55,45" stroke="#4dabf7" stroke-width="2" fill="none" opacity="0.6"/>
-                    <path d="M 18,25 Q 28,22 38,25" stroke="#4dabf7" stroke-width="1.5" fill="none" opacity="0.5"/>
-                </svg>
-            </div>
-
-            <div class="station" data-station="11" style="right: 10px; bottom: 100px;" title="Titán (Luna de Saturno)">
-                <svg viewBox="0 0 70 70">
-                    <circle cx="35" cy="35" r="28" fill="#ff922b" stroke="#fd7e14" stroke-width="2"/>
-                    <ellipse cx="30" cy="28" rx="8" ry="6" fill="#ffa94d" opacity="0.5"/>
-                    <ellipse cx="42" cy="35" rx="7" ry="5" fill="#ffa94d" opacity="0.5"/>
-                    <ellipse cx="32" cy="42" rx="9" ry="6" fill="#ffa94d" opacity="0.5"/>
-                </svg>
-            </div>
-
-            <!-- Transbordador espacial como personaje -->
+            <!-- Personaje -->
             <div class="character" id="character" style="left: 40px; bottom: 80px;">
                 <svg viewBox="0 0 60 60">
-                    <!-- Cuerpo del transbordador -->
-                    <ellipse cx="30" cy="35" rx="12" ry="22" fill="#e9ecef" stroke="#495057" stroke-width="2"/>
-                    <!-- Cabina -->
-                    <ellipse cx="30" cy="18" rx="8" ry="6" fill="#4dabf7" stroke="#1971c2" stroke-width="1.5"/>
-                    <ellipse cx="30" cy="18" rx="5" ry="4" fill="#74c0fc" opacity="0.6"/>
-                    <!-- Alas -->
-                    <polygon points="18,35 10,45 18,42" fill="#ced4da" stroke="#495057" stroke-width="1.5"/>
-                    <polygon points="42,35 50,45 42,42" fill="#ced4da" stroke="#495057" stroke-width="1.5"/>
-                    <!-- Detalles del cuerpo -->
-                    <rect x="26" y="25" width="8" height="3" fill="#495057" rx="1"/>
-                    <rect x="26" y="30" width="8" height="3" fill="#495057" rx="1"/>
-                    <rect x="26" y="35" width="8" height="3" fill="#495057" rx="1"/>
-                    <!-- Propulsores -->
-                    <ellipse cx="24" cy="54" rx="4" ry="6" fill="#868e96" stroke="#343a40" stroke-width="1"/>
-                    <ellipse cx="36" cy="54" rx="4" ry="6" fill="#868e96" stroke="#343a40" stroke-width="1"/>
-                    <!-- Fuego de los propulsores -->
-                    <ellipse cx="24" cy="58" rx="3" ry="4" fill="#ffa94d" opacity="0.8"/>
-                    <ellipse cx="36" cy="58" rx="3" ry="4" fill="#ffa94d" opacity="0.8"/>
-                    <ellipse cx="24" cy="60" rx="2" ry="3" fill="#ff6b6b" opacity="0.6"/>
-                    <ellipse cx="36" cy="60" rx="2" ry="3" fill="#ff6b6b" opacity="0.6"/>
-                    <!-- Insignia -->
-                    <circle cx="30" cy="40" r="3" fill="#ff6b6b"/>
-                    <text x="30" y="42" font-size="4" fill="white" text-anchor="middle" font-weight="bold">Ñ</text>
+                    <circle cx="30" cy="20" r="12" fill="#ffd43b"/>
+                    <circle cx="25" cy="18" r="2" fill="#333"/>
+                    <circle cx="35" cy="18" r="2" fill="#333"/>
+                    <path d="M 25,24 Q 30,27 35,24" stroke="#333" stroke-width="2" fill="none"/>
+                    <ellipse cx="30" cy="40" rx="10" ry="15" fill="#4dabf7"/>
+                    <rect x="20" y="35" width="5" height="15" fill="#4dabf7" rx="3"/>
+                    <rect x="35" y="35" width="5" height="15" fill="#4dabf7" rx="3"/>
+                    <rect x="25" y="50" width="5" height="8" fill="#ffa94d" rx="2"/>
+                    <rect x="30" y="50" width="5" height="8" fill="#ffa94d" rx="2"/>
                 </svg>
             </div>
         </div>
@@ -544,7 +426,7 @@
         </div>
 
         <div style="text-align: center;">
-            <button class="restart-btn" id="start-btn">🚀 ¡Comenzar Aventura Espacial!</button>
+            <button class="restart-btn" id="start-btn">🚀 ¡Comenzar Aventura!</button>
         </div>
     </div>
 
@@ -559,7 +441,20 @@
         const questions = [
             {
                 station: 0,
-                question: "En Mercurio: \"___ voy a explorar\" - ¿Quién va?",
+                question: "\"___ casa es muy bonita\" - ¿Qué pronombre falta?",
+                correctAnswer: "ma",
+                correctSpanish: "mi",
+                options: [
+                    { nanuu: "ma", spanish: "mi" },
+                    { nanuu: "ni", spanish: "tu" },
+                    { nanuu: "rá", spanish: "su" },
+                    { nanuu: "mö", spanish: "nuestro" }
+                ],
+                hint: "💡 Pista: Estás hablando de TU propia casa..."
+            },
+            {
+                station: 1,
+                question: "\"___ voy a la escuela\" - ¿Quién va?",
                 correctAnswer: "Nuga̱",
                 correctSpanish: "Yo",
                 options: [
@@ -571,151 +466,47 @@
                 hint: "💡 Pista: Tú mismo estás hablando de ti..."
             },
             {
-                station: 1,
-                question: "En Venus: \"___ estudias las estrellas\" - ¿Quién estudia?",
-                correctAnswer: "Nu´íge",
-                correctSpanish: "Tú",
-                options: [
-                    { nanuu: "Nuga̱", spanish: "Yo" },
-                    { nanuu: "Nu´íge", spanish: "Tú" },
-                    { nanuu: "Nugä hu̱", spanish: "Nosotros" },
-                    { nanuu: "Nu´ä", spanish: "Él" }
-                ],
-                hint: "💡 Pista: Le estás hablando a otra persona..."
-            },
-            {
                 station: 2,
-                question: "En la Tierra: \"___ nave es grande\" - ¿De quién es?",
-                correctAnswer: "ma",
-                correctSpanish: "mi",
+                question: "\"___ perro corre en el campo\" - ¿De quién es?",
+                correctAnswer: "ni",
+                correctSpanish: "tu",
                 options: [
                     { nanuu: "ma", spanish: "mi" },
-                    { nanuu: "ni", spanish: "tu/su" },
+                    { nanuu: "ni", spanish: "tu" },
                     { nanuu: "rá", spanish: "su" },
-                    { nanuu: "mö", spanish: "nuestro" }
+                    { nanuu: "yá", spanish: "sus" }
                 ],
-                hint: "💡 Pista: Es tu propia nave..."
+                hint: "💡 Pista: Le estás hablando a alguien sobre SU perro..."
             },
             {
                 station: 3,
-                question: "En la Luna: \"___ camina en la Luna\" - ¿Quién camina?",
-                correctAnswer: "Nu´ä",
-                correctSpanish: "Él",
-                options: [
-                    { nanuu: "Nuga̱", spanish: "Yo" },
-                    { nanuu: "Nu´íge", spanish: "Tú" },
-                    { nanuu: "Nu´ä", spanish: "Él" },
-                    { nanuu: "Nülu̱", spanish: "Ellos" }
-                ],
-                hint: "💡 Pista: Hablamos de otra persona (singular)..."
-            },
-            {
-                station: 4,
-                question: "En Marte: \"___ exploramos juntos\" - ¿Quiénes exploran?",
+                question: "\"___ compramos en el mercado\" - ¿Quiénes compran?",
                 correctAnswer: "Nugä hu̱",
                 correctSpanish: "Nosotros",
                 options: [
                     { nanuu: "Nuga̱", spanish: "Yo" },
-                    { nanuu: "Nugä hu̱", spanish: "Nosotros" },
-                    { nanuu: "Nu´ähu̱", spanish: "Ustedes" },
-                    { nanuu: "Nülu̱", spanish: "Ellos" }
-                ],
-                hint: "💡 Pista: Varias personas incluyéndote a ti..."
-            },
-            {
-                station: 5,
-                question: "En Júpiter: \"___ traje espacial\" - ¿De quién es el traje?",
-                correctAnswer: "ni",
-                correctSpanish: "tu/su",
-                options: [
-                    { nanuu: "ma", spanish: "mi" },
-                    { nanuu: "ni", spanish: "tu/su" },
-                    { nanuu: "mö", spanish: "nuestro" },
-                    { nanuu: "yá", spanish: "sus" }
-                ],
-                hint: "💡 Pista: Pertenece a otra persona..."
-            },
-            {
-                station: 6,
-                question: "En Saturno: \"___ encuentran anillos\" - ¿Quiénes encuentran?",
-                correctAnswer: "Nu´ähu̱",
-                correctSpanish: "Ustedes",
-                options: [
                     { nanuu: "Nu´íge", spanish: "Tú" },
                     { nanuu: "Nugä hu̱", spanish: "Nosotros" },
-                    { nanuu: "Nu´ähu̱", spanish: "Ustedes" },
-                    { nanuu: "Nülu̱", spanish: "Ellos" }
+                    { nanuu: "Nu´ähu̱", spanish: "Ustedes" }
                 ],
-                hint: "💡 Pista: Le hablas a varias personas..."
+                hint: "💡 Pista: Es un grupo que incluye a quien habla..."
             },
             {
-                station: 7,
-                question: "En Urano: \"___ planeta es azul\" - ¿De quién es el planeta?",
-                correctAnswer: "rá",
-                correctSpanish: "su",
-                options: [
-                    { nanuu: "ma", spanish: "mi" },
-                    { nanuu: "ni", spanish: "tu/su" },
-                    { nanuu: "rá", spanish: "su" },
-                    { nanuu: "yá", spanish: "sus" }
-                ],
-                hint: "💡 Pista: Pertenece a él o ella..."
-            },
-            {
-                station: 8,
-                question: "En Neptuno: \"___ vuelan rápido\" - ¿Quiénes vuelan?",
+                station: 4,
+                question: "\"___ juegan en el parque\" - ¿Quiénes juegan?",
                 correctAnswer: "Nülu̱",
                 correctSpanish: "Ellos",
                 options: [
                     { nanuu: "Nu´ä", spanish: "Él" },
-                    { nanuu: "Nugä hu̱", spanish: "Nosotros" },
+                    { nanuu: "Nülu̱", spanish: "Ellos" },
                     { nanuu: "Nu´ähu̱", spanish: "Ustedes" },
-                    { nanuu: "Nülu̱", spanish: "Ellos" }
+                    { nanuu: "Nugä hu̱", spanish: "Nosotros" }
                 ],
-                hint: "💡 Pista: Varias personas que no te incluyen..."
-            },
-            {
-                station: 9,
-                question: "En Plutón: \"___ misión espacial\" - ¿De quiénes es?",
-                correctAnswer: "mö",
-                correctSpanish: "nuestro",
-                options: [
-                    { nanuu: "ma", spanish: "mi" },
-                    { nanuu: "ni", spanish: "tu/su" },
-                    { nanuu: "mö", spanish: "nuestro" },
-                    { nanuu: "yá", spanish: "sus" }
-                ],
-                hint: "💡 Pista: Pertenece a todos juntos..."
-            },
-            {
-                station: 10,
-                question: "En Europa: \"___ descubren agua\" - Otra forma de 'ustedes'",
-                correctAnswer: "Nuläwí",
-                correctSpanish: "Ustedes",
-                options: [
-                    { nanuu: "Nugä hu̱", spanish: "Nosotros" },
-                    { nanuu: "Nu´ähu̱", spanish: "Ustedes" },
-                    { nanuu: "Nuläwí", spanish: "Ustedes" },
-                    { nanuu: "Nülu̱", spanish: "Ellos" }
-                ],
-                hint: "💡 Pista: Es otra forma de decir 'ustedes'..."
-            },
-            {
-                station: 11,
-                question: "En Titán: \"___ cohetes son poderosos\" - ¿De quiénes son?",
-                correctAnswer: "yá",
-                correctSpanish: "sus",
-                options: [
-                    { nanuu: "ma", spanish: "mi" },
-                    { nanuu: "rá", spanish: "su" },
-                    { nanuu: "mö", spanish: "nuestro" },
-                    { nanuu: "yá", spanish: "sus" }
-                ],
-                hint: "💡 Pista: Pertenece a varias personas (de ellos)..."
+                hint: "💡 Pista: Es un grupo de personas de las que estás hablando..."
             }
         ];
 
-        let currentQuestionIndex = 0;
+        let currentQuestion = 0;
         let score = 0;
         let attempts = 0;
 
@@ -726,158 +517,153 @@
         const feedback = document.getElementById('feedback');
         const feedbackTitle = document.getElementById('feedback-title');
         const feedbackText = document.getElementById('feedback-text');
-        const startBtn = document.getElementById('start-btn');
         const continueBtn = document.getElementById('continue-btn');
+        const startBtn = document.getElementById('start-btn');
         const hint = document.getElementById('hint');
-        const scoreDisplay = document.getElementById('score');
-        const currentStationDisplay = document.getElementById('current-station');
+        const stations = document.querySelectorAll('.station');
+
+        startBtn.addEventListener('click', startGame);
+        continueBtn.addEventListener('click', nextQuestion);
 
         function startGame() {
-            currentQuestionIndex = 0;
-            score = 0;
-            attempts = 0;
-            updateScore();
             startBtn.style.display = 'none';
-            showQuestion();
+            questionPanel.style.display = 'block';
+            loadQuestion();
         }
 
-        function showQuestion() {
-            const question = questions[currentQuestionIndex];
-            questionText.textContent = question.question;
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const q = questions[currentQuestion];
+            questionText.textContent = q.question;
             optionsContainer.innerHTML = '';
             hint.classList.remove('show');
-            hint.textContent = question.hint;
+            hint.textContent = q.hint;
             attempts = 0;
 
-            question.options.forEach(option => {
+            // Actualizar estación actual
+            document.getElementById('current-station').textContent = currentQuestion + 1;
+
+            q.options.forEach(option => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerHTML = `
-                    <div class="nanuu-text">${option.nanuu}</div>
-                    <div class="spanish-text">${option.spanish}</div>
+                    <span class="nanuu-text">${option.nanuu}</span>
+                    <span class="spanish-text">(${option.spanish})</span>
                 `;
-                btn.onclick = () => checkAnswer(option.nanuu, btn);
+                btn.addEventListener('click', () => checkAnswer(option.nanuu, btn));
                 optionsContainer.appendChild(btn);
             });
-
-            questionPanel.style.display = 'block';
-            updateStationStatus();
         }
 
         function checkAnswer(answer, btn) {
-            attempts++;
-            const question = questions[currentQuestionIndex];
+            const q = questions[currentQuestion];
+            const allButtons = optionsContainer.querySelectorAll('.option-btn');
             
-            if (answer === question.correctAnswer) {
+            // Deshabilitar todos los botones
+            allButtons.forEach(b => b.style.pointerEvents = 'none');
+
+            if (answer === q.correctAnswer) {
                 btn.classList.add('correct');
-                const points = attempts === 1 ? 100 : 50;
-                score += points;
-                updateScore();
+                playSound('correct');
+                createConfetti();
                 
                 setTimeout(() => {
-                    showFeedback(true, `¡Correcto! Es "${question.correctAnswer}" (${question.correctSpanish})`, points);
-                    createConfetti();
-                }, 500);
+                    showFeedback(true, `"${q.correctAnswer}" (${q.correctSpanish})`);
+                    score += (attempts === 0) ? 100 : 50;
+                    document.getElementById('score').textContent = score;
+                    moveCharacter();
+                }, 800);
             } else {
                 btn.classList.add('wrong');
-                
-                if (attempts >= 2) {
-                    hint.classList.add('show');
-                }
+                playSound('wrong');
+                attempts++;
                 
                 setTimeout(() => {
                     btn.classList.remove('wrong');
+                    allButtons.forEach(b => b.style.pointerEvents = 'auto');
+                    
+                    if (attempts >= 2) {
+                        hint.classList.add('show');
+                    }
                 }, 600);
             }
         }
 
-        function showFeedback(isCorrect, message, points) {
-            feedbackTitle.textContent = isCorrect ? '¡Excelente! 🌟' : '¡Intenta de nuevo! 💪';
-            feedbackText.innerHTML = `${message}<br><strong>+${points} puntos</strong>`;
+        function showFeedback(isCorrect, answer) {
             feedback.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+            feedbackTitle.textContent = isCorrect ? '¡Excelente! 🎉' : '¡Intenta de nuevo! 😅';
+            feedbackText.textContent = isCorrect 
+                ? `¡Correcto! La respuesta es ${answer}` 
+                : 'No te preocupes, sigue intentando';
         }
 
         function moveCharacter() {
-            const station = document.querySelector(`[data-station="${currentQuestionIndex}"]`);
-            const rect = station.getBoundingClientRect();
-            const containerRect = station.parentElement.getBoundingClientRect();
+            const targetStation = stations[currentQuestion];
+            const rect = targetStation.getBoundingClientRect();
+            const containerRect = character.parentElement.getBoundingClientRect();
             
-            character.classList.add('jumping');
-            character.style.left = (rect.left - containerRect.left + 5) + 'px';
-            character.style.bottom = (containerRect.bottom - rect.bottom + 60) + 'px';
+            character.classList.add('walking');
+            character.style.left = (rect.left - containerRect.left + 10) + 'px';
+            character.style.bottom = (containerRect.bottom - rect.bottom + 10) + 'px';
             
             setTimeout(() => {
-                character.classList.remove('jumping');
-                character.classList.add('walking');
-            }, 800);
-        }
-
-        function updateStationStatus() {
-            document.querySelectorAll('.station').forEach((station, index) => {
-                station.classList.remove('active', 'completed');
-                if (index < currentQuestionIndex) {
-                    station.classList.add('completed');
-                } else if (index === currentQuestionIndex) {
-                    station.classList.add('active');
+                character.classList.remove('walking');
+                character.classList.add('jumping');
+                targetStation.classList.remove('active');
+                targetStation.classList.add('completed');
+                
+                if (currentQuestion + 1 < stations.length) {
+                    stations[currentQuestion + 1].classList.add('active');
                 }
-            });
+                
+                setTimeout(() => {
+                    character.classList.remove('jumping');
+                }, 600);
+            }, 1000);
         }
 
-        function updateScore() {
-            scoreDisplay.textContent = score;
-            currentStationDisplay.textContent = currentQuestionIndex + 1;
+        function nextQuestion() {
+            feedback.classList.remove('show');
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function endGame() {
+            questionPanel.style.display = 'none';
+            feedbackTitle.textContent = '🏆 ¡Completaste la aventura! 🏆';
+            feedbackText.innerHTML = `
+                <p style="font-size: 1.5em; margin: 20px 0;">Puntuación final: ${score} puntos</p>
+                <p>¡Ahora conoces los pronombres en ñañu!</p>
+            `;
+            continueBtn.textContent = '🔄 Jugar de nuevo';
+            continueBtn.onclick = () => location.reload();
+            feedback.className = 'feedback show correct';
         }
 
         function createConfetti() {
-            const colors = ['#ff6b6b', '#4dabf7', '#51cf66', '#ffd43b', '#ff6b9d', '#da77f2'];
-            for (let i = 0; i < 50; i++) {
+            const colors = ['#ff6b6b', '#4dabf7', '#51cf66', '#ffd43b', '#ff69b4'];
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
                     confetti.style.animationDelay = Math.random() * 0.5 + 's';
                     document.body.appendChild(confetti);
                     
                     setTimeout(() => confetti.remove(), 3000);
-                }, i * 30);
+                }, i * 50);
             }
         }
 
-        continueBtn.onclick = () => {
-            feedback.classList.remove('show');
-            questionPanel.style.display = 'none';
-            
-            moveCharacter();
-            
-            setTimeout(() => {
-                currentQuestionIndex++;
-                
-                if (currentQuestionIndex < questions.length) {
-                    showQuestion();
-                } else {
-                    endGame();
-                }
-            }, 1000);
-        };
-
-        function endGame() {
-            questionPanel.style.display = 'none';
-            feedbackTitle.textContent = '🎉 ¡Misión Completada! 🎉';
-            feedbackText.innerHTML = `
-                Has completado tu viaje por el sistema solar<br>
-                <strong>Puntuación final: ${score} puntos</strong><br>
-                ¡Felicitaciones, astronauta del ñañu! 🚀🌌
-            `;
-            feedback.className = 'feedback show correct';
-            continueBtn.textContent = '🔄 Volver a Jugar';
-            continueBtn.onclick = () => {
-                location.reload();
-            };
-            createConfetti();
+        function playSound(type) {
+            // Aquí se pueden agregar sonidos reales si se desea
+            console.log('Playing sound:', type);
         }
-
-        startBtn.onclick = startGame;
     </script>
 </body>
 </html>
