@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completa la Frase con Artículos en Ñañu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Arial Rounded MT Bold', cursive, sans-serif;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Nubes animadas */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+            opacity: 0.8;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+        }
+
+        .cloud-1 {
+            width: 100px;
+            height: 40px;
+            top: 50px;
+            left: -100px;
+            animation: drift 25s infinite linear;
+        }
+
+        .cloud-1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud-1::after {
+            width: 60px;
+            height: 35px;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud-2 {
+            width: 120px;
+            height: 45px;
+            top: 120px;
+            left: -120px;
+            animation: drift 30s infinite linear 5s;
+        }
+
+        .cloud-2::before {
+            width: 55px;
+            height: 55px;
+            top: -28px;
+            left: 15px;
+        }
+
+        .cloud-2::after {
+            width: 65px;
+            height: 38px;
+            top: -18px;
+            right: 15px;
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Sol sonriente */
+        .sun {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            width: 80px;
+            height: 80px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            animation: rotate 10s infinite linear;
+        }
+
+        .sun::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #FFD700;
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        .sun-ray {
+            position: absolute;
+            background: #FFD700;
+            border-radius: 2px;
+        }
+
+        .sun-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sun-eye {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #FF6B35;
+            border-radius: 50%;
+            top: 28px;
+        }
+
+        .sun-eye.left { left: 22px; }
+        .sun-eye.right { right: 22px; }
+
+        .sun-smile {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            border: 3px solid #FF6B35;
+            border-top: none;
+            border-radius: 0 0 30px 30px;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .saludos-box {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .saludos-box h3 {
+            color: #FF6B6B;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .saludo-item {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 15px;
+            font-size: 1em;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Área del juego */
+        .game-area {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .progress {
+            text-align: center;
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .illustration {
+            text-align: center;
+            margin-bottom: 30px;
+            min-height: 200px;
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #FFD93D 0%, #6BCF7F 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .question-text {
+            font-size: 2em;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 100px;
+            padding: 5px 15px;
+            background: white;
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Botones de opciones */
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 20px 40px;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .option-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .option-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .option-btn:active {
+            transform: scale(0.95);
+        }
+
+        .option-btn.color-1 { background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); }
+        .option-btn.color-2 { background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); }
+        .option-btn.color-3 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .option-btn.color-4 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option-btn.wrong {
+            animation: shake 0.5s;
+            background: #ff4444 !important;
+        }
+
+        .option-btn.correct {
+            animation: pulse 0.6s;
+            background: #44ff44 !important;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Mensaje de feedback */
+        .feedback {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 40px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feedback.success {
+            color: #44ff44;
+            text-shadow: 2px 2px 4px rgba(0,200,0,0.3);
+        }
+
+        .feedback.error {
+            color: #ff4444;
+        }
+
+        .hint {
+            background: #FFF9C4;
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 5px solid #FFD93D;
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        /* Confeti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Puntuación */
+        .score-board {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Botón siguiente */
+        .next-btn {
+            display: none;
+            margin: 20px auto;
+            padding: 15px 40px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #6BCF7F 0%, #44A08D 100%);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .next-btn.show {
+            display: block;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pantalla final */
+        .final-screen {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #FFD93D 0%, #FF6B6B 100%);
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .final-screen.show {
+            display: block;
+            animation: scaleIn 0.8s ease-out;
+        }
+
+        .final-screen h2 {
+            font-size: 3em;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .final-score {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .restart-btn {
+            padding: 20px 50px;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Flores decorativas */
+        .flower {
+            position: absolute;
+            animation: sway 3s infinite ease-in-out;
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .flower-1 { bottom: 20px; left: 50px; }
+        .flower-2 { bottom: 20px; right: 50px; }
+    </style>
+</head>
+<body>
+    <!-- Sol sonriente -->
+    <div class="sun">
+        <div class="sun-face">
+            <div class="sun-eye left"></div>
+            <div class="sun-eye right"></div>
+            <div class="sun-smile"></div>
+        </div>
+    </div>
+
+    <!-- Nubes -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+
+    <!-- Flores decorativas -->
+    <div class="flower flower-1">
+        <svg width="60" height="80" viewBox="0 0 60 80">
+            <circle cx="30" cy="20" r="8" fill="#FF6B9D" />
+            <circle cx="20" cy="25" r="8" fill="#FF6B9D" />
+            <circle cx="40" cy="25" r="8" fill="#FF6B9D" />
+            <circle cx="25" cy="35" r="8" fill="#FF6B9D" />
+            <circle cx="35" cy="35" r="8" fill="#FF6B9D" />
+            <circle cx="30" cy="30" r="10" fill="#FFD93D" />
+            <rect x="28" y="40" width="4" height="40" fill="#44A08D" rx="2" />
+            <ellipse cx="20" cy="55" rx="8" ry="5" fill="#6BCF7F" transform="rotate(-30 20 55)" />
+            <ellipse cx="40" cy="60" rx="8" ry="5" fill="#6BCF7F" transform="rotate(30 40 60)" />
+        </svg>
+    </div>
+    <div class="flower flower-2">
+        <svg width="60" height="80" viewBox="0 0 60 80">
+            <circle cx="30" cy="20" r="8" fill="#667eea" />
+            <circle cx="20" cy="25" r="8" fill="#667eea" />
+            <circle cx="40" cy="25" r="8" fill="#667eea" />
+            <circle cx="25" cy="35" r="8" fill="#667eea" />
+            <circle cx="35" cy="35" r="8" fill="#667eea" />
+            <circle cx="30" cy="30" r="10" fill="#FFD93D" />
+            <rect x="28" y="40" width="4" height="40" fill="#44A08D" rx="2" />
+            <ellipse cx="20" cy="55" rx="8" ry="5" fill="#6BCF7F" transform="rotate(-30 20 55)" />
+            <ellipse cx="40" cy="60" rx="8" ry="5" fill="#6BCF7F" transform="rotate(30 40 60)" />
+        </svg>
+    </div>
+
+    <div class="container">
+        <!-- Header con saludos -->
+        <div class="header">
+            <h1>🌟 Completa la Frase con Artículos en Ñañu 🌟</h1>
+            <div class="saludos-box">
+                <h3>✨ Saludos en Ñañu ✨</h3>
+                <div>
+                    <span class="saludo-item">Hats´i - Buenos días</span>
+                    <span class="saludo-item">Xkä de - Buenas tardes</span>
+                    <span class="saludo-item">Dämi xudi - Hasta mañana</span>
+                    <span class="saludo-item">Jämadí - Gracias</span>
+                </div>
+            </div>
+            <div class="saludos-box">
+                <h3>📚 Artículos en Ñañu 📚</h3>
+                <div>
+                    <span class="saludo-item">Rä - El/La</span>
+                    <span class="saludo-item">Yä - Los/Las</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tablero de puntuación -->
+        <div class="score-board">
+            <span id="score">Puntuación: 0</span> | <span id="attempts">Intentos: 0</span>
+        </div>
+
+        <!-- Área del juego -->
+        <div class="game-area" id="gameArea">
+            <div class="progress" id="progress">Pregunta 1 de 12</div>
+            
+            <div class="illustration" id="illustration"></div>
+            
+            <div class="question-box">
+                <div class="question-text" id="question"></div>
+            </div>
+
+            <div class="options" id="options"></div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <button class="next-btn" id="nextBtn">Siguiente ➡️</button>
+        </div>
+
+        <!-- Pantalla final -->
+        <div class="final-screen" id="finalScreen">
+            <h2>🎉 ¡Felicitaciones! 🎉</h2>
+            <div class="final-score" id="finalScore"></div>
+            <p style="color: white; font-size: 1.5em; margin-bottom: 20px;">¡Has completado todas las frases!</p>
+            <button class="restart-btn" onclick="location.reload()">🔄 Jugar de Nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "___ perro está jugando",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UN solo perro (singular)",
+                illustration: "dog"
+            },
+            {
+                text: "___ casa es bonita",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UNA sola casa (singular)",
+                illustration: "house"
+            },
+            {
+                text: "___ flores son hermosas",
+                correct: "Yä",
+                options: ["Rä", "Yä"],
+                hint: "Son VARIAS flores (plural)",
+                illustration: "flowers"
+            },
+            {
+                text: "___ árbol es grande",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UN solo árbol (singular)",
+                illustration: "tree"
+            },
+            {
+                text: "___ niños están felices",
+                correct: "Yä",
+                options: ["Rä", "Yä"],
+                hint: "Son VARIOS niños (plural)",
+                illustration: "children"
+            },
+            {
+                text: "___ libro es interesante",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UN solo libro (singular)",
+                illustration: "book"
+            },
+            {
+                text: "___ pájaros cantan",
+                correct: "Yä",
+                options: ["Rä", "Yä"],
+                hint: "Son VARIOS pájaros (plural)",
+                illustration: "birds"
+            },
+            {
+                text: "___ sol brilla",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UN solo sol (singular)",
+                illustration: "sun"
+            },
+            {
+                text: "___ montañas son altas",
+                correct: "Yä",
+                options: ["Rä", "Yä"],
+                hint: "Son VARIAS montañas (plural)",
+                illustration: "mountains"
+            },
+            {
+                text: "___ gato duerme",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UN solo gato (singular)",
+                illustration: "cat"
+            },
+            {
+                text: "___ estrellas brillan",
+                correct: "Yä",
+                options: ["Rä", "Yä"],
+                hint: "Son VARIAS estrellas (plural)",
+                illustration: "stars"
+            },
+            {
+                text: "___ río es largo",
+                correct: "Rä",
+                options: ["Rä", "Yä"],
+                hint: "Es UN solo río (singular)",
+                illustration: "river"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let attempts = 0;
+        let wrongAttempts = 0;
+
+        // SVG Illustrations
+        const illustrations = {
+            dog: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <ellipse cx="100" cy="120" rx="60" ry="50" fill="#8B4513" stroke="#654321" stroke-width="3"/>
+                <circle cx="100" cy="80" r="40" fill="#8B4513" stroke="#654321" stroke-width="3"/>
+                <ellipse cx="60" cy="60" rx="20" ry="30" fill="#8B4513" stroke="#654321" stroke-width="3"/>
+                <ellipse cx="140" cy="60" rx="20" ry="30" fill="#8B4513" stroke="#654321" stroke-width="3"/>
+                <circle cx="85" cy="75" r="8" fill="#000"/>
+                <circle cx="115" cy="75" r="8" fill="#000"/>
+                <ellipse cx="100" cy="90" rx="8" ry="10" fill="#000"/>
+                <path d="M 100 90 Q 100 100 90 105 M 100 90 Q 100 100 110 105" stroke="#000" stroke-width="3" fill="none"/>
+                <rect x="70" y="150" width="15" height="40" fill="#8B4513" stroke="#654321" stroke-width="2" rx="5"/>
+                <rect x="115" y="150" width="15" height="40" fill="#8B4513" stroke="#654321" stroke-width="2" rx="5"/>
+                <path d="M 150 120 Q 180 110 190 120" stroke="#8B4513" stroke-width="8" fill="none" stroke-linecap="round"/>
+            </svg>`,
+            house: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <rect x="50" y="100" width="100" height="80" fill="#FF6B6B" stroke="#C92A2A" stroke-width="3"/>
+                <path d="M 30 100 L 100 40 L 170 100 Z" fill="#FFD93D" stroke="#FFA500" stroke-width="3"/>
+                <rect x="80" y="130" width="40" height="50" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+                <circle cx="110" cy="155" r="3" fill="#FFD700"/>
+                <rect x="110" y="110" width="25" height="25" fill="#87CEEB" stroke="#4A90E2" stroke-width="2"/>
+                <line x1="122.5" y1="110" x2="122.5" y2="135" stroke="#4A90E2" stroke-width="2"/>
+                <line x1="110" y1="122.5" x2="135" y2="122.5" stroke="#4A90E2" stroke-width="2"/>
+                <rect x="100" y="35" width="8" height="20" fill="#8B4513"/>
+                <rect x="95" y="30" width="18" height="8" fill="#C92A2A"/>
+            </svg>`,
+            flowers: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <g transform="translate(60, 80)">
+                    <circle cx="0" cy="-15" r="10" fill="#FF6B9D"/>
+                    <circle cx="-12" cy="-8" r="10" fill="#FF6B9D"/>
+                    <circle cx="12" cy="-8" r="10" fill="#FF6B9D"/>
+                    <circle cx="-8" cy="5" r="10" fill="#FF6B9D"/>
+                    <circle cx="8" cy="5" r="10" fill="#FF6B9D"/>
+                    <circle cx="0" cy="0" r="12" fill="#FFD93D"/>
+                    <rect x="-2" y="10" width="4" height="50" fill="#44A08D" rx="2"/>
+                    <ellipse cx="-10" cy="35" rx="8" ry="5" fill="#6BCF7F" transform="rotate(-30 -10 35)"/>
+                </g>
+                <g transform="translate(100, 90)">
+                    <circle cx="0" cy="-15" r="10" fill="#667eea"/>
+                    <circle cx="-12" cy="-8" r="10" fill="#667eea"/>
+                    <circle cx="12" cy="-8" r="10" fill="#667eea"/>
+                    <circle cx="-8" cy="5" r="10" fill="#667eea"/>
+                    <circle cx="8" cy="5" r="10" fill="#667eea"/>
+                    <circle cx="0" cy="0" r="12" fill="#FFD93D"/>
+                    <rect x="-2" y="10" width="4" height="50" fill="#44A08D" rx="2"/>
+                    <ellipse cx="10" cy="40" rx="8" ry="5" fill="#6BCF7F" transform="rotate(30 10 40)"/>
+                </g>
+                <g transform="translate(140, 85)">
+                    <circle cx="0" cy="-15" r="10" fill="#FF6B9D"/>
+                    <circle cx="-12" cy="-8" r="10" fill="#FF6B9D"/>
+                    <circle cx="12" cy="-8" r="10" fill="#FF6B9D"/>
+                    <circle cx="-8" cy="5" r="10" fill="#FF6B9D"/>
+                    <circle cx="8" cy="5" r="10" fill="#FF6B9D"/>
+                    <circle cx="0" cy="0" r="12" fill="#FFD93D"/>
+                    <rect x="-2" y="10" width="4" height="50" fill="#44A08D" rx="2"/>
+                </g>
+            </svg>`,
+            tree: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <rect x="85" y="120" width="30" height="70" fill="#8B4513" stroke="#654321" stroke-width="3" rx="5"/>
+                <circle cx="100" cy="80" r="45" fill="#44A08D" stroke="#2D7A5E" stroke-width="3"/>
+                <circle cx="75" cy="95" r="35" fill="#44A08D" stroke="#2D7A5E" stroke-width="3"/>
+                <circle cx="125" cy="95" r="35" fill="#44A08D" stroke="#2D7A5E" stroke-width="3"/>
+                <circle cx="85" cy="65" r="30" fill="#6BCF7F" stroke="#44A08D" stroke-width="2"/>
+                <circle cx="115" cy="65" r="30" fill="#6BCF7F" stroke="#44A08D" stroke-width="2"/>
+                <circle cx="100" cy="55" r="25" fill="#6BCF7F" stroke="#44A08D" stroke-width="2"/>
+                <circle cx="90" cy="85" r="8" fill="#FF6B9D"/>
+                <circle cx="110" cy="90" r="8" fill="#FF6B9D"/>
+                <circle cx="105" cy="75" r="8" fill="#FFD93D"/>
+            </svg>`,
+            children: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <g transform="translate(60, 80)">
+                    <circle cx="0" cy="0" r="20" fill="#FFD0A6" stroke="#D2691E" stroke-width="2"/>
+                    <circle cx="-6" cy="-2" r="3" fill="#000"/>
+                    <circle cx="6" cy="-2" r="3" fill="#000"/>
+                    <path d="M -6 6 Q 0 10 6 6" stroke="#000" stroke-width="2" fill="none"/>
+                    <rect x="-15" y="20" width="30" height="40" fill="#4ECDC4" stroke="#44A08D" stroke-width="2" rx="5"/>
+                    <rect x="-15" y="60" width="12" height="30" fill="#667eea" stroke="#5566CC" stroke-width="2" rx="3"/>
+                    <rect x="3" y="60" width="12" height="30" fill="#667eea" stroke="#5566CC" stroke-width="2" rx="3"/>
+                    <rect x="-22" y="25" width="10" height="25" fill="#FFD0A6" stroke="#D2691E" stroke-width="2" rx="5"/>
+                    <rect x="12" y="25" width="10" height="25" fill="#FFD0A6" stroke="#D2691E" stroke-width="2" rx="5"/>
+                </g>
+                <g transform="translate(110, 85)">
+                    <circle cx="0" cy="0" r="18" fill="#FFD0A6" stroke="#D2691E" stroke-width="2"/>
+                    <circle cx="-5" cy="-2" r="3" fill="#000"/>
+                    <circle cx="5" cy="-2" r="3" fill="#000"/>
+                    <path d="M -5 5 Q 0 8 5 5" stroke="#000" stroke-width="2" fill="none"/>
+                    <rect x="-13" y="18" width="26" height="35" fill="#FF6B9D" stroke="#E85D75" stroke-width="2" rx="5"/>
+                    <rect x="-13" y="53" width="10" height="27" fill="#667eea" stroke="#5566CC" stroke-width="2" rx="3"/>
+                    <rect x="3" y="53" width="10" height="27" fill="#667eea" stroke="#5566CC" stroke-width="2" rx="3"/>
+                    <rect x="-20" y="22" width="9" height="22" fill="#FFD0A6" stroke="#D2691E" stroke-width="2" rx="5"/>
+                    <rect x="11" y="22" width="9" height="22" fill="#FFD0A6" stroke="#D2691E" stroke-width="2" rx="5"/>
+                </g>
+                <g transform="translate(150, 83)">
+                    <circle cx="0" cy="0" r="19" fill="#FFD0A6" stroke="#D2691E" stroke-width="2"/>
+                    <circle cx="-6" cy="-2" r="3" fill="#000"/>
+                    <circle cx="6" cy="-2" r="3" fill="#000"/>
+                    <path d="M -6 6 Q 0 9 6 6" stroke="#000" stroke-width="2" fill="none"/>
+                    <rect x="-14" y="19" width="28" height="38" fill="#FFD93D" stroke="#FFA500" stroke-width="2" rx="5"/>
+                    <rect x="-14" y="57" width="11" height="28" fill="#667eea" stroke="#5566CC" stroke-width="2" rx="3"/>
+                    <rect x="3" y="57" width="11" height="28" fill="#667eea" stroke="#5566CC" stroke-width="2" rx="3"/>
+                    <rect x="-21" y="24" width="9" height="23" fill="#FFD0A6" stroke="#D2691E" stroke-width="2" rx="5"/>
+                    <rect x="12" y="24" width="9" height="23" fill="#FFD0A6" stroke="#D2691E" stroke-width="2" rx="5"/>
+                </g>
+            </svg>`,
+            book: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <rect x="60" y="60" width="80" height="100" fill="#667eea" stroke="#5566CC" stroke-width="3" rx="5"/>
+                <rect x="60" y="60" width="15" height="100" fill="#5566CC"/>
+                <line x1="75" y1="60" x2="75" y2="160" stroke="#7B7FFF" stroke-width="2"/>
+                <line x1="90" y1="80" x2="125" y2="80" stroke="#FFF" stroke-width="2"/>
+                <line x1="90" y1="95" x2="125" y2="95" stroke="#FFF" stroke-width="2"/>
+                <line x1="90" y1="110" x2="125" y2="110" stroke="#FFF" stroke-width="2"/>
+                <line x1="90" y1="125" x2="125" y2="125" stroke="#FFF" stroke-width="2"/>
+                <circle cx="100" cy="140" r="8" fill="#FFD93D"/>
+            </svg>`,
+            birds: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <g transform="translate(60, 70)">
+                    <ellipse cx="0" cy="0" rx="20" ry="15" fill="#FF6B6B" stroke="#C92A2A" stroke-width="2"/>
+                    <circle cx="-5" cy="-3" r="3" fill="#000"/>
+                    <path d="M -8 0 L -15 0" stroke="#FFA500" stroke-width="3"/>
+                    <path d="M -25 0 Q -30 -15 -20 -10 M -25 0 Q -30 10 -22 8" fill="#667eea" stroke="#5566CC" stroke-width="2"/>
+                    <path d="M 15 0 Q 20 -15 25 -8 M 15 0 Q 20 10 24 7" fill="#667eea" stroke="#5566CC" stroke-width="2"/>
+                    <path d="M -5 10 L -8 18 M -5 10 L -2 18 M 3 10 L 0 18 M 3 10 L 6 18" stroke="#FFA500" stroke-width="2"/>
+                </g>
+                <g transform="translate(110, 60)">
+                    <ellipse cx="0" cy="0" rx="18" ry="13" fill="#4ECDC4" stroke="#44A08D" stroke-width="2"/>
+                    <circle cx="-4" cy="-2" r="2" fill="#000"/>
+                    <path d="M -7 0 L -13 -2" stroke="#FFA500" stroke-width="3"/>
+                    <path d="M -22 0 Q -26 -13 -18 -9 M -22 0 Q -26 9 -19 7" fill="#FF6B9D" stroke="#E85D75" stroke-width="2"/>
+                    <path d="M 14 0 Q 18 -13 22 -7 M 14 0 Q 18 9 21 6" fill="#FF6B9D" stroke="#E85D75" stroke-width="2"/>
+                    <path d="M -4 9 L -7 16 M -4 9 L -1 16 M 2 9 L -1 16 M 2 9 L 5 16" stroke="#FFA500" stroke-width="2"/>
+                </g>
+                <g transform="translate(145, 80)">
+                    <ellipse cx="0" cy="0" rx="19" ry="14" fill="#FFD93D" stroke="#FFA500" stroke-width="2"/>
+                    <circle cx="-4" cy="-2" r="3" fill="#000"/>
+                    <path d="M -8 1 L -14 0" stroke="#FFA500" stroke-width="3"/>
+                    <path d="M -24 0 Q -28 -14 -19 -9 M -24 0 Q -28 10 -20 7" fill="#6BCF7F" stroke="#44A08D" stroke-width="2"/>
+                    <path d="M 15 0 Q 19 -14 24 -7 M 15 0 Q 19 10 23 6" fill="#6BCF7F" stroke="#44A08D" stroke-width="2"/>
+                    <path d="M -4 10 L -7 17 M -4 10 L -1 17 M 3 10 L 0 17 M 3 10 L 6 17" stroke="#FFA500" stroke-width="2"/>
+                </g>
+            </svg>`,
+            sun: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="50" fill="#FFD93D" stroke="#FFA500" stroke-width="3"/>
+                <circle cx="85" cy="90" r="6" fill="#FF6B35"/>
+                <circle cx="115" cy="90" r="6" fill="#FF6B35"/>
+                <path d="M 85 110 Q 100 120 115 110" stroke="#FF6B35" stroke-width="4" fill="none"/>
+                <line x1="100" y1="30" x2="100" y2="50" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="100" y1="150" x2="100" y2="170" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="30" y1="100" x2="50" y2="100" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="150" y1="100" x2="170" y2="100" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="45" y1="45" x2="60" y2="60" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="140" y1="140" x2="155" y2="155" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="155" y1="45" x2="140" y2="60" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+                <line x1="60" y1="140" x2="45" y2="155" stroke="#FFD93D" stroke-width="6" stroke-linecap="round"/>
+            </svg>`,
+            mountains: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <path d="M 20 150 L 70 60 L 120 150 Z" fill="#667eea" stroke="#5566CC" stroke-width="3"/>
+                <path d="M 70 60 L 90 90 L 70 120 Z" fill="#E8F4F8"/>
+                <path d="M 80 150 L 130 50 L 180 150 Z" fill="#764ba2" stroke="#6B3FA0" stroke-width="3"/>
+                <path d="M 130 50 L 145 75 L 130 100 Z" fill="#E8F4F8"/>
+                <path d="M 0 150 L 40 100 L 80 150 Z" fill="#4ECDC4" stroke="#44A08D" stroke-width="3"/>
+                <line x1="0" y1="150" x2="200" y2="150" stroke="#44A08D" stroke-width="4"/>
+                <circle cx="30" cy="40" r="20" fill="#FFD93D" opacity="0.8"/>
+                <circle cx="160" cy="30" r="12" fill="#FFF" opacity="0.6"/>
+                <circle cx="175" cy="35" r="10" fill="#FFF" opacity="0.6"/>
+                <circle cx="170" cy="45" r="14" fill="#FFF" opacity="0.6"/>
+            </svg>`,
+            cat: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <ellipse cx="100" cy="120" rx="50" ry="40" fill="#FF6B6B" stroke="#C92A2A" stroke-width="3"/>
+                <circle cx="100" cy="80" r="35" fill="#FF6B6B" stroke="#C92A2A" stroke-width="3"/>
+                <path d="M 70 60 L 60 30 L 75 65 Z" fill="#FF6B6B" stroke="#C92A2A" stroke-width="3"/>
+                <path d="M 130 60 L 140 30 L 125 65 Z" fill="#FF6B6B" stroke="#C92A2A" stroke-width="3"/>
+                <circle cx="88" cy="75" r="6" fill="#FFD93D"/>
+                <circle cx="112" cy="75" r="6" fill="#FFD93D"/>
+                <circle cx="88" cy="75" r="3" fill="#000"/>
+                <circle cx="112" cy="75" r="3" fill="#000"/>
+                <ellipse cx="100" cy="88" rx="5" ry="7" fill="#FFB6C1"/>
+                <path d="M 100 88 L 95 95 M 100 88 L 105 95" stroke="#000" stroke-width="2"/>
+                <line x1="70" y1="82" x2="50" y2="78" stroke="#000" stroke-width="2"/>
+                <line x1="70" y1="88" x2="50" y2="88" stroke="#000" stroke-width="2"/>
+                <line x1="130" y1="82" x2="150" y2="78" stroke="#000" stroke-width="2"/>
+                <line x1="130" y1="88" x2="150" y2="88" stroke="#000" stroke-width="2"/>
+                <path d="M 145 125 Q 170 120 180 135" stroke="#FF6B6B" stroke-width="7" fill="none" stroke-linecap="round"/>
+            </svg>`,
+            stars: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <g transform="translate(50, 50)">
+                    <polygon points="0,-20 5,-6 20,-6 8,3 12,18 0,9 -12,18 -8,3 -20,-6 -5,-6" fill="#FFD93D" stroke="#FFA500" stroke-width="2"/>
+                </g>
+                <g transform="translate(100, 40)">
+                    <polygon points="0,-15 4,-5 15,-5 6,2 9,13 0,7 -9,13 -6,2 -15,-5 -4,-5" fill="#FF6B9D" stroke="#E85D75" stroke-width="2"/>
+                </g>
+                <g transform="translate(150, 60)">
+                    <polygon points="0,-18 5,-6 18,-6 7,2 11,16 0,8 -11,16 -7,2 -18,-6 -5,-6" fill="#667eea" stroke="#5566CC" stroke-width="2"/>
+                </g>
+                <g transform="translate(70, 100)">
+                    <polygon points="0,-16 4,-5 16,-5 6,3 10,15 0,8 -10,15 -6,3 -16,-5 -4,-5" fill="#4ECDC4" stroke="#44A08D" stroke-width="2"/>
+                </g>
+                <g transform="translate(130, 110)">
+                    <polygon points="0,-17 5,-6 17,-6 7,2 11,15 0,8 -11,15 -7,2 -17,-6 -5,-6" fill="#FFD93D" stroke="#FFA500" stroke-width="2"/>
+                </g>
+                <g transform="translate(90, 145)">
+                    <polygon points="0,-14 4,-5 14,-5 6,2 9,13 0,7 -9,13 -6,2 -14,-5 -4,-5" fill="#FF6B9D" stroke="#E85D75" stroke-width="2"/>
+                </g>
+                <g transform="translate(150, 130)">
+                    <polygon points="0,-15 4,-5 15,-5 6,2 9,13 0,7 -9,13 -6,2 -15,-5 -4,-5" fill="#6BCF7F" stroke="#44A08D" stroke-width="2"/>
+                </g>
+            </svg>`,
+            river: `<svg width="180" height="180" viewBox="0 0 200 200">
+                <rect x="0" y="0" width="200" height="200" fill="#87CEEB"/>
+                <path d="M 0 80 Q 50 60 100 80 T 200 80 L 200 200 L 0 200 Z" fill="#4ECDC4" opacity="0.7"/>
+                <path d="M 0 100 Q 50 85 100 100 T 200 100 L 200 200 L 0 200 Z" fill="#44A08D" opacity="0.8"/>
+                <path d="M 0 120 Q 50 105 100 120 T 200 120 L 200 200 L 0 200 Z" fill="#2D7A5E"/>
+                <ellipse cx="60" cy="95" rx="15" ry="8" fill="#FFF" opacity="0.4"/>
+                <ellipse cx="120" cy="105" rx="20" ry="10" fill="#FFF" opacity="0.4"/>
+                <ellipse cx="160" cy="115" rx="18" ry="9" fill="#FFF" opacity="0.4"/>
+                <circle cx="40" cy="40" r="22" fill="#FFD93D" opacity="0.9"/>
+                <path d="M 20 160 L 35 140 L 40 145 L 30 165 Z" fill="#8B4513"/>
+                <ellipse cx="33" cy="135" rx="12" ry="18" fill="#44A08D" stroke="#2D7A5E" stroke-width="2"/>
+                <path d="M 160 155 L 175 135 L 180 140 L 170 160 Z" fill="#8B4513"/>
+                <ellipse cx="173" cy="130" rx="14" ry="20" fill="#44A08D" stroke="#2D7A5E" stroke-width="2"/>
+            </svg>`
+        };
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('progress').textContent = `Pregunta ${currentQuestion + 1} de ${questions.length}`;
+            document.getElementById('question').innerHTML = q.text.replace('___', '<span class="blank">?</span>');
+            document.getElementById('illustration').innerHTML = illustrations[q.illustration] || '';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('nextBtn').classList.remove('show');
+            
+            wrongAttempts = 0;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            const colors = ['color-1', 'color-2', 'color-3', 'color-4'];
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn ${colors[index % colors.length]}`;
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(option, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, button) {
+            const q = questions[currentQuestion];
+            attempts++;
+            document.getElementById('attempts').textContent = `Intentos: ${attempts}`;
+            
+            const allButtons = document.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => btn.disabled = true);
+            
+            if (selected === q.correct) {
+                button.classList.add('correct');
+                score += 10;
+                document.getElementById('score').textContent = `Puntuación: ${score}`;
+                document.getElementById('feedback').innerHTML = `<span class="success">🎉 ¡Excelente! ¡Correcto! 🎉</span>`;
+                createConfetti();
+                playSuccessSound();
+                
+                setTimeout(() => {
+                    document.getElementById('nextBtn').classList.add('show');
+                }, 1000);
+            } else {
+                button.classList.add('wrong');
+                wrongAttempts++;
+                playErrorSound();
+                
+                if (wrongAttempts === 1) {
+                    document.getElementById('feedback').innerHTML = `<span class="error">😕 Intenta de nuevo</span>`;
+                    setTimeout(() => {
+                        allButtons.forEach(btn => {
+                            btn.disabled = false;
+                            btn.classList.remove('wrong');
+                        });
+                    }, 800);
+                } else {
+                    document.getElementById('feedback').innerHTML = `
+                        <span class="error">No te preocupes, sigue intentando 💪</span>
+                        <div class="hint">💡 Pista: ${q.hint}</div>
+                    `;
+                    setTimeout(() => {
+                        allButtons.forEach(btn => {
+                            btn.disabled = false;
+                            btn.classList.remove('wrong');
+                        });
+                    }, 1500);
+                }
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFD93D', '#667eea', '#FF6B9D', '#6BCF7F'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '0px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function playSuccessSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 523.25;
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+            
+            setTimeout(() => {
+                const oscillator2 = audioContext.createOscillator();
+                const gainNode2 = audioContext.createGain();
+                oscillator2.connect(gainNode2);
+                gainNode2.connect(audioContext.destination);
+                oscillator2.frequency.value = 659.25;
+                oscillator2.type = 'sine';
+                gainNode2.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                oscillator2.start(audioContext.currentTime);
+                oscillator2.stop(audioContext.currentTime + 0.5);
+            }, 150);
+        }
+
+        function playErrorSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 200;
+            oscillator.type = 'sawtooth';
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('gameArea').style.display = 'none';
+                document.getElementById('finalScore').textContent = `Puntuación Final: ${score}/${questions.length * 10}`;
+                document.getElementById('finalScreen').classList.add('show');
+                createConfetti();
+            }
+        });
+
+        // Iniciar el juego
+        loadQuestion();
+    </script>
+</body>
+</html>
