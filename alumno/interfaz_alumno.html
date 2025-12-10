@@ -74,6 +74,40 @@
         .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center}
         .modal-content{background:white;padding:28px;border-radius:20px;max-width:520px;width:92%;text-align:center}
         .btn-close{background:var(--primary);color:var(--text-dark);padding:12px 28px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
+
+        /* Estilos para comentarios */
+        .comentario-card{
+            background: rgba(255,255,255,0.9);
+            border: 2px solid rgba(43,230,70,0.12);
+            border-radius: var(--card-radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(16,34,19,0.04);
+        }
+
+        .comentario-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .comentario-maestro{
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .comentario-fecha{
+            font-size: 12px;
+            color: rgba(13,27,16,0.6);
+        }
+
+        .comentario-texto{
+            color: var(--text-dark);
+            line-height: 1.5;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -178,6 +212,20 @@
                     <div class="progress-fill" style="width: 100%"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Sección de Comentarios del Maestro -->
+    <div class="lessons-container" style="margin-top: 20px;">
+        <h2>💬 Comentarios de mi Maestro</h2>
+        <div id="comentarios-container">
+            <div id="loading-comentarios" style="text-align: center; padding: 20px; color: #666;">
+                Cargando comentarios...
+            </div>
+            <div id="no-comentarios" style="display: none; text-align: center; padding: 20px; color: #666;">
+                No tienes comentarios de tu maestro aún.
+            </div>
+            <div id="comentarios-list" style="display: none;"></div>
         </div>
     </div>
 
@@ -297,12 +345,59 @@
             }
         });
 
+        // Función para cargar comentarios del maestro
+        async function cargarComentarios() {
+            try {
+                const response = await fetch('../backend/obtenerComentariosAlumno.php');
+                const data = await response.json();
+
+                const loadingDiv = document.getElementById('loading-comentarios');
+                const noComentariosDiv = document.getElementById('no-comentarios');
+                const comentariosList = document.getElementById('comentarios-list');
+
+                loadingDiv.style.display = 'none';
+
+                if (data.success && data.comentarios.length > 0) {
+                    noComentariosDiv.style.display = 'none';
+                    comentariosList.style.display = 'block';
+                    
+                    comentariosList.innerHTML = '';
+                    data.comentarios.forEach(comentario => {
+                        const comentarioDiv = document.createElement('div');
+                        comentarioDiv.className = 'comentario-card';
+                        comentarioDiv.innerHTML = `
+                            <div class="comentario-header">
+                                <span class="comentario-maestro">👨‍🏫 ${comentario.nombreMaestro}</span>
+                                <span class="comentario-fecha">${comentario.fecha}</span>
+                            </div>
+                            <div class="comentario-texto">${comentario.comentario}</div>
+                        `;
+                        comentariosList.appendChild(comentarioDiv);
+                    });
+                } else {
+                    noComentariosDiv.style.display = 'block';
+                    comentariosList.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error al cargar comentarios:', error);
+                document.getElementById('loading-comentarios').style.display = 'none';
+                document.getElementById('no-comentarios').style.display = 'block';
+                document.getElementById('no-comentarios').textContent = 'Error al cargar comentarios.';
+            }
+        }
+
         // Auto-refresh cada 5 segundos para mantener puntos actualizados
         setInterval(() => {
             cargarPuntosTotales();
         }, 5000);
 
+        // Auto-refresh cada 30 segundos para comentarios
+        setInterval(() => {
+            cargarComentarios();
+        }, 30000);
+
         cargarDatosAlumno();
+        cargarComentarios();
     </script>
     <script src="./notificacionesPuntos.js"></script>
 
