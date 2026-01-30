@@ -76,16 +76,7 @@
 <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Registro de Actividad</h2>
 <p class="text-slate-500 dark:text-slate-400">Monitoreo en tiempo real de la plataforma Yätzina</p>
 </div>
-<div class="flex gap-3 w-full md:w-auto">
-<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
-<span class="material-symbols-outlined text-xl">filter_list</span>
-                Filtrar
-            </button>
-<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
-<span class="material-symbols-outlined text-xl">file_download</span>
-                Exportar Log
-            </button>
-</div>
+    <!-- Removed filter and export buttons as requested -->
 </header>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
@@ -95,7 +86,7 @@
 </div>
 <div>
 <p class="text-sm text-slate-500">Sesiones Activas</p>
-<p class="text-2xl font-bold">124</p>
+<p class="text-2xl font-bold"><span id="sesionesActivas">0</span></p>
 </div>
 </div>
 </div>
@@ -106,7 +97,7 @@
 </div>
 <div>
 <p class="text-sm text-slate-500">Lecciones Hoy</p>
-<p class="text-2xl font-bold">856</p>
+<p class="text-2xl font-bold"><span id="leccionesHoy">0</span></p>
 </div>
 </div>
 </div>
@@ -128,7 +119,7 @@
 </div>
 <div>
 <p class="text-sm text-slate-500">Alertas Sistema</p>
-<p class="text-2xl font-bold">0</p>
+<p class="text-2xl font-bold"><span id="alertasSistema">0</span></p>
 </div>
 </div>
 </div>
@@ -165,21 +156,6 @@
     <!-- Filas generadas dinámicamente por /alumno/lecciones/reportes.js -->
 </tbody>
 </table>
-</div>
-<div class="p-6 bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-<p class="text-sm text-slate-500">Mostrando resultados</p>
-<div class="flex gap-2">
-<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors disabled:opacity-50" disabled="">
-<span class="material-symbols-outlined text-sm">chevron_left</span>
-</button>
-<button class="px-4 py-1.5 bg-primary text-white font-bold rounded-lg text-sm">1</button>
-<button class="px-4 py-1.5 hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 rounded-lg text-sm transition-colors">2</button>
-<button class="px-4 py-1.5 hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 rounded-lg text-sm transition-colors">3</button>
-<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors">
-<span class="material-symbols-outlined text-sm">chevron_right</span>
-</button>
-</div>
-</div>
 </div>
 </main>
 

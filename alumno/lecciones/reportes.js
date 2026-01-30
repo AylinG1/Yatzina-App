@@ -133,6 +133,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Load dashboard statistics
+    async function loadStats() {
+        try {
+            const res = await fetch('/backend/estadisticas_dashboard.php');
+            if (!res.ok) return;
+            const json = await res.json();
+            if (json.success && json.data) {
+                const d = json.data;
+                const elSes = document.getElementById('sesionesActivas');
+                const elLec = document.getElementById('leccionesHoy');
+                const elAl = document.getElementById('alertasSistema');
+                if (elSes) elSes.textContent = d.sesionesActivas;
+                if (elLec) elLec.textContent = d.leccionesHoy;
+                if (elAl) elAl.textContent = d.alertasSistema;
+            }
+        } catch (e) {
+            // ignore errors for stats
+            console.error('Error cargando estadísticas:', e);
+        }
+    }
+
+    // Polling for stats every 15 seconds
+    setInterval(loadStats, 15000);
+
+
     searchInput.addEventListener('input', () => render());
 
     loadAlumnos();
