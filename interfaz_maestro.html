@@ -126,6 +126,7 @@
 			<button class="tab-btn active" onclick="cambiarTab('alumnos')">Mis Alumnos</button>
 			<button class="tab-btn" onclick="cambiarTab('vocabulario')">Agregar Vocabulario</button>
 			<button class="tab-btn" onclick="cambiarTab('comentarios')">Ver Comentarios</button>
+			<button class="tab-btn" onclick="irAReportes()">Reportes</button>
 			<button class="tab-btn" onclick="abrirModalAgregarAlumno()" style="background: linear-gradient(90deg, #8ef6b8, #2bee4b); color: var(--text-dark);">➕ Añadir Alumno</button>
 		</div>
 
@@ -458,6 +459,11 @@
 				console.error('Error:', error);
 				alert('Error al guardar palabra');
 			}
+		}
+
+		// Navegar a la página de reportes
+		function irAReportes() {
+			window.location.href = '/alumno/lecciones/reportes.html';
 		}
 
 		function cambiarTab(tab) {

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitácora - Maestro</title>
+    <link href="/style.css" rel="stylesheet">
+</head>
+<body>
+    <main style="max-width:1000px;margin:24px auto;padding:16px;">
+        <h1>Bitácora de Movimientos</h1>
+        <p>Visualiza en tiempo real los movimientos de los alumnos.</p>
+
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">
+            <label for="filtroAlumno">Filtrar por alumno (id):</label>
+            <input id="filtroAlumno" placeholder="ID alumno" />
+            <button id="btnFiltrar">Filtrar</button>
+            <button id="btnLimpiar">Limpiar</button>
+            <label style="margin-left:auto;">Actualizar cada <select id="intervalSelect"><option value="5">5s</option><option value="8" selected>8s</option><option value="15">15s</option></select></label>
+        </div>
+
+        <div id="mensaje" style="color:#b00;margin-bottom:8px;"></div>
+
+        <table id="logTable" border="1" cellpadding="8" style="width:100%;border-collapse:collapse;background:#fff;">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Alumno ID</th>
+                    <th>Tipo</th>
+                    <th>Detalle</th>
+                    <th>Página</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+
+    <script src="/maestro/bitacora.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>YÄTZINA - Admin Activity Log</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#34E050",
+                        "background-light": "#F8FAF9",
+                        "background-dark": "#0A0F0C",
+                    },
+                    fontFamily: {
+                        display: ["Outfit", "sans-serif"],
+                        sans: ["Outfit", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "1rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style type="text/tailwindcss">
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 transition-colors duration-200 min-h-screen">
+<nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-xl">menu_book</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Yätzina</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined dark:hidden">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block text-yellow-400">light_mode</span>
+</button>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<div class="flex items-center gap-3 pl-2">
+<div class="text-right hidden sm:block">
+<p class="text-xs font-bold text-slate-900 dark:text-white">Admin Central</p>
+<p class="text-[10px] text-slate-500">Super Administrador</p>
+</div>
+<img alt="Admin Avatar" class="w-9 h-9 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBTafkbb9JjSQHtlVClxHwZU1y2Y0OTwphA4Q14qdphGcaeMBNUF8T4OW6ZbhGU-4XZy3ScjiOurA3_J2E_-Qpn8rwhpZfSE-WVIoRk_PNkz2rtI7wKSTuhCYTgf46EwErQq_RubXCcRPmzqWSHkLaGy2EvpuLXj9SOZjdyr4VYgA2VdeBl5g1PNyxJgmYbrLhTcVnzLlwxCOqvS7rNKJV2Z5K7dJ3_c4LgOUK2KGKIIGya6KvG73NyiM0bCVp5ObXPiZq9YJeJ7sa"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h2 class="text-3xl font-bold text-slate-900 dark:text-white">Registro de Actividad</h2>
+<p class="text-slate-500 dark:text-slate-400">Monitoreo en tiempo real de la plataforma Yätzina</p>
+</div>
+<div class="flex gap-3 w-full md:w-auto">
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined text-xl">filter_list</span>
+                Filtrar
+            </button>
+<button class="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-xl">file_download</span>
+                Exportar Log
+            </button>
+</div>
+</header>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-emerald-50 dark:bg-emerald-950/30 rounded-2xl text-primary">
+<span class="material-symbols-outlined">online_prediction</span>
+</div>
+<div>
+<p class="text-sm text-slate-500">Sesiones Activas</p>
+<p class="text-2xl font-bold">124</p>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-blue-50 dark:bg-blue-950/30 rounded-2xl text-blue-500">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<p class="text-sm text-slate-500">Lecciones Hoy</p>
+<p class="text-2xl font-bold">856</p>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-orange-50 dark:bg-orange-950/30 rounded-2xl text-orange-500">
+<span class="material-symbols-outlined">record_voice_over</span>
+</div>
+<div>
+<p class="text-sm text-slate-500">Hablantes Nativos</p>
+<p class="text-2xl font-bold">12</p>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-purple-50 dark:bg-purple-950/30 rounded-2xl text-purple-500">
+<span class="material-symbols-outlined">error</span>
+</div>
+<div>
+<p class="text-sm text-slate-500">Alertas Sistema</p>
+<p class="text-2xl font-bold">0</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="relative w-full sm:w-96">
+            <span class="material-symbols-outlined absolute left-4 top-2.5 text-slate-400">search</span>
+            <input id="searchInput" class="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Buscar usuario o actividad..." type="text"/>
+        </div>
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<span class="text-sm text-slate-500">Ordenar por:</span>
+<select class="bg-transparent border-none text-sm font-semibold text-slate-700 dark:text-slate-300 focus:ring-0 cursor-pointer">
+<option>Más recientes</option>
+<option>Más antiguos</option>
+<option>Por Rol</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50/50 dark:bg-slate-800/50">
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Usuario</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Rol</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Entrada / Salida</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Estado</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Dirección IP</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Lección / Sección</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Acciones</th>
+</tr>
+</thead>
+<tbody id="reportesTbody" class="divide-y divide-slate-100 dark:divide-slate-800">
+    <!-- Filas generadas dinámicamente por /alumno/lecciones/reportes.js -->
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-slate-50/50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="text-sm text-slate-500">Mostrando resultados</p>
+<div class="flex gap-2">
+<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-4 py-1.5 bg-primary text-white font-bold rounded-lg text-sm">1</button>
+<button class="px-4 py-1.5 hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 rounded-lg text-sm transition-colors">2</button>
+<button class="px-4 py-1.5 hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 rounded-lg text-sm transition-colors">3</button>
+<button class="p-2 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+
+<script src="/alumno/lecciones/reportes.js"></script>
+
+</body></html>

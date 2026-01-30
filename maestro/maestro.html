@@ -116,6 +116,7 @@
             <button class="tab-btn active" onclick="cambiarTab('alumnos')">Mis Alumnos</button>
             <button class="tab-btn" onclick="cambiarTab('vocabulario')">Agregar Vocabulario</button>
             <button class="tab-btn" onclick="cambiarTab('comentarios')">Ver Comentarios</button>
+            <button class="tab-btn" onclick="irAReportes()">Reportes</button>
         </div>
 
         <div id="tab-alumnos" class="tab-content active">
@@ -406,6 +407,12 @@
                 console.error('Error:', error);
                 alert('Error al guardar palabra');
             }
+        }
+
+        // Navegar a la página de reportes
+        function irAReportes() {
+            // Redirige a la vista de reportes (ruta absoluta desde la raíz)
+            window.location.href = '/alumno/lecciones/reportes.html';
         }
 
         function cambiarTab(tab) {
