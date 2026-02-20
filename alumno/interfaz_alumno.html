@@ -8,6 +8,7 @@
     <meta http-equiv="Expires" content="0" />
     <title>Panel Alumno - YÄTZINA</title>
     <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="../theme-toggle.css" rel="stylesheet">
     <style>
         :root{
             --primary: #2bee4b;
@@ -163,32 +164,6 @@
         [data-theme="dark"] .comentario-fecha {
             color: var(--text-muted);
         }
-
-        /* Toggle button para dark mode */
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(43, 230, 70, 0.3);
-            border-radius: 8px;
-            padding: 8px 12px;
-            color: var(--text-dark);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-        [data-theme="dark"] .theme-toggle {
-            background: rgba(43, 230, 75, 0.1);
-            border: 1px solid var(--border-color);
-        }
-        [data-theme="dark"] .theme-toggle:hover {
-            background: rgba(43, 230, 75, 0.2);
-        }
     </style>
 </head>
 <body>
@@ -198,15 +173,9 @@
             <h1>🎓 YÄTZINA - Mi Panel</h1>
             <p id="welcomeText" style="font-size: 20px; color: #666;">Cargando...</p>
         </div>
-        <div class="user-info" style="display: flex; align-items: center; gap: 12px;">
-            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
-                <span id="theme-icon">🌙</span>
-                <span>Modo Oscuro</span>
-            </button>
-            <div>
-                <p><strong>👨‍🏫 Maestro:</strong> <span id="maestroNombre">Cargando...</span></p>
-                <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
-            </div>
+        <div class="user-info">
+            <p><strong>👨‍🏫 Maestro:</strong> <span id="maestroNombre">Cargando...</span></p>
+            <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
         </div>
     </div>
 
@@ -489,33 +458,9 @@
     <script src="./notificacionesPuntos.js"></script>
     <script src="../darkmode.js"></script>
     <script>
-        // Inicializar dark mode
+        // Inicializar dark mode con botón en esquina
         const darkModeManager = new DarkModeManager();
-        
-        // Configurar el botón toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        
-        function updateToggleButton() {
-            const isDark = darkModeManager.isDarkMode();
-            themeIcon.textContent = isDark ? '☀️' : '🌙';
-            const label = themeToggle.querySelector('span:not(#theme-icon)');
-            if (label) {
-                label.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
-            }
-        }
-        
-        // Configurar el evento click
-        themeToggle.addEventListener('click', () => {
-            darkModeManager.toggle();
-            updateToggleButton();
-        });
-        
-        // Escuchar cambios de tema
-        window.addEventListener('themeChanged', updateToggleButton);
-        
-        // Inicializar el estado del botón
-        updateToggleButton();
+        darkModeManager.createCornerToggle();
     </script>
 
 </body>

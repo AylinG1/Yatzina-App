@@ -8,6 +8,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="theme-toggle.css" rel="stylesheet"/>
 <style>
         .material-symbols-outlined {
             font-variation-settings:
@@ -52,15 +53,9 @@
 </div>
 <h2 class="text-2xl font-bold tracking-tight text-[#0d1b10] dark:text-background-light">Yätzina</h2>
 </div>
-<div class="flex items-center gap-4">
-<button id="theme-toggle" class="flex items-center gap-2 rounded-lg bg-primary/10 hover:bg-primary/20 px-3 py-2 text-sm font-medium text-primary transition-colors" aria-label="Cambiar tema">
-<span id="theme-icon" class="text-lg">🌙</span>
-<span class="hidden sm:inline">Modo Oscuro</span>
-</button>
 <a class="hidden sm:flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary/20 text-[#0d1b10] dark:bg-primary/30 dark:text-white text-sm font-bold tracking-wide transition-colors hover:bg-primary/30 dark:hover:bg-primary/40" href="registro.html">
 <span class="truncate">Crear cuenta</span>
 </a>
-</div>
 </header>
 <main class="grid w-full grid-cols-1 gap-8 rounded-lg bg-white/50 dark:bg-background-dark/50 shadow-2xl shadow-primary/10 backdrop-blur-xl md:grid-cols-2">
 <div class="hidden items-center justify-center rounded-l-lg bg-primary/20 p-8 md:flex">
@@ -106,32 +101,8 @@
 <script src="login.js"></script>
 <script src="darkmode.js"></script>
 <script>
-    // Inicializar dark mode
+    // Inicializar dark mode con botón en esquina
     const darkModeManager = new DarkModeManager();
-    
-    // Configurar el botón toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    
-    function updateToggleButton() {
-        const isDark = darkModeManager.isDarkMode();
-        themeIcon.textContent = isDark ? '☀️' : '🌙';
-        const label = themeToggle.querySelector('span:not(#theme-icon)');
-        if (label) {
-            label.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
-        }
-    }
-    
-    // Configurar el evento click
-    themeToggle.addEventListener('click', () => {
-        darkModeManager.toggle();
-        updateToggleButton();
-    });
-    
-    // Escuchar cambios de tema
-    window.addEventListener('themeChanged', updateToggleButton);
-    
-    // Inicializar el estado del botón
-    updateToggleButton();
+    darkModeManager.createCornerToggle();
 </script>
 </body></html>

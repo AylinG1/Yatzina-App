@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel del Maestro - YÄTZINA</title>
     <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="../theme-toggle.css" rel="stylesheet">
     <style>
         :root{
             --primary:#2bee4b;
@@ -46,7 +47,7 @@
             box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
         }
 
-        .header{text-align:center;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+        .header{text-align:center;margin-bottom:20px}
         .header h1{font-size:22px;color:var(--text-dark);font-weight:800}
 
         .info-maestro{background:linear-gradient(180deg,#fff 0%, #f3fff6 100%);padding:18px;border-radius:16px;margin-bottom:18px;border:1px solid rgba(13,27,16,0.04)}
@@ -152,25 +153,6 @@
         [data-theme="dark"] .loading {
             color: var(--text-muted);
         }
-
-        /* Toggle button para dark mode */
-        .theme-toggle {
-            background: rgba(43, 230, 75, 0.1);
-            border: 1px solid rgba(43, 230, 75, 0.3);
-            border-radius: 8px;
-            padding: 8px 12px;
-            color: var(--text-dark);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .theme-toggle:hover {
-            background: rgba(43, 230, 75, 0.2);
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body>
@@ -183,10 +165,6 @@
     <div class="container">
         <div class="header">
             <h1>👨‍🏫 Panel del Maestro</h1>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
-                <span id="theme-icon">🌙</span>
-                <span>Modo Oscuro</span>
-            </button>
         </div>
 
         <div class="info-maestro" id="infoMaestro">
@@ -552,33 +530,9 @@
     </script>
     <script src="../darkmode.js"></script>
     <script>
-        // Inicializar dark mode
+        // Inicializar dark mode con botón en esquina
         const darkModeManager = new DarkModeManager();
-        
-        // Configurar el botón toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        
-        function updateToggleButton() {
-            const isDark = darkModeManager.isDarkMode();
-            themeIcon.textContent = isDark ? '☀️' : '🌙';
-            const label = themeToggle.querySelector('span:not(#theme-icon)');
-            if (label) {
-                label.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
-            }
-        }
-        
-        // Configurar el evento click
-        themeToggle.addEventListener('click', () => {
-            darkModeManager.toggle();
-            updateToggleButton();
-        });
-        
-        // Escuchar cambios de tema
-        window.addEventListener('themeChanged', updateToggleButton);
-        
-        // Inicializar el estado del botón
-        updateToggleButton();
+        darkModeManager.createCornerToggle();
     </script>
 </body>
 </html>

@@ -10,6 +10,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="theme-toggle.css" rel="stylesheet"/>
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -52,14 +53,8 @@
 </div>
 <h2 class="text-lg font-bold">Yätzina</h2>
 </div>
-<div class="flex items-center gap-6">
 <div class="hidden items-center gap-9 md:flex">
 <a class="text-sm font-medium hover:text-primary" href="sobrenosotros.html">Sobre Nosotros</a>
-</div>
-<button id="theme-toggle" class="flex items-center gap-2 rounded-lg bg-primary/10 hover:bg-primary/20 px-3 py-2 text-sm font-medium text-primary transition-colors" aria-label="Cambiar tema">
-<span id="theme-icon" class="text-lg">🌙</span>
-<span class="hidden sm:inline">Modo Oscuro</span>
-</button>
 </div>
 </header>
 <main class="flex-1">
@@ -152,33 +147,9 @@
 </body></html>
 <script src="darkmode.js"></script>
 <script>
-  // Inicializar el dark mode manager
+  // Inicializar el dark mode manager con botón en esquina
   const darkModeManager = new DarkModeManager();
-  
-  // Configurar el botón toggle personalizado
-  const themeToggle = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  
-  function updateToggleButton() {
-    const isDark = darkModeManager.isDarkMode();
-    themeIcon.textContent = isDark ? '☀️' : '🌙';
-    const label = themeToggle.querySelector('span:not(#theme-icon)');
-    if (label) {
-      label.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
-    }
-  }
-  
-  // Configurar el evento click
-  themeToggle.addEventListener('click', () => {
-    darkModeManager.toggle();
-    updateToggleButton();
-  });
-  
-  // Escuchar cambios de tema
-  window.addEventListener('themeChanged', updateToggleButton);
-  
-  // Inicializar el estado del botón
-  updateToggleButton();
+  darkModeManager.createCornerToggle();
   
   // Eventos existentes
   document.getElementById('btnCrearCuenta').addEventListener('click', function() {

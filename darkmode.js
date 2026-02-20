@@ -72,8 +72,34 @@ class DarkModeManager {
         });
     }
 
-    // Crear el botón toggle para las páginas
-    createToggleButton(options = {}) {
+    // Crear el botón toggle para la esquina superior izquierda (solo emojis)
+    createCornerToggle() {
+        const button = document.createElement('button');
+        button.className = 'theme-toggle-corner';
+        button.setAttribute('aria-label', 'Alternar entre modo claro y oscuro');
+        button.setAttribute('title', 'Cambiar tema');
+        
+        this.updateCornerButton(button);
+
+        button.addEventListener('click', () => {
+            this.toggle();
+            this.updateCornerButton(button);
+        });
+
+        // Escuchar cambios de tema para actualizar el botón
+        window.addEventListener('themeChanged', () => {
+            this.updateCornerButton(button);
+        });
+
+        document.body.appendChild(button);
+        return button;
+    }
+
+    updateCornerButton(button) {
+        const isDark = this.isDarkMode();
+        const icon = isDark ? '☀️' : '🌙';
+        button.textContent = icon;
+    }
         const {
             position = 'header', // 'header', 'floating', 'custom'
             parent = null,

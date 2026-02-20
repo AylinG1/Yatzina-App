@@ -8,6 +8,7 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="theme-toggle.css" rel="stylesheet"/>
 <script>
       tailwind.config = {
         darkMode: "class",
@@ -73,4 +74,11 @@
 </div>
 </main>
 </div>
+
+<script src="darkmode.js"></script>
+<script>
+    // Inicializar dark mode con botón en esquina
+    const darkModeManager = new DarkModeManager();
+    darkModeManager.createCornerToggle();
+</script>
 </body></html>
