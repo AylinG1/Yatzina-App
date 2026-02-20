@@ -14,12 +14,24 @@
             --card-radius-lg:1.5rem;
         }
 
+        /* Variables para modo oscuro */
+        [data-theme="dark"] {
+            --background-light: #102213;
+            --text-dark: #e0f5e3;
+            --text-muted: #a3d3ab;
+            --card-bg: rgba(24, 44, 27, 0.95);
+            --card-bg-light: rgba(24, 44, 27, 0.8);
+            --border-color: rgba(43, 230, 75, 0.2);
+            --modal-bg: rgba(16, 34, 19, 0.95);
+        }
+
         *{box-sizing:border-box;margin:0;padding:0}
         body{
             font-family:'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
             background:var(--background-light);
             color:var(--text-dark);
             min-height:100vh;padding:24px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .decoracion{position:fixed;opacity:0.08;pointer-events:none;z-index:0}
@@ -28,12 +40,26 @@
 
         .container{max-width:1100px;margin:0 auto;background:white;border-radius:var(--card-radius-lg);padding:28px;box-shadow:0 12px 36px rgba(16,34,19,0.06);position:relative;z-index:1}
 
-        .header{text-align:center;margin-bottom:20px}
+        [data-theme="dark"] .container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+        }
+
+        .header{text-align:center;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
         .header h1{font-size:22px;color:var(--text-dark);font-weight:800}
 
         .info-maestro{background:linear-gradient(180deg,#fff 0%, #f3fff6 100%);padding:18px;border-radius:16px;margin-bottom:18px;border:1px solid rgba(13,27,16,0.04)}
         .info-maestro h2{font-size:18px;margin-bottom:6px}
         .info-maestro p{margin:4px 0;color:rgba(13,27,16,0.7)}
+
+        [data-theme="dark"] .info-maestro {
+            background: linear-gradient(180deg, var(--card-bg-light) 0%, var(--card-bg) 100%);
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="dark"] .info-maestro p {
+            color: var(--text-muted);
+        }
 
         .tabs{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
         .tab-btn{flex:1;min-width:120px;padding:12px 16px;border-radius:12px;border:none;background:#f1f3f2;color:rgba(13,27,16,0.7);cursor:pointer;font-weight:700}
@@ -47,6 +73,18 @@
         .tabla-alumnos th,.tabla-alumnos td{padding:12px;text-align:left;border-bottom:1px solid rgba(13,27,16,0.04)}
         .tabla-alumnos tbody tr:hover{background:rgba(13,27,16,0.02)}
 
+        [data-theme="dark"] .tabla-alumnos {
+            background: var(--card-bg);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="dark"] .tabla-alumnos th,
+        [data-theme="dark"] .tabla-alumnos td {
+            border-bottom: 1px solid var(--border-color);
+        }
+        [data-theme="dark"] .tabla-alumnos tbody tr:hover {
+            background: rgba(43, 230, 75, 0.05);
+        }
+
         .progreso-bar{width:100%;height:18px;background:rgba(13,27,16,0.06);border-radius:9999px;overflow:hidden}
         .progreso-fill{height:100%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--text-dark);font-weight:800;font-size:0.85rem}
 
@@ -57,15 +95,33 @@
         .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center}
         .modal.active{display:flex}
         .modal-content{background:white;padding:20px;border-radius:16px;max-width:680px;width:94%;max-height:80vh;overflow:auto}
+
+        [data-theme="dark"] .modal-content {
+            background: var(--modal-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
         .modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:none;background:#ff6b6b;color:white;cursor:pointer}
 
         .form-group{margin-bottom:12px}
         .form-group label{display:block;font-weight:700;margin-bottom:6px}
         .form-group input,.form-group textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(13,27,16,0.06)}
 
+        [data-theme="dark"] .form-group input,
+        [data-theme="dark"] .form-group textarea {
+            background: var(--card-bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
         .btn-submit{width:100%;padding:12px;border-radius:12px;border:none;background:var(--primary);color:var(--text-dark);font-weight:800;cursor:pointer}
 
         .comentario-item{background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:8px;border-left:4px solid rgba(13,27,16,0.06)}
+
+        [data-theme="dark"] .comentario-item {
+            background: var(--card-bg-light);
+            border-left: 4px solid var(--border-color);
+        }
 
         .btn-agregar-vocab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:9999px;border:none;background:linear-gradient(90deg,#ffd66b,#ff9a76);color:var(--text-dark);font-size:1.6rem}
         .btn-salir{padding:10px 20px;border-radius:12px;border:none;background:linear-gradient(90deg,#ff8a8a,#ff6b6b);color:white;font-weight:700}
@@ -92,6 +148,29 @@
             color: #667eea;
             font-size: 1.2rem;
         }
+
+        [data-theme="dark"] .loading {
+            color: var(--text-muted);
+        }
+
+        /* Toggle button para dark mode */
+        .theme-toggle {
+            background: rgba(43, 230, 75, 0.1);
+            border: 1px solid rgba(43, 230, 75, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .theme-toggle:hover {
+            background: rgba(43, 230, 75, 0.2);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -104,6 +183,10 @@
     <div class="container">
         <div class="header">
             <h1>👨‍🏫 Panel del Maestro</h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
+                <span id="theme-icon">🌙</span>
+                <span>Modo Oscuro</span>
+            </button>
         </div>
 
         <div class="info-maestro" id="infoMaestro">
@@ -466,6 +549,36 @@
                 console.error('Error:', error);
             }
         }
+    </script>
+    <script src="../darkmode.js"></script>
+    <script>
+        // Inicializar dark mode
+        const darkModeManager = new DarkModeManager();
+        
+        // Configurar el botón toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        function updateToggleButton() {
+            const isDark = darkModeManager.isDarkMode();
+            themeIcon.textContent = isDark ? '☀️' : '🌙';
+            const label = themeToggle.querySelector('span:not(#theme-icon)');
+            if (label) {
+                label.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
+            }
+        }
+        
+        // Configurar el evento click
+        themeToggle.addEventListener('click', () => {
+            darkModeManager.toggle();
+            updateToggleButton();
+        });
+        
+        // Escuchar cambios de tema
+        window.addEventListener('themeChanged', updateToggleButton);
+        
+        // Inicializar el estado del botón
+        updateToggleButton();
     </script>
 </body>
 </html>

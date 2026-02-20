@@ -18,6 +18,16 @@
             --text-dark: #0d1b10;
         }
 
+        /* Variables para modo oscuro */
+        [data-theme="dark"] {
+            --text-dark: #e0f5e3;
+            --text-muted: #a3d3ab;
+            --card-bg: rgba(24, 44, 27, 0.95);
+            --card-bg-light: rgba(24, 44, 27, 0.8);
+            --header-bg: rgba(24, 44, 27, 0.95);
+            --border-color: rgba(43, 230, 75, 0.2);
+        }
+
         *{box-sizing:border-box;margin:0;padding:0}
         body{
             font-family: 'Spline Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -46,6 +56,12 @@
             box-shadow:0 8px 24px rgba(16,34,19,0.06);
         }
 
+        [data-theme="dark"] .header {
+            background: var(--header-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
         .header h1{font-size:24px;color:var(--text-dark);font-weight:700}
         .header p{color:rgba(13,27,16,0.7)}
 
@@ -59,12 +75,35 @@
         .info-card h3{font-size:16px;margin-bottom:8px;color:rgba(13,27,16,0.8)}
         .info-card p{font-size:28px;font-weight:800;color:var(--primary)}
 
+        [data-theme="dark"] .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="dark"] .info-card h3 {
+            color: var(--text-muted);
+        }
+
         .lessons-container{background:white;padding:28px;border-radius:var(--card-radius-lg);box-shadow:0 12px 36px rgba(16,34,19,0.06)}
         .lessons-container h2{text-align:center;margin-bottom:18px;color:var(--text-dark);font-size:20px}
+
+        [data-theme="dark"] .lessons-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+        }
 
         .lessons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
         .lesson-card{background:linear-gradient(180deg,#ffffff 0%, #f3fff6 100%);border:2px solid rgba(43,230,70,0.12);padding:18px;border-radius:20px;color:var(--text-dark);text-align:center;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
         .lesson-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(16,34,19,0.08);}
+
+        [data-theme="dark"] .lesson-card {
+            background: linear-gradient(180deg, var(--card-bg-light) 0%, var(--card-bg) 100%);
+            border: 2px solid var(--border-color);
+        }
+        [data-theme="dark"] .lesson-card:hover {
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+        }
         .lesson-icon{font-size:42px;margin-bottom:10px}
         .lesson-title{font-weight:700;margin-bottom:10px}
 
@@ -73,6 +112,12 @@
 
         .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center}
         .modal-content{background:white;padding:28px;border-radius:20px;max-width:520px;width:92%;text-align:center}
+
+        [data-theme="dark"] .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
         .btn-close{background:var(--primary);color:var(--text-dark);padding:12px 28px;border-radius:12px;border:none;font-weight:700;cursor:pointer}
 
         /* Estilos para comentarios */
@@ -83,6 +128,12 @@
             padding: 16px;
             margin-bottom: 12px;
             box-shadow: 0 4px 12px rgba(16,34,19,0.04);
+        }
+
+        [data-theme="dark"] .comentario-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .comentario-header{
@@ -108,6 +159,36 @@
             line-height: 1.5;
             font-size: 14px;
         }
+
+        [data-theme="dark"] .comentario-fecha {
+            color: var(--text-muted);
+        }
+
+        /* Toggle button para dark mode */
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(43, 230, 70, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        [data-theme="dark"] .theme-toggle {
+            background: rgba(43, 230, 75, 0.1);
+            border: 1px solid var(--border-color);
+        }
+        [data-theme="dark"] .theme-toggle:hover {
+            background: rgba(43, 230, 75, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -117,9 +198,15 @@
             <h1>🎓 YÄTZINA - Mi Panel</h1>
             <p id="welcomeText" style="font-size: 20px; color: #666;">Cargando...</p>
         </div>
-        <div class="user-info">
-            <p><strong>👨‍🏫 Maestro:</strong> <span id="maestroNombre">Cargando...</span></p>
-            <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
+        <div class="user-info" style="display: flex; align-items: center; gap: 12px;">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema">
+                <span id="theme-icon">🌙</span>
+                <span>Modo Oscuro</span>
+            </button>
+            <div>
+                <p><strong>👨‍🏫 Maestro:</strong> <span id="maestroNombre">Cargando...</span></p>
+                <button onclick="cerrarSesion()" class="btn-logout">Salir</button>
+            </div>
         </div>
     </div>
 
@@ -400,6 +487,36 @@
         cargarComentarios();
     </script>
     <script src="./notificacionesPuntos.js"></script>
+    <script src="../darkmode.js"></script>
+    <script>
+        // Inicializar dark mode
+        const darkModeManager = new DarkModeManager();
+        
+        // Configurar el botón toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        function updateToggleButton() {
+            const isDark = darkModeManager.isDarkMode();
+            themeIcon.textContent = isDark ? '☀️' : '🌙';
+            const label = themeToggle.querySelector('span:not(#theme-icon)');
+            if (label) {
+                label.textContent = isDark ? 'Modo Claro' : 'Modo Oscuro';
+            }
+        }
+        
+        // Configurar el evento click
+        themeToggle.addEventListener('click', () => {
+            darkModeManager.toggle();
+            updateToggleButton();
+        });
+        
+        // Escuchar cambios de tema
+        window.addEventListener('themeChanged', updateToggleButton);
+        
+        // Inicializar el estado del botón
+        updateToggleButton();
+    </script>
 
 </body>
 </html>
